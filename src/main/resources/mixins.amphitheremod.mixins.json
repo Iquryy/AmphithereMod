@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "package": "amphitheremod.mixin",
+  "refmap": "mixins.amphitheremod.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "common.amphithere.NBT",
+    "common.amphithere.UpDownAnimationFix",
+    "common.amphithere.DontUseBeansOnFullHP",
+    "common.amphithere.Loot",
+    "common.amphithere.XXLChocolateCookie",
+    "common.amphithere.SkeletonAmphiSounds",
+    "common.amphithere.CrystalFeather",
+    "common.amphithere.Variants"
+  ],
+  "client": [
+    "client.RenderAmphiLayers",
+    "client.RenderAmphiVariants",
+    "client.FirstAidToolTip"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

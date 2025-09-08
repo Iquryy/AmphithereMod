@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " I ",
+    "  I",
+    "BI "
+  ],
+  "key": {
+    "I": {
+      "item": "iceandfire:silver_ingot",
+      "data": 0
+    },
+    "B": {
+      "item": "iceandfire:silver_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:silver_tail_armor",
+    "data": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " II",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "iceandfire:copper_ingot",
+      "data": 0
+    },
+    "B": {
+      "item": "iceandfire:copper_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:copper_head_armor",
+    "data": 0
+  }
+}

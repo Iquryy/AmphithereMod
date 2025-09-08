@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "amphitheremod.mixin",
+  "refmap": "mixins.amphitheremod.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "common.amphithere_inventory.AmphithereGuiHandlerMixin",
+    "common.amphithere_inventory.AmphithereInventory"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

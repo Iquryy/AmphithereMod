@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "III",
+    "IBI",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:iron_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:iron_body_armor",
+    "data": 0
+  }
+}

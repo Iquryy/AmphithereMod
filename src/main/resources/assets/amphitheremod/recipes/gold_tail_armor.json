@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " I ",
+    "  I",
+    "BI "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:gold_ingot",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:gold_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:gold_tail_armor",
+    "data": 0
+  }
+}

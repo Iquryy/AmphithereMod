@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "amphitheremod.mixin",
+  "refmap": "mixins.amphitheremod.refmap.json",
+  "priority": 1000,
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "common.amphithere.TamingDamage"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "B B",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:gold_ingot",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:gold_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:gold_wing_armor",
+    "data": 0
+  }
+}

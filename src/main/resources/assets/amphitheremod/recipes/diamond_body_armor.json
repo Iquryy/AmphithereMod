@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "III",
+    "IBI",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:diamond",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:diamond_block",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:diamond_body_armor",
+    "data": 0
+  }
+}

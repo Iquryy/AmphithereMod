@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WWW",
+    "CWC",
+    "WWW"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:dye",
+      "data": 3
+    },
+    "W": {
+      "item": "minecraft:wheat",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:xxl_chocolate_cookie",
+    "data": 0
+  }
+}

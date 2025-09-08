@@ -1,0 +1,63 @@
+item.amphitheremod.shivaxi_feather.name=Shivaxi Amphithere Feather
+item.amphitheremod.xxl_chocolate_cookie.name==XXL Chocolate Cookie
+item.amphitheremod.copper_head_armor.name=Amphithere Copper Head Armor
+item.amphitheremod.copper_wing_armor.name=Amphithere Copper Wing Armor
+item.amphitheremod.copper_body_armor.name=Amphithere Copper Body Armor
+item.amphitheremod.copper_tail_armor.name=Amphithere Copper Tail Armor
+item.amphitheremod.iron_head_armor.name=Amphithere Iron Head Armor
+item.amphitheremod.iron_wing_armor.name=Amphithere Iron Wing Armor
+item.amphitheremod.iron_body_armor.name=Amphithere Iron Body Armor
+item.amphitheremod.iron_tail_armor.name=Amphithere Iron Tail Armor
+item.amphitheremod.gold_head_armor.name=Amphithere Gold Head Armor
+item.amphitheremod.gold_wing_armor.name=Amphithere Gold Wing Armor
+item.amphitheremod.gold_body_armor.name=Amphithere Gold Body Armor
+item.amphitheremod.gold_tail_armor.name=Amphithere Gold Tail Armor
+item.amphitheremod.diamond_head_armor.name=Amphithere Diamond Head Armor
+item.amphitheremod.diamond_wing_armor.name=Amphithere Diamond Wing Armor
+item.amphitheremod.diamond_tail_armor.name=Amphithere Diamond Tail Armor
+item.amphitheremod.diamond_body_armor.name=Amphithere Diamond Body Armor
+item.amphitheremod.silver_head_armor.name=Amphithere Silver Head Armor
+item.amphitheremod.silver_wing_armor.name=Amphithere Silver Wing Armor
+item.amphitheremod.silver_tail_armor.name=Amphithere Silver Tail Armor
+item.amphitheremod.silver_body_armor.name=Amphithere Silver Body Armor
+item.amphitheremod.copper_beak_attachment.name=Amphithere Copper Beak Attachment
+item.amphitheremod.iron_beak_attachment.name=Amphithere Iron Beak Attachment
+item.amphitheremod.gold_beak_attachment.name=Amphithere Gold Beak Attachment
+item.amphitheremod.diamond_beak_attachment.name=Amphithere Diamond Beak Attachment
+item.amphitheremod.silver_beak_attachment.name=Amphithere Silver Beak Attachment
+item.amphitheremod.amphithere_crystal_feather.name=Crystal Feather
+item.amphitheremod.amphithere_hat=Amphithere Head Hat
+
+item.amphitheremod.summoning_crystal.desc_0=Right click on a amphithere to bind it
+item.amphitheremod.summoning_crystal.desc_1=Right click on ground to teleport amphithere
+item.amphitheremod.summoning_crystal.disabled=Disabled!
+
+itemGroup.amphitheremod.amphithere_mod_items=Amphithere Mod
+entity.amphitheremod.amphithere.name=Amphithere
+amphitheremod.amphithere.health=§fHealth:
+amphitheremod.amphithere.gender=§fGender:
+amphitheremod.amphithere.gender.male=§fMale
+amphitheremod.amphithere.gender.female=§fFemale
+amphitheremod.amphithere.home=§fHome:
+amphitheremod.amphithere.nohome=§fHas no home
+amphitheremod.amphithere.bounded=§fBounded:
+amphitheremod.amphithere.bounded.true=§fTrue
+amphitheremod.amphithere.bounded.false=§fFalse
+message.amphitheremod.tryagain=Please try again.
+message.amphitheremod.amphithereTeleport=Amphithere has been teleported.
+message.amphitheremod.noAmphithereTeleport=§cCould not find a amphithere bound to this crystal.
+message.amphitheremod.wrongDimensio=§cCouldn't find amphithere in this dimension.
+amphitheremod.amphithere.beak_attachment=Beak
+amphitheremod.amphithere.armor_head=Head
+amphitheremod.amphithere.armor_wings=Wings
+amphitheremod.amphithere.armor_body=Body
+amphitheremod.amphithere.armor_tail=Tail
+amphitheremod.tooltip.armor=Armor
+amphitheremod.tooltip.attack=Damage
+amphitheremod.tooltip.flightspeed=Flight Speed
+gui.amphitheremod.command.0=Wandering
+gui.amphitheremod.command.1=Sitting
+gui.amphitheremod.command.2=Following
+
+
+
