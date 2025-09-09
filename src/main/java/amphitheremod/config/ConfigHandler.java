@@ -43,6 +43,7 @@ public class ConfigHandler {
     }
 
     @MixinConfig(name = AmphithereMod.MODID)
+    @SuppressWarnings("unused")
     public static class Mixins {
         @Config.Comment({
                 "Defines the healing amount of Cocoa Beans.",
@@ -140,7 +141,6 @@ public class ConfigHandler {
 
     @Mod.EventBusSubscriber(modid = AmphithereMod.MODID)
     private static class EventHandler{
-
         @SubscribeEvent
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
             if(event.getModID().equals(AmphithereMod.MODID)) {
@@ -148,5 +148,4 @@ public class ConfigHandler {
             }
         }
     }
-
 }

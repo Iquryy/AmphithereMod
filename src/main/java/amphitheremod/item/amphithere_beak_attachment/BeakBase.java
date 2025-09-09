@@ -21,6 +21,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -80,16 +81,5 @@ public class BeakBase extends ItemSword {
     @Override
     public boolean isBookEnchantable(ItemStack stack1, ItemStack stack2) {
         return false;
-    }
-
-    @Override
-    public boolean onEntitySwing(EntityLivingBase entity, ItemStack itemStack) {
-        if(entity instanceof EntityPlayer){
-            EntityPlayer player = (EntityPlayer) entity;
-            if(player.getHeldItemMainhand().getItem() instanceof BeakBase && itemStack != null){
-                return false;
-            }
-        }
-        return super.onEntitySwing(entity, itemStack);
     }
 }

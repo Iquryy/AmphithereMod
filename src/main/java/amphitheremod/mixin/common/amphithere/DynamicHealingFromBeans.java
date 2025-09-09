@@ -2,18 +2,17 @@ package amphitheremod.mixin.common.amphithere;
 
 import amphitheremod.config.ConfigHandler;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(EntityAmphithere.class)
 public abstract class DynamicHealingFromBeans {
-    @ModifyConstant(method = "processInteract", constant = @Constant(floatValue = 5.0F), remap = false)
-    private float FeedingBeans(float constant){
-        EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        float maxHp = amphi.getMaxHealth();
-        return amphimod$simpleCaclHeal(maxHp);
+    @WrapOperation(method = "processInteract", at = @At(value = "INVOKE", target = "Lcom/github/alexthe666/iceandfire/entity/EntityAmphithere;heal(F)V"))
+    private void amphimod_varyCocoaBeanHealAmount(EntityAmphithere amphithere, float v, Operation<Void> original) {
+        original.call(amphithere, amphimod$simpleCaclHeal(amphithere.getMaxHealth()));
     }
 
     @Unique
