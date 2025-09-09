@@ -9,6 +9,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagInt;
@@ -83,9 +84,11 @@ public class BeakBase extends ItemSword {
 
     @Override
     public boolean onEntitySwing(EntityLivingBase entity, ItemStack itemStack) {
-        if(entity instanceof EntityPlayer) {
-            entity.setActiveHand(EnumHand.MAIN_HAND);
-            return true;
+        if(entity instanceof EntityPlayer){
+            EntityPlayer player = (EntityPlayer) entity;
+            if(player.getHeldItemMainhand().getItem() instanceof BeakBase && itemStack != null){
+                return false;
+            }
         }
         return super.onEntitySwing(entity, itemStack);
     }

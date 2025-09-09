@@ -18,6 +18,6 @@ public abstract class DynamicHealingFromBeans {
 
     @Unique
     private static float amphimod$simpleCaclHeal(float maxHp) {
-        return maxHp / ConfigHandler.general.amphithereHealDivisor;
+        return maxHp / ConfigHandler.mixins.amphithereHealDivisor;
     }
 }

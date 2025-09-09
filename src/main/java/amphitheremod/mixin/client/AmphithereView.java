@@ -26,7 +26,7 @@ public class AmphithereView {
 
         if (ridingEntity instanceof EntityAmphithere) {
             int currentView = IceAndFire.PROXY.getDragon3rdPersonView();
-            float scale = ConfigHandler.general.ridingViewDistance;
+            float scale = ConfigHandler.mixins.ridingViewDistance;
             float distanceZ = 3.0F * scale;
             float distanceX = 1.5F * scale;
             float heightY = 0.0F;

@@ -1,34 +1,30 @@
 package amphitheremod.config;
 
 import amphitheremod.AmphithereMod;
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = AmphithereMod.MODID, name = AmphithereMod.MODID + "/" + AmphithereMod.MODID)
-@Mod.EventBusSubscriber(modid = AmphithereMod.MODID)
+@Config(modid = AmphithereMod.MODID)
 public class ConfigHandler {
-
-    private ConfigHandler() {}
-
     @Config.Comment("General settings for core Amphithere mechanics.")
     @Config.Name("General Settings")
     public static final General general = new General();
 
-    @Config.Comment("Settings related to the powerful XXL Chocolate Cookie buff.")
+    @Config.Comment("Settings related to XXL Chocolate Cookie buff.")
     @Config.Name("XXL Chocolate Cookie")
     public static final XxlCookieBuffs xxlCookieBuffs = new XxlCookieBuffs();
 
-    @Config.Comment("Settings for the rare and powerful Shivaxi Amphithere.")
+    @Config.Comment("Settings for Shivaxi Amphithere.")
     @Config.Name("Shivaxi Amphithere")
     public static final ShivaxiSettings shivaxi = new ShivaxiSettings();
 
-    @Config.Comment("Mixin options")
-    @Config.Name("Mixin toggles")
-    @SuppressWarnings("unused")
-    public static MixinToggleConfig mixins = new MixinToggleConfig();
+    @Config.Comment("Mixins Options & Toggles")
+    @Config.Name("Mixin Options")
+    public static final Mixins mixins = new Mixins();
 
     public static class General {
         @Config.Comment("Enable or disable the crafting and use of Amphithere Armor.")
@@ -44,9 +40,12 @@ public class ConfigHandler {
         @Config.Comment("Enables a set bonus for full silver armor on Amphitheres and Dragons, granting the 'Cure' effect if PotionCore is installed.")
         @Config.Name("Enable Silver Armor Set Bonus")
         public boolean enableSilverSetBonus = true;
+    }
 
+    @MixinConfig(name = AmphithereMod.MODID)
+    public static class Mixins {
         @Config.Comment({
-                "Defines the healing power of Cocoa Beans.",
+                "Defines the healing amount of Cocoa Beans.",
                 "An Amphithere's max health is divided by this number to determine the healing amount.",
                 "Default: 10 (heals 10% of max HP)."
         })
@@ -54,11 +53,45 @@ public class ConfigHandler {
         @Config.RangeInt(min = 2, max = 20)
         public int amphithereHealDivisor = 10;
 
-        @Config.Comment("Sets the third-person camera distance multiplier when riding an Amphithere.")
+        @Config.Comment("Sets the third-person camera view distance when riding an Amphithere.")
         @Config.Name("Amphithere Riding Camera Distance")
         @Config.RangeInt(min = 1, max = 10)
         @Config.RequiresMcRestart
         public int ridingViewDistance = 2;
+
+        @Config.Comment("With this mixin, feeding coco beans to amphithere will heal them 10% of their max hp instead 5 fixed amount")
+        @Config.Name("Enable Cocoa Bean Heal Change")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
+        public boolean changeCocoaBeanHeal = true;
+
+        @Config.Comment("With this mixin, the dragon 3rd person view in F5 can also be used with amphis")
+        @Config.Name("Enable Amphithere View")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
+        public boolean amphiView = true;
+
+        @Config.Comment("Can only Male with Female Amphithere breed with each other")
+        @Config.Name("Male + Female Breeding")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.male_female.json", defaultValue = true)
+        public boolean maleAndFemale = true;
+
+        @Config.Comment("Can Amphithere pass trough leaves? (If false then its bad with dynamic trees leaves physics)")
+        @Config.Name("Amphithere can't pass trough leaves")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leaffix.json", defaultValue = true)
+        public boolean canPassTroughLeaves = true;
+
+        @Config.Comment({
+                "With this mixin Amphithere will have taming damage based from other damage increasing sources.",
+                "For instance if an Amphithere has strength effect then Amphitheres taming damage will be increased.",
+                "This config is a lot more noticeable and needed in ScalingHealth. Which would balance Amphitheres."
+        })
+        @Config.Name("Advanced Amphithere Taming Damage")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = true)
+        public boolean amphiTamingDmg = true;
     }
 
     public static class XxlCookieBuffs {
@@ -82,7 +115,7 @@ public class ConfigHandler {
     }
 
     public static class ShivaxiSettings {
-        @Config.Comment("Enables the rare and powerful Shivaxi variant of the Amphithere to spawn in the world.")
+        @Config.Comment("Enables the Shivaxi variant of the Amphithere to spawn in the world.")
         @Config.Name("Enable Shivaxi Amphithere")
         public boolean enableShivaxiAmphithere = true;
 
@@ -105,10 +138,15 @@ public class ConfigHandler {
         public float shivaxiAmphithereDamage = 69;
     }
 
-    @SubscribeEvent
-    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(AmphithereMod.MODID)) {
-            ConfigManager.sync(AmphithereMod.MODID, Config.Type.INSTANCE);
+    @Mod.EventBusSubscriber(modid = AmphithereMod.MODID)
+    private static class EventHandler{
+
+        @SubscribeEvent
+        public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+            if(event.getModID().equals(AmphithereMod.MODID)) {
+                ConfigManager.sync(AmphithereMod.MODID, Config.Type.INSTANCE);
+            }
         }
     }
+
 }
