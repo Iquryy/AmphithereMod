@@ -103,8 +103,8 @@ public class ItemAmphithereCrystalFeather extends Item {
                                     UUID id = amphithereTag.getUniqueId("AmphithereUUID");
                                     if (id != null) {
                                         Entity entity = worldIn.getMinecraftServer().getEntityFromUuid(id);
-
-                                        if (entity != null) {
+                                        EntityAmphithere amphi = (EntityAmphithere) entity;
+                                        if (amphi != null && amphi.isTamed() && amphi.isOwner(player)) {
                                             if (entity.dimension == player.dimension) {
                                                 found = this.summonEntity(entity, worldIn, offsetPos, yaw);
                                                 displayError = !found;
