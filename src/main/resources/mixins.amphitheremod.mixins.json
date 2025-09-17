@@ -8,11 +8,10 @@
   "mixins": [
     "common.amphithere.NBT",
     "common.amphithere.UpDownAnimationFix",
-    "common.amphithere.DontUseBeansOnFullHP",
+    "common.amphithere.processInteract.DontUseBeansOnFullHP",
     "common.amphithere.Loot",
-    "common.amphithere.XXLChocolateCookie",
+    "common.amphithere.processInteract.XXLChocolateCookie",
     "common.amphithere.SkeletonAmphiSounds",
-    "common.amphithere.CrystalFeather",
     "common.amphithere.Variants"
   ],
   "client": [

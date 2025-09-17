@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common.amphithere.processInteract;
 
 import amphitheremod.config.ConfigHandler;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;

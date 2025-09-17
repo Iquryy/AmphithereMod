@@ -13,7 +13,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow; // You don't seem to use any @Shadow, so this might be removable
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,14 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
-import java.util.Random;
-
 import static amphitheremod.config.ConfigHandler.*;
 import static amphitheremod.util.AmphiBreedingRules.AmphiBreedRules.rollVariant;
 
 @Mixin(EntityAmphithere.class)
 public abstract class NBT extends EntityAnimal implements IAmphithereData {
-
     public NBT(World worldIn) {
         super(worldIn);
     }
@@ -76,14 +72,16 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     }
 
     @Inject(method = "entityInit", at = @At("TAIL"))
-    private void amphimod_registerGenderDataParam(CallbackInfo ci) {
+    private void entityInit(CallbackInfo ci) {
         this.getDataManager().register(DATA_GENDER, false);
         this.getDataManager().register(DATA_IS_SHIVAXI, false);
         this.getDataManager().register(DATA_BOUNDED, false);
     }
 
     @Inject(method = "onInitialSpawn", at = @At("TAIL"))
-    private void amphimod_spawnWithRandomGender(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, CallbackInfoReturnable<IEntityLivingData> cir) {
+    private void onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, CallbackInfoReturnable<IEntityLivingData> cir) {
+        this.amphiMod_master$setGender(this.getRNG().nextBoolean());
+
         if(shivaxi.enableShivaxiAmphithere) {
             if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 1 || this.amphiMod_master$getShivaxi())
                 this.amphiMod_master$applyShivaxiStats();
@@ -91,21 +89,22 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     }
 
     @Inject(method = "writeEntityToNBT", at = @At("TAIL"))
-    private void amphimod_writeGenderToNBT(NBTTagCompound compound, CallbackInfo ci) {
+    private void writeEntityToNBT(NBTTagCompound compound, CallbackInfo ci) {
         compound.setBoolean("Gender", this.amphiMod_master$getGender());
         compound.setBoolean("Shivaxi", this.amphiMod_master$getShivaxi());
         compound.setBoolean("Bounded", this.amphiMod_master$getBounded());
     }
 
     @Inject(method = "readEntityFromNBT", at = @At("TAIL"))
-    private void amphimod_readGenderFromNBT(NBTTagCompound compound, CallbackInfo ci) {
+    private void readEntityFromNBT(NBTTagCompound compound, CallbackInfo ci) {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
 
         // GENDER
-        if (compound.hasKey("Gender"))
+        if (compound.hasKey("Gender")) {
             this.getDataManager().set(DATA_GENDER, compound.getBoolean("Gender"));
-        else
+        } else {
             this.amphiMod_master$setGender(this.getRNG().nextBoolean());
+        }
 
         // SHIVAXI
         boolean isShivaxiNBT = false;
@@ -123,9 +122,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         // Prioritize NBT 'Variant' tag if present.
         if (compound.hasKey("Variant")) {
             amphi.setVariant(compound.getInteger("Variant"));
-        }
-
-        else if (!isShivaxiNBT) { // Only roll a variant if it's not a Shivaxi and no Variant NBT was provided
+        } else if (!isShivaxiNBT) { // Only roll a variant if it's not a Shivaxi and no Variant NBT was provided
             amphi.setVariant(rollVariant(amphi.getRNG(), false));
         }
 

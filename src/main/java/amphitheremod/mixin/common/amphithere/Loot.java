@@ -1,6 +1,5 @@
 package amphitheremod.mixin.common.amphithere;
 
-import amphitheremod.config.ConfigHandler;
 import amphitheremod.handlers.ModRegistry;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
@@ -23,13 +22,11 @@ public abstract class Loot {
             if (featherCount > 0)
                 amphithere.entityDropItem(new ItemStack(ModRegistry.SHIVAXI_FEATHER, featherCount), 0.0F);
         }
-        if (ConfigHandler.general.enableAmphithereInventory) {
-            if (!amphithere.world.isRemote) {
-                for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                    ItemStack stack = amphithere.getItemStackFromSlot(slot);
-                    if (!stack.isEmpty()) {
-                        amphithere.entityDropItem(stack, 0.0F);
-                    }
+        if (!amphithere.world.isRemote) {
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                ItemStack stack = amphithere.getItemStackFromSlot(slot);
+                if (!stack.isEmpty()) {
+                    amphithere.entityDropItem(stack, 0.0F);
                 }
             }
         }

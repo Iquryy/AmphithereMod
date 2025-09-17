@@ -10,8 +10,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static amphitheremod.util.Refs.EMPTY;
-import static com.github.alexthe666.iceandfire.core.ModItems.copperMetal;
 import static com.github.alexthe666.iceandfire.core.ModItems.silverMetal;
+import static com.github.alexthe666.iceandfire.core.ModItems.copperMetal;
 
 @SideOnly(Side.CLIENT)
 public abstract class AbstractAmphithereLayer implements LayerRenderer<EntityAmphithere> {

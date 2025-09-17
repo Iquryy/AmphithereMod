@@ -1,29 +1,22 @@
 package amphitheremod.item.amphithere_beak_attachment;
 
-import com.github.alexthe666.iceandfire.client.StatCollector;
+import amphitheremod.util.StatCollector;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -49,7 +42,7 @@ public class BeakBase extends ItemSword {
                 }
             }
             DecimalFormat df = new DecimalFormat("0.##");
-            tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
+            tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage-1) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
         }
     }
 

@@ -19,7 +19,7 @@ public class PacketChangeAmphithereAIHandler implements IMessageHandler<PacketCh
 
             if (entity instanceof EntityAmphithere) {
                 EntityAmphithere amphithere = (EntityAmphithere) entity;
-                if (amphithere.isOwner(serverPlayer) && amphithere.isTamed()) {
+                if (amphithere.isOwner(serverPlayer)) {
                     int command = amphithere.getCommand();
                     if (command < 2)
                         amphithere.setCommand(command + 1);

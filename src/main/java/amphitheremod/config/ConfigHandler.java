@@ -32,11 +32,6 @@ public class ConfigHandler {
         @Config.RequiresMcRestart
         public boolean enableAmphithereArmor = true;
 
-        @Config.Comment("Enables an inventory for tamed Amphitheres, accessible by shift-right-clicking.")
-        @Config.Name("Enable Amphithere Inventory")
-        @Config.RequiresMcRestart
-        public boolean enableAmphithereInventory = true;
-
         @Config.Comment("Enables a set bonus for full silver armor on Amphitheres and Dragons, granting the 'Cure' effect if PotionCore is installed.")
         @Config.Name("Enable Silver Armor Set Bonus")
         public boolean enableSilverSetBonus = true;
@@ -54,6 +49,12 @@ public class ConfigHandler {
         @Config.RangeInt(min = 2, max = 20)
         public int amphithereHealDivisor = 10;
 
+        @Config.Comment("With this mixin, the dragon 3rd person view in F5 can also be used with amphis")
+        @Config.Name("Enable Amphithere View")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
+        public boolean amphiView = false;
+
         @Config.Comment("Sets the third-person camera view distance when riding an Amphithere.")
         @Config.Name("Amphithere Riding Camera Distance")
         @Config.RangeInt(min = 1, max = 10)
@@ -63,14 +64,14 @@ public class ConfigHandler {
         @Config.Comment("With this mixin, feeding coco beans to amphithere will heal them 10% of their max hp instead 5 fixed amount")
         @Config.Name("Enable Cocoa Bean Heal Change")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
         public boolean changeCocoaBeanHeal = true;
 
-        @Config.Comment("With this mixin, the dragon 3rd person view in F5 can also be used with amphis")
-        @Config.Name("Enable Amphithere View")
+        @Config.Comment("Enables an inventory for tamed Amphitheres, accessible by shift-right-clicking.")
+        @Config.Name("Enable Amphithere Inventory")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
-        public boolean amphiView = true;
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
+        public boolean enableAmphithereInventory = true;
 
         @Config.Comment("Can only Male with Female Amphithere breed with each other")
         @Config.Name("Male + Female Breeding")

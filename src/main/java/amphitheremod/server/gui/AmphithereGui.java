@@ -1,9 +1,9 @@
-package amphitheremod.client.gui;
+package amphitheremod.server.gui;
 
 import amphitheremod.network.PacketChangeAmphithereAI;
 import amphitheremod.server.inventory.AmphithereContainer;
 import amphitheremod.util.IAmphithereData;
-import com.github.alexthe666.iceandfire.client.StatCollector;
+import amphitheremod.util.StatCollector;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,13 +14,10 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static amphitheremod.AmphithereMod.NETWORK_WRAPPER;
 import static amphitheremod.AmphithereMod.modIdWithDot;
 
-@SideOnly(Side.CLIENT)
 public class AmphithereGui extends GuiContainer {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere.png");

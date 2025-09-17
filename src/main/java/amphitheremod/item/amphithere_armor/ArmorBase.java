@@ -1,6 +1,6 @@
 package amphitheremod.item.amphithere_armor;
 
-import com.github.alexthe666.iceandfire.client.StatCollector;
+import amphitheremod.util.StatCollector;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
