@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import static amphitheremod.handlers.ModRegistry.copperArmor;
+import static amphitheremod.handlers.ModRegistry.silverArmor;
 import static amphitheremod.util.Refs.EMPTY;
-import static com.github.alexthe666.iceandfire.core.ModItems.silverMetal;
-import static com.github.alexthe666.iceandfire.core.ModItems.copperMetal;
 
 @SideOnly(Side.CLIENT)
 public abstract class AbstractAmphithereLayer implements LayerRenderer<EntityAmphithere> {
@@ -51,9 +51,9 @@ public abstract class AbstractAmphithereLayer implements LayerRenderer<EntityAmp
             material = "gold";
         if (mat == ItemArmor.ArmorMaterial.DIAMOND)
             material = "diamond";
-        if (mat == silverMetal)
+        if (mat == silverArmor)
             material = "silver";
-        if (mat == copperMetal)
+        if (mat == copperArmor)
             material = "copper";
         return material;
     }
