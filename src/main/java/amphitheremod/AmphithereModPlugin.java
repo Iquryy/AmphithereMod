@@ -13,18 +13,9 @@ public class AmphithereModPlugin implements IFMLLoadingPlugin {
 
 	public AmphithereModPlugin() {
 		MixinBootstrap.init();
-        FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.inventory.json");
         FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.mixins.json");
         FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.crystalfeather.json",() -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT);
 	}
-
-/*
-    	FermiumRegistryAPI.enqueueMixin(true, "mixins.aaam.infrotn.json", () -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.ROTN);
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.aaam.infrl.json", () -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT);
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.aaam.infbase.json", () -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.BASE_OLD);
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.aaam.infbase191.json", () -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.BASE_1_9_1);
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.aaam.inf.easter.json", () -> Loader.isModLoaded("iceandfire"));
-*/
 
 	@Override
 	public String[] getASMTransformerClass()

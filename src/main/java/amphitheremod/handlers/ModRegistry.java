@@ -2,19 +2,14 @@ package amphitheremod.handlers;
 
 import amphitheremod.AmphithereMod;
 import amphitheremod.config.ConfigHandler;
-import amphitheremod.item.ItemAmphithereCrystalFeather;
-import amphitheremod.item.ItemShivaxiFeather;
+import amphitheremod.item.*;
 import amphitheremod.item.ItemXXLChocolateCookie;
 import amphitheremod.item.amphithere_armor.copper.*;
 import amphitheremod.item.amphithere_armor.diamond.*;
 import amphitheremod.item.amphithere_armor.gold.*;
 import amphitheremod.item.amphithere_armor.iron.*;
 import amphitheremod.item.amphithere_armor.silver.*;
-import amphitheremod.item.amphithere_beak_attachment.CopperBeak;
-import amphitheremod.item.amphithere_beak_attachment.DiamondBeak;
-import amphitheremod.item.amphithere_beak_attachment.GoldBeak;
-import amphitheremod.item.amphithere_beak_attachment.IronBeak;
-import amphitheremod.item.amphithere_beak_attachment.SilverBeak;
+import amphitheremod.item.amphithere_beak_attachment.*;
 import amphitheremod.util.IceAndFireUtil;
 import com.github.alexthe666.iceandfire.item.*;
 import net.minecraft.creativetab.CreativeTabs;
@@ -111,7 +106,6 @@ public class ModRegistry {
     };
 
     // MATERIALS
-
     public static Item.ToolMaterial copperBeak = EnumHelper.addToolMaterial("Copper", 2, 190, 5.0F, 1.5F, 10);
     public static ItemArmor.ArmorMaterial copperArmor = EnumHelper.addArmorMaterial("Copper", "iceandfire:armor_copper_metal", 10, new int[]{1, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F);
 
@@ -151,6 +145,7 @@ public class ModRegistry {
 
     @SubscribeEvent
     public static void registerItemEvent(RegistryEvent.Register<Item> event) {
+
         itemsToRegister.add(SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB));
         itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
 

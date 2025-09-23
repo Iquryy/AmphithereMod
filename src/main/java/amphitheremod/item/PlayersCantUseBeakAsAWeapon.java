@@ -1,4 +1,4 @@
-package amphitheremod.server;
+package amphitheremod.item;
 
 import amphitheremod.item.amphithere_beak_attachment.BeakBase;
 import net.minecraft.entity.player.EntityPlayer;

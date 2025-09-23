@@ -1,4 +1,4 @@
-package amphitheremod.server.inventory;
+package amphitheremod.inventory;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.IInventory;

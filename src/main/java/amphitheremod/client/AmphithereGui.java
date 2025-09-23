@@ -1,7 +1,7 @@
-package amphitheremod.server.gui;
+package amphitheremod.client;
 
 import amphitheremod.network.PacketChangeAmphithereAI;
-import amphitheremod.server.inventory.AmphithereContainer;
+import amphitheremod.inventory.AmphithereContainer;
 import amphitheremod.util.IAmphithereData;
 import amphitheremod.util.StatCollector;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;

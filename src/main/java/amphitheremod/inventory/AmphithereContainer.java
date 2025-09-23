@@ -1,4 +1,4 @@
-package amphitheremod.server.inventory;
+package amphitheremod.inventory;
 
 import amphitheremod.item.amphithere_armor.ArmorBase;
 import amphitheremod.item.amphithere_beak_attachment.BeakBase;

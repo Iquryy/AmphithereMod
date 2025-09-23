@@ -1,7 +1,7 @@
 package amphitheremod.mixin.common.amphithere_inventory;
 
-import amphitheremod.server.inventory.AmphithereContainer;
-import amphitheremod.server.gui.AmphithereGui;
+import amphitheremod.inventory.AmphithereContainer;
+import amphitheremod.client.AmphithereGui;
 import com.github.alexthe666.iceandfire.client.GuiHandler;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.Entity;

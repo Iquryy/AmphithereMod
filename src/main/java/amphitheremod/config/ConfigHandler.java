@@ -64,13 +64,13 @@ public class ConfigHandler {
         @Config.Comment("With this mixin, feeding coco beans to amphithere will heal them 10% of their max hp instead 5 fixed amount")
         @Config.Name("Enable Cocoa Bean Heal Change")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
         public boolean changeCocoaBeanHeal = true;
 
         @Config.Comment("Enables an inventory for tamed Amphitheres, accessible by shift-right-clicking.")
         @Config.Name("Enable Amphithere Inventory")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
         public boolean enableAmphithereInventory = true;
 
         @Config.Comment("Can only Male with Female Amphithere breed with each other")
@@ -79,16 +79,17 @@ public class ConfigHandler {
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.male_female.json", defaultValue = true)
         public boolean maleAndFemale = true;
 
-        @Config.Comment("Can Amphithere pass trough leaves? (If false then its bad with dynamic trees leaves physics)")
-        @Config.Name("Amphithere can't pass trough leaves")
+        @Config.Comment("Can Amphithere pass trough leaves? (If true then its bad with dynamic trees leaves physics)")
+        @Config.Name("Amphithere pass trough leaves")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leaffix.json", defaultValue = true)
-        public boolean canPassTroughLeaves = true;
+        public boolean canPassTroughLeaves = false;
 
         @Config.Comment({
                 "With this mixin Amphithere will have taming damage based from other damage increasing sources.",
                 "For instance if an Amphithere has strength effect then Amphitheres taming damage will be increased.",
-                "This config is a lot more noticeable and needed in ScalingHealth. Which would balance Amphitheres."
+                "The taming damage cannot go lower from the amount in InF amphithere taming damage config.",
+                "If the taming damage is 3 then it will never go lower than 3 meaning weakness does nothing."
         })
         @Config.Name("Advanced Amphithere Taming Damage")
         @Config.RequiresMcRestart

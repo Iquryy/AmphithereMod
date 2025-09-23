@@ -11,8 +11,11 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class TamingDamage {
     @ModifyExpressionValue(method = "updatePassenger", at = @At(value = "FIELD", target = "Lcom/github/alexthe666/iceandfire/IceAndFireConfig$EntityConfig;amphithereTameDamage:D", remap = false))
     private double tamingDamage(double original) {
-        // Thanks to Nischi and cdstk_ALT — 10:31 PM
+        // Thanks to Nischi and cdstk_ALT
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        return amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * (IceAndFireConfig.ENTITY_SETTINGS.amphithereTameDamage / IceAndFireConfig.ENTITY_SETTINGS.amphithereAttackStrength);
+        double attackDmg = amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        double tameDmgConfig = IceAndFireConfig.ENTITY_SETTINGS.amphithereTameDamage;
+        double atkDmgConfig = IceAndFireConfig.ENTITY_SETTINGS.amphithereAttackStrength;
+        return Math.max(tameDmgConfig, attackDmg * (tameDmgConfig / atkDmgConfig));
     }
 }

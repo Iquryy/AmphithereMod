@@ -28,3 +28,4 @@ public class PacketChangeAmphithereAI implements IMessage {
         buf.writeInt(this.amphithereId);
     }
 }
+
