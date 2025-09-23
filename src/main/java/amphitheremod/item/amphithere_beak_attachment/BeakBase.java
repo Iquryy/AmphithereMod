@@ -1,5 +1,6 @@
 package amphitheremod.item.amphithere_beak_attachment;
 
+import amphitheremod.config.ConfigHandler;
 import amphitheremod.util.StatCollector;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
@@ -23,7 +24,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
-
 public class BeakBase extends ItemSword {
     public BeakBase(ToolMaterial mat) {
         super(mat);
@@ -32,18 +32,33 @@ public class BeakBase extends ItemSword {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-        Collection<AttributeModifier> weaponModifier = attributeModifiers.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-        double totalDamage = 1;
-        if (weaponModifier != null && !weaponModifier.isEmpty()) {
-            for (AttributeModifier modifier : weaponModifier) {
-                if (modifier.getOperation() == 0) {
-                    totalDamage += modifier.getAmount();
+        if (ConfigHandler.general.cosmeticArmorBeak) {
+            tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
+        } else {
+            Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
+            Collection<AttributeModifier> weaponModifier = attributeModifiers.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+            double totalDamage = 1;
+
+            if (weaponModifier != null && !weaponModifier.isEmpty()) {
+                for (AttributeModifier modifier : weaponModifier) {
+                    if (modifier.getOperation() == 0) {
+                        totalDamage += modifier.getAmount();
+                    }
                 }
+                DecimalFormat df = new DecimalFormat("0.##");
+                tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage - 1) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
             }
-            DecimalFormat df = new DecimalFormat("0.##");
-            tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage-1) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
         }
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
+        if (ConfigHandler.general.cosmeticArmorBeak && slot == EntityEquipmentSlot.MAINHAND) {
+            multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+        }
+
+        return multimap;
     }
 
     @Override

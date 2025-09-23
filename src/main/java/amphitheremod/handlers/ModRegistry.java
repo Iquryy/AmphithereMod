@@ -147,7 +147,8 @@ public class ModRegistry {
     public static void registerItemEvent(RegistryEvent.Register<Item> event) {
 
         itemsToRegister.add(SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB));
-        itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
+        if(ConfigHandler.xxlCookieBuffs.enableXxlCookieBuff)
+            itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
 
         if (Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)
             itemsToRegister.add(AMPHITHERE_CRYSTAL_FEATHER = new ItemAmphithereCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB));

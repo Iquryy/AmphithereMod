@@ -13,9 +13,6 @@ public abstract class TamingDamage {
     private double tamingDamage(double original) {
         // Thanks to Nischi and cdstk_ALT
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        double attackDmg = amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-        double tameDmgConfig = IceAndFireConfig.ENTITY_SETTINGS.amphithereTameDamage;
-        double atkDmgConfig = IceAndFireConfig.ENTITY_SETTINGS.amphithereAttackStrength;
-        return Math.max(tameDmgConfig, attackDmg * (tameDmgConfig / atkDmgConfig));
+        return Math.max(IceAndFireConfig.ENTITY_SETTINGS.amphithereTameDamage, amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * (IceAndFireConfig.ENTITY_SETTINGS.amphithereTameDamage / IceAndFireConfig.ENTITY_SETTINGS.amphithereAttackStrength));
     }
 }

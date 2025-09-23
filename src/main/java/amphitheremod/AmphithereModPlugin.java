@@ -1,5 +1,6 @@
 package amphitheremod;
 
+import amphitheremod.config.ConfigHandler;
 import amphitheremod.util.IceAndFireUtil;
 import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.common.Loader;
@@ -14,6 +15,14 @@ public class AmphithereModPlugin implements IFMLLoadingPlugin {
 	public AmphithereModPlugin() {
 		MixinBootstrap.init();
         FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.mixins.json");
+
+        FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.tamingdmg.json",() -> {
+            if(IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.ROTN)
+                return false;
+            else
+                return ConfigHandler.mixins.amphiTamingDmg;
+        });
+
         FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.crystalfeather.json",() -> Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT);
 	}
 

@@ -1,5 +1,6 @@
 package amphitheremod.inventory;
 
+import amphitheremod.config.ConfigHandler;
 import amphitheremod.item.amphithere_armor.ArmorBase;
 import amphitheremod.item.amphithere_beak_attachment.BeakBase;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
@@ -32,44 +33,46 @@ public class AmphithereContainer extends Container {
         int yOffset = (3 - 4) * 18;
 
         // Beak (MAINHAND) - Slot 0
-        this.addSlotToContainer(new Slot(amphithereInventory, 0, 8, 18) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return !stack.isEmpty() && stack.getItem() instanceof BeakBase;
-            }
-        });
+        if(ConfigHandler.general.enableAmphithereArmor) {
+            this.addSlotToContainer(new Slot(amphithereInventory, 0, 8, 18) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return !stack.isEmpty() && stack.getItem() instanceof BeakBase;
+                }
+            });
 
-        // Head (HEAD) - Slot 1
-        this.addSlotToContainer(new Slot(amphithereInventory, 1, 8, 36) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
-            }
-        });
+            // Head (HEAD) - Slot 1
+            this.addSlotToContainer(new Slot(amphithereInventory, 1, 8, 36) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
+                }
+            });
 
-        // Body (CHEST) - Slot 2
-        this.addSlotToContainer(new Slot(amphithereInventory, 2, 8, 72) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
-            }
-        });
+            // Body (CHEST) - Slot 2
+            this.addSlotToContainer(new Slot(amphithereInventory, 2, 8, 72) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
+                }
+            });
 
-        // Wings (LEGS) - Slot 3
-        this.addSlotToContainer(new Slot(amphithereInventory, 3, 8, 54) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
-            }
-        });
+            // Wings (LEGS) - Slot 3
+            this.addSlotToContainer(new Slot(amphithereInventory, 3, 8, 54) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
+                }
+            });
 
-        // Tail (FEET) - Slot 4
-        this.addSlotToContainer(new Slot(amphithereInventory, 4, 8, 90) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.FEET;
-            }
-        });
+            // Tail (FEET) - Slot 4
+            this.addSlotToContainer(new Slot(amphithereInventory, 4, 8, 90) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return !stack.isEmpty() && stack.getItem() instanceof ArmorBase && ((ArmorBase) stack.getItem()).armorType == EntityEquipmentSlot.FEET;
+                }
+            });
+        }
 
         // Classy Hat (OFFHAND) - Slot 5
         this.addSlotToContainer(new Slot(amphithereInventory, 5, 153, 18) {

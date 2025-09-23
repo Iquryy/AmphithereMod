@@ -1,5 +1,6 @@
 package amphitheremod.client;
 
+import amphitheremod.config.ConfigHandler;
 import amphitheremod.network.PacketChangeAmphithereAI;
 import amphitheremod.inventory.AmphithereContainer;
 import amphitheremod.util.IAmphithereData;
@@ -19,8 +20,7 @@ import static amphitheremod.AmphithereMod.NETWORK_WRAPPER;
 import static amphitheremod.AmphithereMod.modIdWithDot;
 
 public class AmphithereGui extends GuiContainer {
-
-    private static final ResourceLocation TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(ConfigHandler.general.enableAmphithereArmor ? "amphitheremod:textures/gui/amphithere.png" : "amphitheremod:textures/gui/amphithere_no_armor.png");
     private final EntityAmphithere amphithere;
     private float mousePosX;
     private float mousePosY;
@@ -73,14 +73,16 @@ public class AmphithereGui extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         IAmphithereData amphiData = (IAmphithereData) this.amphithere;
-        String name = this.amphithere.hasCustomName() ? this.amphithere.getCustomNameTag() : StatCollector.translateToLocal("entity."+modIdWithDot+"amphithere.name");
+        String name = this.amphithere.hasCustomName() ? this.amphithere.getCustomNameTag() : StatCollector.translateToLocal("entity." + modIdWithDot + "amphithere.name");
         this.fontRenderer.drawString(name, this.xSize / 2 - this.fontRenderer.getStringWidth(name) / 2, 6, 4210752);
-        String health = StatCollector.translateToLocal(modIdWithDot + "amphithere.health")+" " + (int) this.amphithere.getHealth()+"/" + (int) this.amphithere.getMaxHealth();
+        String health = StatCollector.translateToLocal(modIdWithDot + "amphithere.health") + " " + (int) this.amphithere.getHealth() + "/" + (int) this.amphithere.getMaxHealth();
         this.fontRenderer.drawString(health, this.xSize / 2 - this.fontRenderer.getStringWidth(health) / 2, 75, 4210752);
-        String gender = StatCollector.translateToLocal(modIdWithDot + "amphithere.gender")+" " + StatCollector.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot+"amphithere.gender.female" : modIdWithDot+"amphithere.gender.male");
-        this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 84, 4210752);
-        String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.bounded")+" " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot+"amphithere.bounded.true" : modIdWithDot+"amphithere.bounded.false");
-        this.fontRenderer.drawString(bounded, this.xSize / 2 - this.fontRenderer.getStringWidth(bounded) / 2, 93, 4210752);
+        String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.bounded") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
+        this.fontRenderer.drawString(bounded, this.xSize / 2 - this.fontRenderer.getStringWidth(bounded) / 2, 84, 4210752);
+        if (ConfigHandler.mixins.maleAndFemale) {
+            String gender = StatCollector.translateToLocal(modIdWithDot + "amphithere.gender") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
+            this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 93, 4210752);
+        }
     }
 
 

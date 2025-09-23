@@ -32,6 +32,11 @@ public class ConfigHandler {
         @Config.RequiresMcRestart
         public boolean enableAmphithereArmor = true;
 
+        @Config.Comment("If this is set to true then all armor and beaks are cosmetic items that give no extra armor or damage to Amphitheres")
+        @Config.Name("Make Armor/Beak a Cosmetic")
+        @Config.RequiresMcRestart
+        public boolean cosmeticArmorBeak = false;
+
         @Config.Comment("Enables a set bonus for full silver armor on Amphitheres and Dragons, granting the 'Cure' effect if PotionCore is installed.")
         @Config.Name("Enable Silver Armor Set Bonus")
         public boolean enableSilverSetBonus = true;
@@ -46,6 +51,7 @@ public class ConfigHandler {
                 "Default: 10 (heals 10% of max HP)."
         })
         @Config.Name("Cocoa Bean Healing Divisor")
+        @Config.RequiresMcRestart
         @Config.RangeInt(min = 2, max = 20)
         public int amphithereHealDivisor = 10;
 
@@ -53,13 +59,13 @@ public class ConfigHandler {
         @Config.Name("Enable Amphithere View")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
-        public boolean amphiView = false;
+        public boolean amphiView = true;
 
         @Config.Comment("Sets the third-person camera view distance when riding an Amphithere.")
         @Config.Name("Amphithere Riding Camera Distance")
         @Config.RangeInt(min = 1, max = 10)
         @Config.RequiresMcRestart
-        public int ridingViewDistance = 2;
+        public int ridingViewDistance = 3;
 
         @Config.Comment("With this mixin, feeding coco beans to amphithere will heal them 10% of their max hp instead 5 fixed amount")
         @Config.Name("Enable Cocoa Bean Heal Change")
@@ -91,9 +97,9 @@ public class ConfigHandler {
                 "The taming damage cannot go lower from the amount in InF amphithere taming damage config.",
                 "If the taming damage is 3 then it will never go lower than 3 meaning weakness does nothing."
         })
-        @Config.Name("Advanced Amphithere Taming Damage")
+        @Config.Name("Advanced Amphithere Taming Damage (Limited in ROTN)")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = true)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = false)
         public boolean amphiTamingDmg = true;
     }
 

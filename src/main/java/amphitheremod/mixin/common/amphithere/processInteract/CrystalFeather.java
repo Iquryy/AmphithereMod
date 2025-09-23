@@ -23,28 +23,29 @@ public abstract class CrystalFeather {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
 
         if (stack.getItem() == ModRegistry.AMPHITHERE_CRYSTAL_FEATHER) {
-            if (!ItemAmphithereCrystalFeather.hasAmphithere(stack)) {
-                data.amphiMod_master$setBounded(true);
-                NBTTagCompound compound = stack.getTagCompound();
-                if (compound == null) {
-                    compound = new NBTTagCompound();
-                    stack.setTagCompound(compound);
-                }
+            if (amphi.isTamed() && amphi.isOwner(player)) {
+                if (!ItemAmphithereCrystalFeather.hasAmphithere(stack)) {
+                    data.amphiMod_master$setBounded(true);
+                    NBTTagCompound compound = stack.getTagCompound();
+                    if (compound == null) {
+                        compound = new NBTTagCompound();
+                        stack.setTagCompound(compound);
+                    }
 
-                NBTTagCompound amphithereTag = new NBTTagCompound();
-                amphithereTag.setUniqueId("AmphithereUUID", amphi.getUniqueID());
-                amphithereTag.setString("CustomName", amphi.getCustomNameTag());
-                compound.setTag("Amphithere", amphithereTag);
-                amphi.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
-                player.swingArm(hand);
-                cir.setReturnValue(true);
-            }
-            else if (ItemAmphithereCrystalFeather.isBoundTo(stack, amphi)) {
-                stack.setTagCompound(new NBTTagCompound());
-                data.amphiMod_master$setBounded(false);
-                amphi.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
-                player.swingArm(hand);
-                cir.setReturnValue(true);
+                    NBTTagCompound amphithereTag = new NBTTagCompound();
+                    amphithereTag.setUniqueId("AmphithereUUID", amphi.getUniqueID());
+                    amphithereTag.setString("CustomName", amphi.getCustomNameTag());
+                    compound.setTag("Amphithere", amphithereTag);
+                    amphi.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
+                    player.swingArm(hand);
+                    cir.setReturnValue(true);
+                } else if (ItemAmphithereCrystalFeather.isBoundTo(stack, amphi)) {
+                    stack.setTagCompound(new NBTTagCompound());
+                    data.amphiMod_master$setBounded(false);
+                    amphi.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
+                    player.swingArm(hand);
+                    cir.setReturnValue(true);
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package amphitheremod.item.amphithere_armor;
 
+import amphitheremod.config.ConfigHandler;
 import amphitheremod.util.StatCollector;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.google.common.collect.Multimap;
@@ -21,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,31 +42,47 @@ public class ArmorBase extends ItemArmor {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
-        Collection<AttributeModifier> armorModifiers = attributeModifiers.get(SharedMonsterAttributes.ARMOR.getName());
-        double totalArmor = 0;
-        if (armorModifiers != null && !armorModifiers.isEmpty()) {
-            for (AttributeModifier modifier : armorModifiers) {
-                if (modifier.getOperation() == 0) {
-                    totalArmor += modifier.getAmount();
+        if (ConfigHandler.general.cosmeticArmorBeak) {
+            tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
+        } else {
+            Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
+            Collection<AttributeModifier> armorModifiers = attributeModifiers.get(SharedMonsterAttributes.ARMOR.getName());
+            double totalArmor = 0;
+
+            if (armorModifiers != null && !armorModifiers.isEmpty()) {
+                for (AttributeModifier modifier : armorModifiers) {
+                    if (modifier.getOperation() == 0) {
+                        totalArmor += modifier.getAmount();
+                    }
+                }
+                DecimalFormat df = new DecimalFormat("0.##");
+                switch (equipSlot) {
+                    case HEAD:
+                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        break;
+                    case LEGS:
+                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        break;
+                    case CHEST:
+                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        break;
+                    case FEET:
+                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        break;
                 }
             }
-            DecimalFormat df = new DecimalFormat("0.##");
-            switch (equipSlot) {
-                case HEAD:
-                    tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                    break;
-                case LEGS:
-                    tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                    break;
-                case CHEST:
-                    tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                    break;
-                case FEET:
-                    tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                    break;
-            }
         }
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
+        if (ConfigHandler.general.cosmeticArmorBeak && slot == this.armorType) {
+            multimap.removeAll(SharedMonsterAttributes.ARMOR.getName());
+            multimap.removeAll(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName());
+        }
+
+        return multimap;
     }
 
     @Override
