@@ -37,8 +37,10 @@ public class LayerAmphithereEyes extends AbstractAmphithereLayer {
             case MAGENTA: eyeTexture = MAGENTA_EYES; break;
             case ORANGE: eyeTexture = ORANGE_EYES; break;
             case PURPLE: eyeTexture = PURPLE_EYES; break;
-            case SHIVAXI_EYES: eyeTexture = SHIVAXI_EYES; break;
-            case CRAFTY_EYES: eyeTexture = CRAFTY_EYES; break;
+            case SHIVAXI: eyeTexture = SHIVAXI_EYES; break;
+            case IQURY: eyeTexture = IQURY_EYES; break;
+            case BLACKEAGLE: eyeTexture = BLACKEAGLE_EYES; break;
+            case CRAFTY: eyeTexture = CRAFTY_EYES; break;
         }
         return eyeTexture;
     }

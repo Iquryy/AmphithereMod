@@ -16,7 +16,7 @@ public class AmphiBreedRules {
     private static final int RAINBOW = 6;
 
     // Variant ids
-    private static final List<List<Integer>> VARIANT_IDS = Arrays.asList(
+    private static final List<List<Integer>> VARIANT_ENUMS = Arrays.asList(
             Arrays.asList(0, 1, 2, 3, 4, 5),                        //Normal
             Arrays.asList(7, 8, 9),                                 //Added
             Arrays.asList(10, 11),                                  //Gem added
@@ -71,11 +71,11 @@ public class AmphiBreedRules {
             if (randRoll < 0) return getRandomEntryForAmphiType(rand, i);
         }
         //This should never be called if the weighted roll works correctly
-        return getRandomEntryForAmphiType(rand, VARIANT_IDS.size() - 1);
+        return getRandomEntryForAmphiType(rand, VARIANT_ENUMS.size() - 1);
     }
 
     private static int getRandomEntryForAmphiType(Random rand, int type) {
-        List<Integer> group = VARIANT_IDS.get(type);
+        List<Integer> group = VARIANT_ENUMS.get(type);
         return group.get(rand.nextInt(group.size()));
     }
     static boolean isAffectedByBreedRules(Random rand) {

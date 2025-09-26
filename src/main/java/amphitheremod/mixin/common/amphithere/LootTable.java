@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityAmphithere.class)
-public abstract class Loot {
+public abstract class LootTable {
     @Inject(method = "getLootTable", at = @At("TAIL"))
     private void onDeathDropInventory(CallbackInfoReturnable<ResourceLocation> cir) {
         EntityAmphithere amphithere = (EntityAmphithere) (Object) this;

@@ -2,8 +2,8 @@
 {
   "modid": "amphitheremod",
   "name": "Amphithere Mod",
-  "description": "Introduces a dynamic healing system for Amphitheres using Cocoa Beans. Adds 16 new Amphithere variants.",
-  "version": "1.0.3",
+  "description": "Adds new features to Amphitheres: Inventory, Armor, Male/Female Amphitheres, Breeding Logic, Variant Selection After Breeding (gets parents 1/2 variant or chooses a random variant from the pool), New Variants, New Food, Small Fixes. Includes support for Classy Hats and SetBonus (Silver Armor gets Cure with Potion Core).",
+  "version": "1.0.6",
   "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",

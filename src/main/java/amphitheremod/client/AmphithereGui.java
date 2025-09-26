@@ -79,7 +79,7 @@ public class AmphithereGui extends GuiContainer {
         this.fontRenderer.drawString(health, this.xSize / 2 - this.fontRenderer.getStringWidth(health) / 2, 75, 4210752);
         String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.bounded") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
         this.fontRenderer.drawString(bounded, this.xSize / 2 - this.fontRenderer.getStringWidth(bounded) / 2, 84, 4210752);
-        if (ConfigHandler.mixins.maleAndFemale) {
+        if (ConfigHandler.general.maleAndFemale) {
             String gender = StatCollector.translateToLocal(modIdWithDot + "amphithere.gender") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
             this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 93, 4210752);
         }

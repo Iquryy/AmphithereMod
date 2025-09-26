@@ -21,8 +21,6 @@ public class RenderAmphiVariants {
         String name = TextFormatting.getTextWithoutFormattingCodes(amphithere.getName());
         if(name != null)
             switch (name) {
-                //case "s": case "S": return EnumAmphiType.SKELETON.getTexture(false);
-                //case "w": case "W": return EnumAmphiType.WITHER_SKELETON.getTexture(false);
                 case "Risky": return EnumAmphiType.RAINBOW.getTexture(amphithere.isBlinking());
             }
 

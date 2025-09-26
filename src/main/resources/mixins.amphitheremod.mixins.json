@@ -9,10 +9,11 @@
     "common.amphithere.NBT",
     "common.amphithere.UpDownAnimationFix",
     "common.amphithere.processInteract.DontUseBeansOnFullHP",
-    "common.amphithere.Loot",
+    "common.amphithere.LootTable",
     "common.amphithere.processInteract.XXLChocolateCookie",
-    "common.amphithere.SkeletonAmphiSounds",
-    "common.amphithere.Variants"
+    "common.amphithere.soundEvents.SkeletonAmphiSounds",
+    "common.amphithere.Variants",
+    "common.amphithere.MaleAndFemaleBreeding"
   ],
   "client": [
     "client.RenderAmphiLayers",

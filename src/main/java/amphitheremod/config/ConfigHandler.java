@@ -32,14 +32,22 @@ public class ConfigHandler {
         @Config.RequiresMcRestart
         public boolean enableAmphithereArmor = true;
 
+        @Config.Comment("Enabling and Disabling Crystal Feather")
+        @Config.Name("Enable Crystal Feather")
+        @Config.RequiresMcRestart
+        public boolean enableCrystalFeather = true;
+
         @Config.Comment("If this is set to true then all armor and beaks are cosmetic items that give no extra armor or damage to Amphitheres")
         @Config.Name("Make Armor/Beak a Cosmetic")
-        @Config.RequiresMcRestart
         public boolean cosmeticArmorBeak = false;
 
-        @Config.Comment("Enables a set bonus for full silver armor on Amphitheres and Dragons, granting the 'Cure' effect if PotionCore is installed.")
+        @Config.Comment("Enables a set bonus for full silver armor on Amphitheres, granting the 'Cure' effect if PotionCore is installed.")
         @Config.Name("Enable Silver Armor Set Bonus")
         public boolean enableSilverSetBonus = true;
+
+        @Config.Comment("Can only Male with Female Amphithere breed with each other")
+        @Config.Name("Male + Female Breeding")
+        public boolean maleAndFemale = true;
     }
 
     @MixinConfig(name = AmphithereMod.MODID)
@@ -79,16 +87,10 @@ public class ConfigHandler {
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
         public boolean enableAmphithereInventory = true;
 
-        @Config.Comment("Can only Male with Female Amphithere breed with each other")
-        @Config.Name("Male + Female Breeding")
-        @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.male_female.json", defaultValue = true)
-        public boolean maleAndFemale = true;
-
-        @Config.Comment("Can Amphithere pass trough leaves? (If true then its bad with dynamic trees leaves physics)")
+        @Config.Comment("Can Amphithere pass trough leaves? (If true then its bad with dynamic trees leaves physics) (Completely Disabled For ROTN)")
         @Config.Name("Amphithere pass trough leaves")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leaffix.json", defaultValue = true)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leavesphasechange.json", defaultValue = true)
         public boolean canPassTroughLeaves = false;
 
         @Config.Comment({
@@ -97,7 +99,7 @@ public class ConfigHandler {
                 "The taming damage cannot go lower from the amount in InF amphithere taming damage config.",
                 "If the taming damage is 3 then it will never go lower than 3 meaning weakness does nothing."
         })
-        @Config.Name("Advanced Amphithere Taming Damage (Limited in ROTN)")
+        @Config.Name("Advanced Amphithere Taming Damage (Completely Disabled For ROTN)")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = false)
         public boolean amphiTamingDmg = true;
@@ -148,10 +150,10 @@ public class ConfigHandler {
     }
 
     @Mod.EventBusSubscriber(modid = AmphithereMod.MODID)
-    private static class EventHandler{
+    private static class EventHandler {
         @SubscribeEvent
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-            if(event.getModID().equals(AmphithereMod.MODID)) {
+            if (event.getModID().equals(AmphithereMod.MODID)) {
                 ConfigManager.sync(AmphithereMod.MODID, Config.Type.INSTANCE);
             }
         }

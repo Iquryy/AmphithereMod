@@ -19,7 +19,7 @@ public class AmphithereSilverArmor {
     @SubscribeEvent
     public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         if (ConfigHandler.general.enableSilverSetBonus) {
-            if (IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT) {
+            //if (IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT) {
                 if (Loader.isModLoaded("potioncore")) {
                     if (!(event.getEntityLiving() instanceof EntityAmphithere)) return;
                     EntityAmphithere amphi = (EntityAmphithere) event.getEntityLiving();
@@ -39,7 +39,7 @@ public class AmphithereSilverArmor {
                     else if (!isWearingFullSet && hasEffect)
                         amphi.removePotionEffect(curePotion);
                 }
-            }
+            //}
         }
     }
 }

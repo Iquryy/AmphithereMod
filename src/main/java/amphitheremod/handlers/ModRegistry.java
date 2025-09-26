@@ -42,7 +42,7 @@ public class ModRegistry {
     public static final CreativeTabs AMPHITHERE_MOD_TAB = new CreativeTabs(modIdWithDot + "amphithere_mod_items") {
         @SideOnly(Side.CLIENT)
         public ItemStack createIcon() {
-            return new ItemStack(Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT ? AMPHITHERE_CRYSTAL_FEATHER : AMPHITHERE_SILVER_WING_ARMOR);
+            return new ItemStack(SHIVAXI_FEATHER);
         }
 
         @Override
@@ -145,13 +145,14 @@ public class ModRegistry {
 
     @SubscribeEvent
     public static void registerItemEvent(RegistryEvent.Register<Item> event) {
-
         itemsToRegister.add(SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB));
-        if(ConfigHandler.xxlCookieBuffs.enableXxlCookieBuff)
+
+        if (ConfigHandler.xxlCookieBuffs.enableXxlCookieBuff)
             itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
 
         if (Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)
-            itemsToRegister.add(AMPHITHERE_CRYSTAL_FEATHER = new ItemAmphithereCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB));
+            if (ConfigHandler.general.enableCrystalFeather)
+                itemsToRegister.add(AMPHITHERE_CRYSTAL_FEATHER = new ItemAmphithereCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB));
 
         if (ConfigHandler.general.enableAmphithereArmor) {
             itemsToRegister.add(AMPHITHERE_COPPER_HEAD_ARMOR = new HeadCopperArmor(copperArmor, EntityEquipmentSlot.HEAD, "copper_head_armor", AMPHITHERE_MOD_TAB));

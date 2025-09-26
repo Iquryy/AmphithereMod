@@ -10,8 +10,6 @@ public enum EnumAmphiType {
     YELLOW(Group.NORMAL, Eyes.YELLOW, Glow.NONE, "default_variants/yellow", true),
     PURPLE(Group.NORMAL, Eyes.YELLOW, Glow.NONE, "default_variants/purple", true),
 
-    RAINBOW(Group.SPECIAL, Eyes.YELLOW, Glow.NONE, "new_variants/special/rainbow", true),
-
     BLACK(Group.RARE, Eyes.YELLOW, Glow.NONE, "new_variants/rare/black", true),
     WHITE(Group.RARE, Eyes.PINK, Glow.NONE, "new_variants/rare/white", true),
     RADISH(Group.RARE, Eyes.LIME, Glow.NONE, "new_variants/rare/radishe", true),
@@ -32,9 +30,11 @@ public enum EnumAmphiType {
     SKELETON(Group.SKELETON, Eyes.NONE, Glow.NONE, "new_variants/skeleton/skeleton", false),
     WITHER_SKELETON(Group.SKELETON, Eyes.NONE, Glow.NONE, "new_variants/skeleton/wither_skeleton", false),
 
-    SHIVAXI(Group.SPECIAL, Eyes.SHIVAXI_EYES, Glow.SHIVAXI_GLOW, "new_variants/special/shivaxi", true),
-
-    CRAFTY(Group.SPECIAL, Eyes.CRAFTY_EYES, Glow.NONE, "new_variants/special/crafty", true);
+    RAINBOW(Group.SPECIAL, Eyes.YELLOW, Glow.NONE, "new_variants/special/rainbow", true),
+    SHIVAXI(Group.SPECIAL, Eyes.SHIVAXI, Glow.SHIVAXI_GLOW, "new_variants/special/shivaxi", true),
+    IQURY(Group.SPECIAL, Eyes.IQURY, Glow.IQURY_GLOW, "new_variants/special/iqury", true),
+    BLACKEAGLE(Group.SPECIAL, Eyes.BLACKEAGLE, Glow.BLACKEAGLE_GLOW, "new_variants/special/black_eagle", true),
+    CRAFTY(Group.SPECIAL, Eyes.CRAFTY, Glow.NONE, "new_variants/special/crafty", true);
 
     private final Group group;
     public Group getGroup(){
@@ -56,7 +56,7 @@ public enum EnumAmphiType {
     }
 
     public static int getIntFromEnum(EnumAmphiType enumName){
-        EnumAmphiType type = EnumAmphiType.valueOf(""+enumName);
+        EnumAmphiType type = EnumAmphiType.valueOf(String.valueOf(enumName));
         return type.ordinal();
     }
 
@@ -94,12 +94,16 @@ public enum EnumAmphiType {
         MAGENTA,
         ORANGE,
         PURPLE,
-        SHIVAXI_EYES,
-        CRAFTY_EYES
+        SHIVAXI,
+        IQURY,
+        BLACKEAGLE,
+        CRAFTY
     }
 
     public enum Glow {
         NONE,
-        SHIVAXI_GLOW
+        SHIVAXI_GLOW,
+        IQURY_GLOW,
+        BLACKEAGLE_GLOW
     }
 }

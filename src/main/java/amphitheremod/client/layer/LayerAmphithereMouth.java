@@ -20,7 +20,7 @@ public class LayerAmphithereMouth extends AbstractAmphithereLayer {
         if (amphithere.getVariant() == EnumAmphiType.SKELETON.ordinal()) return EMPTY;
         if (amphithere.getVariant() == EnumAmphiType.WITHER_SKELETON.ordinal()) return EMPTY;
         if (amphithere.getVariant() == EnumAmphiType.SHIVAXI.ordinal()) return EMPTY;
-
+        if (amphithere.getVariant() == EnumAmphiType.IQURY.ordinal()) return EMPTY;
         return MOUTH;
     }
 }

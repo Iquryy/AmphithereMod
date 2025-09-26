@@ -29,6 +29,8 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
         switch (glow){
             case NONE: return null;
             case SHIVAXI_GLOW: glowTexture = SHIVAXI_GLOW; break;
+            case IQURY_GLOW: glowTexture = IQURY_GLOW; break;
+            case BLACKEAGLE_GLOW: glowTexture = BLACKEAGLE_GLOW; break;
         }
         return glowTexture;
     }
@@ -67,7 +69,7 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
     }
 
     public float getGlowBrightness(float partialTicks, EntityAmphithere amphi) {
-        float fadeDurationTicks = 60.0f;
+        float fadeDurationTicks = 90.0f;
         float amphiExisted = amphi.ticksExisted;
         float time = amphiExisted + partialTicks;
         float frequency = (float) (2.0 * Math.PI / fadeDurationTicks);

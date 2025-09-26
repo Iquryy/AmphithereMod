@@ -8,8 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static amphitheremod.util.EnumAmphiType.SKELETON;
-import static amphitheremod.util.EnumAmphiType.WITHER_SKELETON;
+import static amphitheremod.util.EnumAmphiType.*;
 import static amphitheremod.util.Refs.*;
 
 @SideOnly(Side.CLIENT)
@@ -19,12 +18,12 @@ public class LayerAmphithereGender extends AbstractAmphithereLayer {
     }
 
     @Override protected ResourceLocation getTextureToBind(EntityAmphithere amphithere) {
-        if(!(ConfigHandler.mixins.maleAndFemale)) return EMPTY;
+        if(!(ConfigHandler.general.maleAndFemale)) return EMPTY;
         if (!(amphithere instanceof IAmphithereData)) return EMPTY;
 
         IAmphithereData data = (IAmphithereData) amphithere;
         int amphiVariant = amphithere.getVariant();
-        if (amphiVariant == SKELETON.ordinal() || amphiVariant == WITHER_SKELETON.ordinal())
+        if (amphiVariant == SKELETON.ordinal() || amphiVariant == WITHER_SKELETON.ordinal() || amphiVariant == SHIVAXI.ordinal())
             return EMPTY;
         else
             return data.amphiMod_master$getGender() ? FEMALE : MALE;
