@@ -69,6 +69,7 @@ dependencies {
     implementation fg.deobf("curse.maven:shadowfacts-forgelin-248453:2785465")
     implementation fg.deobf("curse.maven:first-aid-276837:4414252")
     implementation fg.deobf("curse.maven:paintingn-252042:2756710")
+    compileOnly fg.deobf("curse.maven:dramatictrees-${dramatictrees_version}")
 }
 
 mixin {

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "amphitheremod.mixin",
+  "refmap": "mixins.amphitheremod.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "modcompat.dynamictrees.BlockDynamicLeaves_PassableMixin",
+    "modcompat.dynamictrees.EntityAmphithere_DynaBranchPassableMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

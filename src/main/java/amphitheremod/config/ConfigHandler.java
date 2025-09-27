@@ -85,22 +85,41 @@ public class ConfigHandler {
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.male_female.json", defaultValue = true)
         public boolean maleAndFemale = true;
 
-        @Config.Comment("Can Amphithere pass trough leaves? (If true then its bad with dynamic trees leaves physics)")
-        @Config.Name("Amphithere pass trough leaves")
+        @Config.Comment("Fully disable the ability for Amphitheres to phase through leaves")
+        @Config.Name("Disable Amphitheres Phasing Through Leaves")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leaffix.json", defaultValue = true)
-        public boolean canPassTroughLeaves = false;
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leaffix.json", defaultValue = false)
+        public boolean disablePassTroughLeaves = false;
+
+        @Config.Comment("Allows Amphitheres to phase through dynamic leaves/branches as if they were vanilla leaves.\n" +
+                "This will fix issues with Amphis getting stuck in trees.")
+        @Config.Name("Amphitheres Dynamic Trees Compatibility (Dynamic Trees or Dramatic Trees)")
+        @Config.RequiresMcRestart
+        @MixinConfig.CompatHandling(
+                modid = "dynamictrees",
+                desired = true,
+                warnIngame = false,
+                reason = "Requires mod to properly function"
+        )
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamictrees.json", defaultValue = true)
+        public boolean dynamicTreesPassTroughLeaves = true;
 
         @Config.Comment({
-                "With this mixin Amphithere will have taming damage based from other damage increasing sources.",
-                "For instance if an Amphithere has strength effect then Amphitheres taming damage will be increased.",
-                "The taming damage cannot go lower from the amount in InF amphithere taming damage config.",
-                "If the taming damage is 3 then it will never go lower than 3 meaning weakness does nothing."
+                "Makes Amphitheres taming damage able to be modified by damage attribute modifiers.",
+                "For instance if an Amphithere has the strength effect, then taming damage will be increased.",
+                "The taming damage can not go lower than the amount set in the InF taming config, if the InF version provides one.",
+                "When higher than the taming damage config, this is the calculation: TAME_DAMAGE = CONFIG_TAME_DAMAGE * CURRENT_ATTACK_DAMAGE / CONFIG_BASE_ATTACK."
         })
-        @Config.Name("Advanced Amphithere Taming Damage (Limited in ROTN)")
+        @Config.Name("Advanced Amphithere Taming Damage")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = false)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = true)
         public boolean amphiTamingDmg = true;
+
+        @Config.Comment("Prevent Tamed Amphitheres from attacking a wild Amphithere while the owner is trying to tame it.")
+        @Config.Name("Tamed Amphitheres Ignore Wild Taming")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.ignorewildtaming.json", defaultValue = true)
+        public boolean tamedIgnoresWildTaming = true;
     }
 
     public static class XxlCookieBuffs {
