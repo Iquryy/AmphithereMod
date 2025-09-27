@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "client.AmphithereView"
+    "common.amphithere.IgnoresWildTaming"
   ],
   "injectors": {
     "maxShiftBy": 10

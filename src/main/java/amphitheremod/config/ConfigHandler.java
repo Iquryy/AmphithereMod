@@ -87,22 +87,47 @@ public class ConfigHandler {
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
         public boolean enableAmphithereInventory = true;
 
-        @Config.Comment("Can Amphithere pass trough leaves? (If true then its bad with dynamic trees leaves physics) (Completely Disabled For ROTN)")
-        @Config.Name("Amphithere pass trough leaves")
-        @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leavesphasechange.json", defaultValue = true)
-        public boolean canPassTroughLeaves = false;
-
         @Config.Comment({
                 "With this mixin Amphithere will have taming damage based from other damage increasing sources.",
                 "For instance if an Amphithere has strength effect then Amphitheres taming damage will be increased.",
                 "The taming damage cannot go lower from the amount in InF amphithere taming damage config.",
                 "If the taming damage is 3 then it will never go lower than 3 meaning weakness does nothing."
         })
-        @Config.Name("Advanced Amphithere Taming Damage (Completely Disabled For ROTN)")
+        @Config.Name("Advanced Amphithere Taming Damage")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = false)
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.tamingdmg.json", defaultValue = true)
         public boolean amphiTamingDmg = true;
+
+        @Config.Comment("Prevent Tamed Amphitheres from attacking a wild Amphithere while the owner is trying to tame it.")
+        @Config.Name("Tamed Amphitheres Ignore Wild Taming")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.ignorewildtaming.json", defaultValue = true)
+        public boolean tamedIgnoresWildTaming = true;
+
+
+        @Config.Comment({
+                "If True Amphithere can't pass trough leaves",
+                "If 'Amphitheres Dynamic Trees Leave Compatibility' is enabled then it makes moving on those leaves smoother like on ground "
+        })
+        @Config.Name("Amphithere Can't Phase Trough Leaves")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leavesphasechange.json", defaultValue = false)
+        public boolean canPassTroughLeaves = false;
+
+        @Config.Comment({
+                "Allows Amphitheres to phase through dynamic leaves as if they were vanilla leaves.",
+                "This will fix issues with Amphis getting stuck in trees."
+        })
+        @Config.Name("Amphitheres Dynamic Trees Leave Compatibility (Dynamic Trees or Dramatic Trees)")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynleavesphasechange.json", defaultValue = true)
+        public boolean canPassTroughDynamicLeaves = true;
+
+        @Config.Comment("Allows Amphitheres to phase through dynamic branchers as if they were leaves.")
+        @Config.Name("Amphitheres Dynamic Trees Branch Compatibility (Dynamic Trees or Dramatic Trees)")
+        @Config.RequiresMcRestart
+        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynbranchphasechange.json", defaultValue = true)
+        public boolean canPassTroughDynamicBranch = true;
     }
 
     public static class XxlCookieBuffs {

@@ -60,9 +60,10 @@ dependencies {
     // bruh
     // bruh
     compileOnly fg.deobf("curse.maven:iceandfire-rlcraft-${iceandfirerl_version}")
-    compileOnly fg.deobf("curse.maven:iceandfire-${iceandfire_version}")
     compileOnly fg.deobf("curse.maven:iceandfire-rotn-${iceandfirerotn_version}")
+    compileOnly fg.deobf("curse.maven:iceandfire-${iceandfire_version}")
 
+    implementation fg.deobf("curse.maven:dynamictrees-252818:3812473")
     compileOnly fg.deobf("curse.maven:llibrary-${llibrary_version}")
     implementation fg.deobf("curse.maven:ClassyHats-${classy_hats}")
     implementation fg.deobf("curse.maven:librarianlib-252910:3041340")
