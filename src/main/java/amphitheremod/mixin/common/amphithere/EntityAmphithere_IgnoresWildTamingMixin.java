@@ -18,7 +18,7 @@ public abstract class EntityAmphithere_IgnoresWildTamingMixin extends EntityTame
     @Override
     public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
         // Do not target a Wild Amphi if the owner is riding it
-        if(target instanceof EntityAmphithere && (((EntityAmphithere) target).getRider() == owner)) {
+        if(target instanceof EntityAmphithere && target.isPassenger(owner)) {
             return false;
         }
 
