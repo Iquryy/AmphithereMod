@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere.leaves;
+package amphitheremod.mixin.common.leaves;
 
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;

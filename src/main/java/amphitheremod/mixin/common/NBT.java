@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common;
 
 import amphitheremod.util.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;
@@ -31,13 +31,13 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     }
 
     @Unique private static DataParameter<Boolean> DATA_GENDER;
-    @Unique private static DataParameter<Boolean> DATA_IS_SHIVAXI;
+    @Unique private static DataParameter<String> SPECIAL_VARIANT;
     @Unique private static DataParameter<Boolean> DATA_BOUNDED;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void amphimod_createGenderDataParam(CallbackInfo ci) {
         DATA_GENDER = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.BOOLEAN);
-        DATA_IS_SHIVAXI = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.BOOLEAN);
+        SPECIAL_VARIANT = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.STRING);
         DATA_BOUNDED = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.BOOLEAN);
     }
 
@@ -52,13 +52,13 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     }
 
     @Override
-    public boolean amphiMod_master$getShivaxi() {
-        return this.getDataManager().get(DATA_IS_SHIVAXI);
+    public String amphiMod_master$getSpecialVariant() {
+        return this.getDataManager().get(SPECIAL_VARIANT);
     }
 
     @Override
-    public void amphiMod_master$setShivaxi(boolean shivaxi) {
-        this.getDataManager().set(DATA_IS_SHIVAXI, shivaxi);
+    public void amphiMod_master$setSpecialVariant(String specialVariant) {
+        this.getDataManager().set(SPECIAL_VARIANT, specialVariant);
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     @Inject(method = "entityInit", at = @At("TAIL"))
     private void entityInit(CallbackInfo ci) {
         this.getDataManager().register(DATA_GENDER, false);
-        this.getDataManager().register(DATA_IS_SHIVAXI, false);
+        this.getDataManager().register(SPECIAL_VARIANT, "");
         this.getDataManager().register(DATA_BOUNDED, false);
     }
 
@@ -83,7 +83,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         this.amphiMod_master$setGender(this.getRNG().nextBoolean());
 
         if(shivaxi.enableShivaxiAmphithere) {
-            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 1 || this.amphiMod_master$getShivaxi())
+            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 1 || this.amphiMod_master$getSpecialVariant().equals("Shivaxi"))
                 this.amphiMod_master$applyShivaxiStats();
         }
     }
@@ -91,7 +91,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     @Inject(method = "writeEntityToNBT", at = @At("TAIL"))
     private void writeEntityToNBT(NBTTagCompound compound, CallbackInfo ci) {
         compound.setBoolean("Gender", this.amphiMod_master$getGender());
-        compound.setBoolean("Shivaxi", this.amphiMod_master$getShivaxi());
+        compound.setString("SpecialVariant", this.amphiMod_master$getSpecialVariant());
         compound.setBoolean("Bounded", this.amphiMod_master$getBounded());
     }
 
@@ -106,23 +106,19 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
             this.amphiMod_master$setGender(this.getRNG().nextBoolean());
         }
 
-        // SHIVAXI
-        boolean isShivaxiNBT = false;
-        if (compound.hasKey("Shivaxi")) {
-            isShivaxiNBT = compound.getBoolean("Shivaxi");
-            this.amphiMod_master$setShivaxi(isShivaxiNBT);
-            if (isShivaxiNBT) {
-                amphiMod_master$applyShivaxiStats(); // This sets the variant to SHIVAXI
-            }
-        } else {
-            this.amphiMod_master$setShivaxi(false);
+        // SPECIAL VARIANT
+        String specialVariant = compound.getString("SpecialVariant");
+        this.amphiMod_master$setSpecialVariant(specialVariant);
+
+        if (specialVariant.equals("Shivaxi")) {
+            amphiMod_master$applyShivaxiStats();
         }
 
-        // VARIANT
-        // Prioritize NBT 'Variant' tag if present.
         if (compound.hasKey("Variant")) {
             amphi.setVariant(compound.getInteger("Variant"));
-        } else if (!isShivaxiNBT) { // Only roll a variant if it's not a Shivaxi and no Variant NBT was provided
+        }
+
+        else if (specialVariant.isEmpty()) {
             amphi.setVariant(rollVariant(amphi.getRNG(), false));
         }
 
@@ -137,7 +133,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     @Unique
     private void amphiMod_master$applyShivaxiStats() {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        this.amphiMod_master$setShivaxi(true);
+        this.amphiMod_master$setSpecialVariant("Shivaxi");
         this.amphiMod_master$setGender(false);
         amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.SHIVAXI));
         amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shivaxi.shivaxiAmphithereHealth);

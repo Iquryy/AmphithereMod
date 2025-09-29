@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere.IgnoresWildTaming"
+    "common.ai.IgnoresWildTaming"
   ],
   "injectors": {
     "maxShiftBy": 10

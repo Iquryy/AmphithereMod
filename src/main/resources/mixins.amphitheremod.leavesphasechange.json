@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere.leaves.LeavesPhaseChange"
+    "common.leaves.LeavesPhaseChange"
   ],
   "injectors": {
     "maxShiftBy": 10

@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere.processInteract;
+package amphitheremod.mixin.common.processInteract;
 
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.player.EntityPlayer;

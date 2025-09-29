@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common;
 
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.Entity;

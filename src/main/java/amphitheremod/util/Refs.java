@@ -1,9 +1,16 @@
 package amphitheremod.util;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.GameData;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Refs {
+public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
     // -------------------------------------------------------------------- EYES ------------------------------------------------------------------------
     public static final ResourceLocation YELLOW_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/yellow_eyes.png");
     public static final ResourceLocation PINK_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/pink_eyes.png");

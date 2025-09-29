@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common;
 
 import amphitheremod.util.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;

@@ -21,14 +21,26 @@ public class AmphithereView {
     private void onCameraSetupAmphithere(EntityViewRenderEvent.CameraSetup event, CallbackInfo ci) {
         EntityPlayer player = Minecraft.getMinecraft().player;
         Entity ridingEntity = player.getRidingEntity();
-
         if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) return;
-
         if (ridingEntity instanceof EntityAmphithere) {
             int currentView = IceAndFire.PROXY.getDragon3rdPersonView();
             float scale = ConfigHandler.mixins.ridingViewDistance;
-            float distanceZ = 3.0F * scale;
-            float distanceX = 1.5F * scale;
+
+            switch (ConfigHandler.mixins.ridingViewDistance) {
+                case 1: scale = 1; break;
+                case 2: scale = 2; break;
+                case 3: scale = 3; break;
+                case 4: scale = 4; break;
+                case 5: scale = 5; break;
+                case 6: scale = 6; break;
+                case 7: scale = 7; break;
+                case 8: scale = 8; break;
+                case 9: scale = 9; break;
+                case 10: scale = 10; break;
+            }
+
+            float distanceZ = scale;
+            float distanceX = scale;
             float heightY = 0.0F;
             float x = 0.0F;
             float y = heightY;

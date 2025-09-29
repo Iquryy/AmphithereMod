@@ -6,14 +6,15 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere.NBT",
-    "common.amphithere.UpDownAnimationFix",
-    "common.amphithere.processInteract.DontUseBeansOnFullHP",
-    "common.amphithere.LootTable",
-    "common.amphithere.processInteract.XXLChocolateCookie",
-    "common.amphithere.soundEvents.SkeletonAmphiSounds",
-    "common.amphithere.Variants",
-    "common.amphithere.MaleAndFemaleBreeding"
+    "common.NBT",
+    "common.UpDownAnimationFix",
+    "common.processInteract.DontUseBeansOnFullHP",
+    "common.LootTable",
+    "common.processInteract.XXLChocolateCookie",
+    "common.soundEvents.SkeletonAmphiSounds",
+    "common.Variants",
+    "common.ai.MaleAndFemaleBreeding",
+    "common.ai.AmphiHurtByTarget"
   ],
   "client": [
     "client.RenderAmphiLayers",

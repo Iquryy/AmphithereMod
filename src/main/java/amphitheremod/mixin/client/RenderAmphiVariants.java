@@ -22,6 +22,8 @@ public class RenderAmphiVariants {
         if(name != null)
             switch (name) {
                 case "Risky": return EnumAmphiType.RAINBOW.getTexture(amphithere.isBlinking());
+                case "Crafty": return EnumAmphiType.CRAFTY.getTexture(amphithere.isBlinking());
+                case "Iqury": return EnumAmphiType.IQURY.getTexture(amphithere.isBlinking());
             }
 
         int amphiVariant = amphithere.getVariant();

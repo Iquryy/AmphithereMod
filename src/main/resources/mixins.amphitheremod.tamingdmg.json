@@ -7,7 +7,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere.TamingDamage"
+    "common.TamingDamage"
   ],
   "injectors": {
     "maxShiftBy": 10

@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common;
 
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,25 +21,14 @@ public abstract class TamingDamage extends EntityTameable {
         super(world);
     }
 
-    @Inject(
-            method = "applyEntityAttributes",
-            at = @At("TAIL")
-    )
-    private void aaa(CallbackInfo ci){
-        if(amphithereMod$configAttackStrength == null) {
+    @Inject(method = "applyEntityAttributes", at = @At("TAIL"))
+    private void aaa(CallbackInfo ci) {
+        if (amphithereMod$configAttackStrength == null)
             amphithereMod$configAttackStrength = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        }
     }
 
-    @ModifyArg(
-            method = "updatePassenger",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z"),
-            index = 1
-    )
-    private float www(float configTameDamage){
-        return Math.max(configTameDamage,
-                (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()
-                        * configTameDamage
-                        / amphithereMod$configAttackStrength);
+    @ModifyArg(method = "updatePassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z"), index = 1)
+    private float www(float configTameDamage) {
+        return Math.max(configTameDamage, (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * configTameDamage / amphithereMod$configAttackStrength);
     }
 }

@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere.soundEvents;
+package amphitheremod.mixin.common.soundEvents;
 
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.player.EntityPlayer;

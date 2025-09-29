@@ -1,0 +1,20 @@
+{
+  "amphithere_hurt_0": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_0"
+    ]
+  },
+  "amphithere_hurt_1": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_1"
+    ]
+  },
+  "amphithere_hurt_2": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_2"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere.processInteract;
+package amphitheremod.mixin.common.processInteract;
 
 import amphitheremod.handlers.ModRegistry;
 import amphitheremod.item.ItemAmphithereCrystalFeather;

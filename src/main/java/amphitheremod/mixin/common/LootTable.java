@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere;
+package amphitheremod.mixin.common;
 
 import amphitheremod.handlers.ModRegistry;
 import amphitheremod.util.IAmphithereData;
@@ -17,7 +17,7 @@ public abstract class LootTable {
     private void onDeathDropInventory(CallbackInfoReturnable<ResourceLocation> cir) {
         EntityAmphithere amphithere = (EntityAmphithere) (Object) this;
         IAmphithereData data = (IAmphithereData) amphithere;
-        if (data.amphiMod_master$getShivaxi() && !amphithere.world.isRemote) {
+        if (data.amphiMod_master$getSpecialVariant().equals("Shivaxi") && !amphithere.world.isRemote) {
             int featherCount = 1 + amphithere.getRNG().nextInt(14);
             if (featherCount > 0)
                 amphithere.entityDropItem(new ItemStack(ModRegistry.SHIVAXI_FEATHER, featherCount), 0.0F);

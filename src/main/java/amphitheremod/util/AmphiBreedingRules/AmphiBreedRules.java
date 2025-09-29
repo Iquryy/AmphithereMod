@@ -18,9 +18,9 @@ public class AmphiBreedRules {
     // Variant ids
     private static final List<List<Integer>> VARIANT_ENUMS = Arrays.asList(
             Arrays.asList(0, 1, 2, 3, 4, 5),                        //Normal
-            Arrays.asList(7, 8, 9),                                 //Added
-            Arrays.asList(10, 11),                                  //Gem added
-            Arrays.asList(12, 13, 14, 15, 16, 17, 18, 19, 20)       /*Gem*/);
+            Arrays.asList(6, 7, 8),                                 //Added
+            Arrays.asList(9, 10),                                  //Gem added
+            Arrays.asList(11, 12, 13, 14, 15, 16, 17, 18, 19)       /*Gem*/);
 
     static int amphiVariant = 0;
 

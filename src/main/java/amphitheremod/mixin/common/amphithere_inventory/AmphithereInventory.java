@@ -24,9 +24,8 @@ public abstract class AmphithereInventory extends EntityAnimal implements IAmphi
     @Unique
     private void amphiMod_master$openGui(EntityPlayer playerEntity) {
         EntityAmphithere amphithere = (EntityAmphithere) (Object) this;
-        if (!amphithere.world.isRemote && amphithere.isTamed() && amphithere.isOwner(playerEntity)) {
+        if (!amphithere.world.isRemote && amphithere.isTamed() && amphithere.isOwner(playerEntity))
             playerEntity.openGui(IceAndFire.INSTANCE, 1, amphithere.world, amphithere.getEntityId(), 0, 0);
-        }
     }
 
     @Inject(method = "processInteract", at = @At(value = "HEAD"), cancellable = true)

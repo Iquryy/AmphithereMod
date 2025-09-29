@@ -1,7 +1,9 @@
 package amphitheremod.client.layer;
 
 import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.Refs;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
+import kotlin.reflect.jvm.internal.impl.load.kotlin.PackagePartProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -21,7 +23,7 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
 
     @Override protected ResourceLocation getTextureToBind(EntityAmphithere amphithere) {
         int amphiVariant = amphithere.getVariant();
-        EnumAmphiType.Glow glow = EnumAmphiType.Glow.SHIVAXI_GLOW;
+        EnumAmphiType.Glow glow = EnumAmphiType.Glow.NONE;
         if(amphiVariant < EnumAmphiType.values().length)
             glow = EnumAmphiType.values()[amphiVariant].getGlow();
 

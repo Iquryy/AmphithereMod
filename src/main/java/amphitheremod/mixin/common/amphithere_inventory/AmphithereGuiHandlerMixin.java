@@ -19,9 +19,8 @@ public class AmphithereGuiHandlerMixin {
     private void amphimod_getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z, CallbackInfoReturnable<Object> cir) {
         if (ID == 1) {
             Entity entity = world.getEntityByID(x);
-            if (entity instanceof EntityAmphithere) {
+            if (entity instanceof EntityAmphithere)
                 cir.setReturnValue(new AmphithereContainer((EntityAmphithere) entity, player));
-            }
         }
     }
 
@@ -29,9 +28,8 @@ public class AmphithereGuiHandlerMixin {
     private void amphimod_getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z, CallbackInfoReturnable<Object> cir) {
         if (ID == 1) {
             Entity entity = world.getEntityByID(x);
-            if (entity instanceof EntityAmphithere) {
+            if (entity instanceof EntityAmphithere)
                 cir.setReturnValue(new AmphithereGui(player, (EntityAmphithere) entity));
-            }
         }
     }
 }

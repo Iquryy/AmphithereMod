@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere.leaves.DynamicLeavesPhase"
+    "common.leaves.DynamicLeavesPhase"
   ],
   "injectors": {
     "maxShiftBy": 10
