@@ -18,12 +18,12 @@ public class RenderAmphiVariants {
             remap = false
     )
     public ResourceLocation amphimod_changeTexture(ResourceLocation original, @Local(argsOnly = true) EntityAmphithere amphithere) {
-        String name = TextFormatting.getTextWithoutFormattingCodes(amphithere.getName());
+        String name = TextFormatting.getTextWithoutFormattingCodes(amphithere.getName().toLowerCase());
         if(name != null)
             switch (name) {
-                case "Risky": return EnumAmphiType.RAINBOW.getTexture(amphithere.isBlinking());
-                case "Crafty": return EnumAmphiType.CRAFTY.getTexture(amphithere.isBlinking());
-                case "Iqury": return EnumAmphiType.IQURY.getTexture(amphithere.isBlinking());
+                case "risky": return EnumAmphiType.RAINBOW.getTexture(amphithere.isBlinking());
+                case "crafty": return EnumAmphiType.CRAFTY.getTexture(amphithere.isBlinking());
+                case "iqury": return EnumAmphiType.IQURY.getTexture(amphithere.isBlinking());
             }
 
         int amphiVariant = amphithere.getVariant();

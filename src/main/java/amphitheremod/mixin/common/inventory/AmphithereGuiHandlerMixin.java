@@ -1,4 +1,4 @@
-package amphitheremod.mixin.common.amphithere_inventory;
+package amphitheremod.mixin.common.inventory;
 
 import amphitheremod.inventory.AmphithereContainer;
 import amphitheremod.client.AmphithereGui;

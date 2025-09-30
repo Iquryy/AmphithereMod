@@ -1,5 +1,6 @@
 package amphitheremod.entity;
 
+
 import amphitheremod.config.ConfigHandler;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.block.state.BlockFaceShape;
@@ -13,9 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
-public class TpAmphToOwnerOnLowHp {
-
-    @SubscribeEvent
+public class TpAmphToOwnerOnLowHp { @SubscribeEvent
     public static void tpAmphToOwnerOnLowHp(LivingHurtEvent event) {
         if (ConfigHandler.general.tpAmphOnLowHp) {
             Entity entity = event.getEntity();

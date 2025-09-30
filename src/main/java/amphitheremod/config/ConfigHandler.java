@@ -26,6 +26,10 @@ public class ConfigHandler {
     @Config.Name("Mixin Options")
     public static final Mixins mixins = new Mixins();
 
+    @Config.Comment("Testt")
+    @Config.Name("Test")
+    public static final test test = new test();
+
     @MixinConfig(name = AmphithereMod.MODID)
     @SuppressWarnings("unused")
     public static class Mixins {
@@ -80,10 +84,7 @@ public class ConfigHandler {
         public boolean tamedIgnoresWildTaming = true;
 
 
-        @Config.Comment({
-                "If True Amphithere can't pass trough leaves",
-                "If 'Amphitheres Dynamic Trees Leave Compatibility' is enabled then it makes moving on those leaves smoother like on ground "
-        })
+        @Config.Comment({"If True Amphithere can't pass trough leaves"})
         @Config.Name("Amphithere Can't Phase Trough Leaves")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.leavesphasechange.json", defaultValue = false)
@@ -93,15 +94,17 @@ public class ConfigHandler {
                 "Allows Amphitheres to phase through dynamic leaves as if they were vanilla leaves.",
                 "This will fix issues with Amphis getting stuck in trees. (Dynamic Trees or Dramatic Trees)"
         })
-        @Config.Name("Amphitheres Dynamic Trees Leave Compatibility")
+        @Config.Name("Amphithere Dynamic Trees Smooth Leaves Pass Trough")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynleavesphasechange.json", defaultValue = true)
+        @MixinConfig.CompatHandling( modid = "dynamictrees", desired = true, warnIngame = false, reason = "Requires mod to properly function")
         public boolean canPassTroughDynamicLeaves = true;
 
         @Config.Comment("Allows Amphitheres to phase through dynamic branches as if they were leaves. (Dynamic Trees or Dramatic Trees)")
-        @Config.Name("Amphitheres Dynamic Trees Branch Compatibility")
+        @Config.Name("Amphithere Dynamic Trees Branch Pass Trough")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynbranchphasechange.json", defaultValue = true)
+        @MixinConfig.CompatHandling( modid = "dynamictrees", desired = true, warnIngame = false, reason = "Requires mod to properly function")
         public boolean canPassTroughDynamicBranch = true;
     }
 

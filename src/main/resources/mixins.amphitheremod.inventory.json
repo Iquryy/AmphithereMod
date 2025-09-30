@@ -6,8 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "common.amphithere_inventory.AmphithereGuiHandlerMixin",
-    "common.amphithere_inventory.AmphithereInventory"
+    "common.inventory.AmphithereGuiHandlerMixin",
+    "common.inventory.AmphithereInventory"
   ],
   "client": [
   ],

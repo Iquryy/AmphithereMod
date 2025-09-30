@@ -70,6 +70,7 @@ dependencies {
     implementation fg.deobf("curse.maven:shadowfacts-forgelin-248453:2785465")
     implementation fg.deobf("curse.maven:first-aid-276837:4414252")
     implementation fg.deobf("curse.maven:paintingn-252042:2756710")
+    implementation fg.deobf("curse.maven:mouseeeeeee-60089:3359843")
 }
 
 mixin {

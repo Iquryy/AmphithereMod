@@ -17,9 +17,12 @@ public abstract class IgnoresWildTaming extends EntityTameable {
     @Unique
     @Override
     public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        // Do not target a Wild Amphi if the owner is riding it
-        if (target instanceof EntityAmphithere && target.isPassenger(owner))
+        if(target instanceof EntityAmphithere && (!((EntityAmphithere) target).isTamed()) && (((EntityAmphithere) target).getRider() == owner)) {
+            ((EntityAmphithere) target).setAttackTarget(null);
+            target.setRevengeTarget(null);
+            ((EntityAmphithere) target).setCommand(1);
             return false;
+        }
         return super.shouldAttackEntity(target, owner);
     }
 }

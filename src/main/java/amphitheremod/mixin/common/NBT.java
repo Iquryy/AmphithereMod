@@ -83,7 +83,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         this.amphiMod_master$setGender(this.getRNG().nextBoolean());
 
         if(shivaxi.enableShivaxiAmphithere) {
-            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 1 || this.amphiMod_master$getSpecialVariant().equals("Shivaxi"))
+            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 0 || this.amphiMod_master$getSpecialVariant().equals("Shivaxi"))
                 this.amphiMod_master$applyShivaxiStats();
         }
     }

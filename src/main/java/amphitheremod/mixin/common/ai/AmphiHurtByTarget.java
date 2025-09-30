@@ -9,18 +9,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityAmphithere.class)
-public class AmphiHurtByTarget {
+public abstract class AmphiHurtByTarget {
 
-    @Inject(method = "onUpdate", at = @At(value = "TAIL"))
+    @Inject(method = "onUpdate", at = @At(value = "HEAD"))
     void onUpdate(CallbackInfo ci) {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
         if (amphi.getCommand() != 1 || !amphi.isTamed() || amphi.isBeingRidden()) return;
         EntityPlayer owner = (EntityPlayer) amphi.getOwner();
         if (owner == null) return;
-        if (amphi.getDistanceSq(owner) >= (double) 64F) {
-            EntityLivingBase attackTarget = amphi.getAttackTarget();
-            EntityLivingBase revengeTarget = amphi.getRevengeTarget();
-            if ((attackTarget != null && attackTarget != owner) || (revengeTarget != null && revengeTarget != owner))
+        if (amphi.getDistanceSq(owner) >= 121.0) {
+            EntityLivingBase target = amphi.getAttackTarget();
+            if (target != null && target != owner)
                 amphi.setCommand(2);
         }
     }

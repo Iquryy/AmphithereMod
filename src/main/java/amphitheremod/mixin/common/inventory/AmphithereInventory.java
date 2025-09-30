@@ -1,8 +1,7 @@
-package amphitheremod.mixin.common.amphithere_inventory;
+package amphitheremod.mixin.common.inventory;
 
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.IceAndFire;
-import com.github.alexthe666.iceandfire.core.ModItems;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;

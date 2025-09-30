@@ -11,6 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import wiresegal.classyhats.item.ItemHat;
 
 public class AmphithereContainer extends Container {
     private final IInventory amphithereInventory;
@@ -78,7 +79,7 @@ public class AmphithereContainer extends Container {
         this.addSlotToContainer(new Slot(amphithereInventory, 5, 153, 18) {
             @Override
             public boolean isItemValid(ItemStack stack) {
-                return "classyhats:hat".equals(String.valueOf(stack.getItem().getRegistryName()));
+                return stack.getItem() instanceof ItemHat;
             }
         });
 
@@ -100,7 +101,6 @@ public class AmphithereContainer extends Container {
     public boolean canInteractWith(EntityPlayer playerIn) {
         return this.amphithere.isEntityAlive() && this.amphithere.getDistance(playerIn) < 8.0F;
     }
-
     @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
@@ -134,7 +134,7 @@ public class AmphithereContainer extends Container {
                     } else if (armor.armorType == EntityEquipmentSlot.FEET) {
                         if (!this.mergeItemStack(sourceStack, 4, 5, false)) return ItemStack.EMPTY;
                     }
-                } else if ("classyhats:hat".equals(String.valueOf(item.getRegistryName()))) {
+                } else if (item instanceof ItemHat) {
                     if (!this.mergeItemStack(sourceStack, 5, 6, false)) {
                         return ItemStack.EMPTY;
                     }
