@@ -22,6 +22,8 @@ public class ItemShivaxiFeather extends Item{
         return true;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
     public EnumRarity getRarity(ItemStack stack) {
         return EnumRarity.EPIC;
     }

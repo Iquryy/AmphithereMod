@@ -3,8 +3,6 @@ package amphitheremod.item;
 import amphitheremod.AmphithereMod;
 import amphitheremod.util.AmphithereWorldPosData;
 import com.github.alexthe666.iceandfire.IceAndFire;
-import com.github.alexthe666.iceandfire.api.IEntityEffectCapability;
-import com.github.alexthe666.iceandfire.api.InFCapabilities;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -159,10 +157,6 @@ public class ItemAmphithereCrystalFeather extends Item {
 
     public boolean summonEntity(Entity entity, World worldIn, BlockPos offsetPos, float yaw) {
         if (entity instanceof EntityLivingBase) {
-            IEntityEffectCapability capability = InFCapabilities.getEntityEffectCapability((EntityLivingBase) entity);
-            if (capability != null && capability.isStoned()) {
-                return false;
-            }
             entity.setLocationAndAngles((double) offsetPos.getX() + 0.5F, (double) offsetPos.getY() + 0.5F, (double) offsetPos.getZ() + 0.5F, yaw, 0.0F);
             AmphithereWorldPosData.get(worldIn).removeAmphithere(entity.getUniqueID());
             return true;

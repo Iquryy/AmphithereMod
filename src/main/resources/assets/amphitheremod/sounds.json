@@ -16,5 +16,11 @@
     "sounds": [
       "amphitheremod:amphithere_hurt_2"
     ]
+  },
+  "amphithere_wing_flap": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_wing_flap"
+    ]
   }
 }

@@ -14,7 +14,10 @@
     "common.soundEvents.SkeletonAmphiSounds",
     "common.Variants",
     "common.ai.MaleAndFemaleBreeding",
-    "common.ai.AmphiHurtByTarget"
+    "common.ai.AmphiHurtByTarget",
+    "common.QualityToolsToolTip",
+    "common.soundEvents.FlyingSound",
+    "common.OnHearFlute"
   ],
   "client": [
     "client.RenderAmphiLayers",

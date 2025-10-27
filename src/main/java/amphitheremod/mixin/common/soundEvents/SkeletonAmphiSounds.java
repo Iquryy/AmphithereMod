@@ -1,7 +1,7 @@
 package amphitheremod.mixin.common.soundEvents;
 
 import amphitheremod.config.ConfigHandler;
-import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.enumm.EnumAmphiType;
 import amphitheremod.util.Sounds;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.init.SoundEvents;
@@ -29,9 +29,9 @@ public abstract class SkeletonAmphiSounds {
 
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     private void getHurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
-        if (amphiMod$amphi.isTamed() && amphiMod$amphi.getOwner() != null && ConfigHandler.test.test) {
+        if (amphiMod$amphi.isTamed() && amphiMod$amphi.getOwner() != null && (!(ConfigHandler.test.test))) {
             if (amphiMod$amphi.getOwner().getName().equals("Nischhelm"))
-                if (amphiMod$amphi.getRNG().nextInt(25) == 1)
+                if (amphiMod$amphi.getRNG().nextInt(169) == 1)
                     switch (amphiMod$amphi.getRNG().nextInt(3)) {
                         case 0:
                             cir.setReturnValue(Sounds.AMPHITHERE_HURT_0);

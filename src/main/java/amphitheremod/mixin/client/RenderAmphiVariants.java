@@ -1,6 +1,6 @@
 package amphitheremod.mixin.client;
 
-import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.enumm.EnumAmphiType;
 import com.github.alexthe666.iceandfire.client.render.entity.RenderAmphithere;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -22,8 +22,6 @@ public class RenderAmphiVariants {
         if(name != null)
             switch (name) {
                 case "risky": return EnumAmphiType.RAINBOW.getTexture(amphithere.isBlinking());
-                case "crafty": return EnumAmphiType.CRAFTY.getTexture(amphithere.isBlinking());
-                case "iqury": return EnumAmphiType.IQURY.getTexture(amphithere.isBlinking());
             }
 
         int amphiVariant = amphithere.getVariant();

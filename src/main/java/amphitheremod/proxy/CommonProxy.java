@@ -24,7 +24,8 @@ public class CommonProxy {
         event.getRegistry().registerAll(
                 createSoundEvent("amphithere_hurt_0"),
                 createSoundEvent("amphithere_hurt_1"),
-                createSoundEvent("amphithere_hurt_2")
+                createSoundEvent("amphithere_hurt_2"),
+                createSoundEvent("amphithere_wing_flap")
         );
     }
 

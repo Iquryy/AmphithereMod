@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static amphitheremod.handlers.ModRegistry.copperArmor;
-import static amphitheremod.handlers.ModRegistry.silverArmor;
+import static amphitheremod.handlers.ModItemRegistry.copperArmor;
+import static amphitheremod.handlers.ModItemRegistry.silverArmor;
 import static amphitheremod.util.Refs.EMPTY;
 
 @SideOnly(Side.CLIENT)

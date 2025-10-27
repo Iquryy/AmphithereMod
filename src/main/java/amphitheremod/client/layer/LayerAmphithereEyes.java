@@ -1,6 +1,6 @@
 package amphitheremod.client.layer;
 
-import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.enumm.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,15 +21,12 @@ public class LayerAmphithereEyes extends AbstractAmphithereLayer {
 
     @Override protected ResourceLocation getTextureToBind(EntityAmphithere amphithere) {
         if (amphithere.isBlinking()) return null;
-
-        int amphiVariant = amphithere.getVariant();
-        EnumAmphiType.Eyes eyes = EnumAmphiType.Eyes.NORMAL;
-        if(amphiVariant < EnumAmphiType.values().length)
-            eyes = EnumAmphiType.values()[amphiVariant].getEyes();
+        EnumAmphiType.Eyes eyes = getEyes(amphithere);
 
         ResourceLocation eyeTexture = EMPTY;
-        switch (eyes){
-            case NONE: case NORMAL: return null;
+        switch (eyes) {
+            case NONE:
+            case NORMAL: return null;
             case YELLOW: eyeTexture = YELLOW_EYES; break;
             case PINK: eyeTexture = PINK_EYES; break;
             case LIME: eyeTexture = LIME_EYES; break;
@@ -43,6 +40,18 @@ public class LayerAmphithereEyes extends AbstractAmphithereLayer {
             case CRAFTY: eyeTexture = CRAFTY_EYES; break;
         }
         return eyeTexture;
+    }
+
+    private static EnumAmphiType.Eyes getEyes(EntityAmphithere amphithere) {
+        int amphiVariant = amphithere.getVariant();
+        EnumAmphiType.Eyes eyes = EnumAmphiType.Eyes.NORMAL;
+        String amphiName = amphithere.getName().toLowerCase();
+        if (amphiName != null)
+            if (amphiName.equals("risky"))
+                eyes = EnumAmphiType.RAINBOW.getEyes();
+            else if (amphiVariant < EnumAmphiType.values().length)
+                eyes = EnumAmphiType.values()[amphiVariant].getEyes();
+        return eyes;
     }
 
     @Override public void doRenderLayer(EntityAmphithere amphithere, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {

@@ -22,6 +22,6 @@ public class ShivaxiAmphithereOptions {
 
     @Config.Comment("The base attack damage of the Shivaxi Amphithere.")
     @Config.Name("Shivaxi Amphithere Attack Damage")
-    @Config.RangeDouble(min = 0.0)
+    @Config.RangeDouble(min = 1.0)
     public float shivaxiAmphithereDamage = 69;
 }

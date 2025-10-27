@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static amphitheremod.util.EnumAmphiType.*;
+import static amphitheremod.util.enumm.EnumAmphiType.*;
 import static amphitheremod.util.Refs.*;
 
 @SideOnly(Side.CLIENT)
@@ -23,7 +23,7 @@ public class LayerAmphithereGender extends AbstractAmphithereLayer {
 
         IAmphithereData data = (IAmphithereData) amphithere;
         int amphiVariant = amphithere.getVariant();
-        if (amphiVariant == SKELETON.ordinal() || amphiVariant == WITHER_SKELETON.ordinal() || amphiVariant == SHIVAXI.ordinal())
+        if (amphiVariant == SKELETON.ordinal() || amphiVariant == WITHER_SKELETON.ordinal() || amphiVariant == SHIVAXI.ordinal() || amphiVariant == BLACKEAGLE.ordinal())
             return EMPTY;
         else
             return data.amphiMod_master$getGender() ? FEMALE : MALE;

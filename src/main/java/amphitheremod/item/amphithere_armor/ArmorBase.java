@@ -14,7 +14,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -29,14 +28,19 @@ import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
 
 public class ArmorBase extends ItemArmor {
+    private static final UUID[] ARMOR_MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+
+    ArmorMaterial material;
     EntityEquipmentSlot equipSlot;
     public ArmorBase(ArmorMaterial mat, int i, EntityEquipmentSlot slot) {
         super(mat, i, slot);
         this.equipSlot = slot;
+        this.material = mat;
     }
 
     @SideOnly(Side.CLIENT)
@@ -48,26 +52,32 @@ public class ArmorBase extends ItemArmor {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
             Collection<AttributeModifier> armorModifiers = attributeModifiers.get(SharedMonsterAttributes.ARMOR.getName());
             double totalArmor = 0;
+            double flySpeed = 0;
 
             if (armorModifiers != null && !armorModifiers.isEmpty()) {
                 for (AttributeModifier modifier : armorModifiers) {
                     if (modifier.getOperation() == 0) {
                         totalArmor += modifier.getAmount();
+                        flySpeed -= totalArmor / 20;
                     }
                 }
                 DecimalFormat df = new DecimalFormat("0.##");
                 switch (equipSlot) {
                     case HEAD:
                         tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case LEGS:
                         tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case CHEST:
                         tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case FEET:
                         tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                 }
             }
@@ -77,9 +87,12 @@ public class ArmorBase extends ItemArmor {
     @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
-        if (ConfigHandler.general.cosmeticArmorBeak && slot == this.armorType) {
+
+        if (!ConfigHandler.general.cosmeticArmorBeak && slot == this.armorType) {
+            double defaultArmorPoints = this.material.getDamageReductionAmount(slot);
+            double modifiedArmorPoints = defaultArmorPoints * ConfigHandler.general.armorPointDivider;
             multimap.removeAll(SharedMonsterAttributes.ARMOR.getName());
-            multimap.removeAll(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName());
+            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", modifiedArmorPoints, 0));
         }
 
         return multimap;
@@ -88,9 +101,8 @@ public class ArmorBase extends ItemArmor {
     @Override
     public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
         super.onCreated(stack, worldIn, playerIn);
-        if (stack.getTagCompound() == null) {
+        if (stack.getTagCompound() == null)
             stack.setTagCompound(new NBTTagCompound());
-        }
         stack.getTagCompound().setBoolean("Unbreakable", true);
         stack.getTagCompound().setInteger("HideFlags", 6);
     }

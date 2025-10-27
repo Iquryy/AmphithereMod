@@ -2,12 +2,6 @@ package amphitheremod.util;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.registry.RegistryNamespaced;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
@@ -21,8 +15,8 @@ public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
     public static final ResourceLocation PURPLE_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/purple_eyes.png");
     public static final ResourceLocation SHIVAXI_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/shivaxi_eyes.png");
     public static final ResourceLocation IQURY_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/iqury_eyes.png");
-    public static final ResourceLocation BLACKEAGLE_EYES = new ResourceLocation("amphitheremod:textures/entity/eyes/amphithere/black_eagle_eyes.png");
-    public static final ResourceLocation CRAFTY_EYES = new ResourceLocation("amphitheremod:textures/entity/eyes/amphithere/crafty_eyes.png");
+    public static final ResourceLocation BLACKEAGLE_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/black_eagle_eyes.png");
+    public static final ResourceLocation CRAFTY_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/crafty_eyes.png");
 
     // -------------------------------------------------------------------- GLOW ------------------------------------------------------------------------
     public static final ResourceLocation SHIVAXI_GLOW = new ResourceLocation("amphitheremod:textures/entity/amphithere/glow/shivaxi_glow.png");

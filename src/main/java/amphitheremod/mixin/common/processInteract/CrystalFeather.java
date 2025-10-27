@@ -1,6 +1,6 @@
 package amphitheremod.mixin.common.processInteract;
 
-import amphitheremod.handlers.ModRegistry;
+import amphitheremod.handlers.ModItemRegistry;
 import amphitheremod.item.ItemAmphithereCrystalFeather;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
@@ -21,8 +21,8 @@ public abstract class CrystalFeather {
         ItemStack stack = player.getHeldItem(hand);
         IAmphithereData data = (IAmphithereData) this;
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-
-        if (stack.getItem() == ModRegistry.AMPHITHERE_CRYSTAL_FEATHER) {
+        if(amphi.world.isRemote) return;
+        if (stack.getItem() == ModItemRegistry.AMPHITHERE_CRYSTAL_FEATHER) {
             if (amphi.isTamed() && amphi.isOwner(player)) {
                 if (!ItemAmphithereCrystalFeather.hasAmphithere(stack)) {
                     data.amphiMod_master$setBounded(true);

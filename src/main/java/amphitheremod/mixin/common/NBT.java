@@ -1,6 +1,6 @@
 package amphitheremod.mixin.common;
 
-import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.enumm.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.IEntityLivingData;
@@ -83,8 +83,13 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         this.amphiMod_master$setGender(this.getRNG().nextBoolean());
 
         if(shivaxi.enableShivaxiAmphithere) {
-            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 0 || this.amphiMod_master$getSpecialVariant().equals("Shivaxi"))
+            if (this.getRNG().nextInt(shivaxi.shivaxiAmphithereChance) == 1 || this.amphiMod_master$getSpecialVariant().equals("Shivaxi"))
                 this.amphiMod_master$applyShivaxiStats();
+        }
+
+        if(blackEagle.enableBlackEagleAmphithere) {
+            if (this.getRNG().nextInt(blackEagle.blackEagleAmphithereChance) == 1 || this.amphiMod_master$getSpecialVariant().equals("Black Eagle"))
+                this.amphiMod_master$applyBlackEagleStats();
         }
     }
 
@@ -114,6 +119,10 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
             amphiMod_master$applyShivaxiStats();
         }
 
+        if (specialVariant.equals("Black Eagle")) {
+            amphiMod_master$applyBlackEagleStats();
+        }
+
         if (compound.hasKey("Variant")) {
             amphi.setVariant(compound.getInteger("Variant"));
         }
@@ -138,5 +147,17 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.SHIVAXI));
         amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shivaxi.shivaxiAmphithereHealth);
         amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(shivaxi.shivaxiAmphithereDamage);
+        amphi.setHealth(shivaxi.shivaxiAmphithereHealth);
+    }
+
+    @Unique
+    private void amphiMod_master$applyBlackEagleStats() {
+        EntityAmphithere amphi = (EntityAmphithere) (Object) this;
+        this.amphiMod_master$setSpecialVariant("Black Eagle");
+        this.amphiMod_master$setGender(false);
+        amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.BLACKEAGLE));
+        amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(blackEagle.blackEagleAmphithereHealth);
+        amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(blackEagle.blackEagleAmphithereDamage);
+        amphi.setHealth(blackEagle.blackEagleAmphithereHealth);
     }
 }

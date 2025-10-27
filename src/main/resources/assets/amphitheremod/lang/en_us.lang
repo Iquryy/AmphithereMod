@@ -25,13 +25,42 @@ item.amphitheremod.iron_beak_attachment.name=Amphithere Iron Beak Attachment
 item.amphitheremod.gold_beak_attachment.name=Amphithere Gold Beak Attachment
 item.amphitheremod.diamond_beak_attachment.name=Amphithere Diamond Beak Attachment
 item.amphitheremod.silver_beak_attachment.name=Amphithere Silver Beak Attachment
+item.amphitheremod.amphithere_egg.name=Amphithere Egg
+
 item.amphitheremod.amphithere_crystal_feather.name=Crystal Feather
-item.amphitheremod.amphithere_hat=Amphithere Head Hat
 item.amphitheremod.summoning_crystal.desc_0=Right click on a amphithere to bind it
 item.amphitheremod.summoning_crystal.desc_1=Right click on ground to teleport amphithere
 item.amphitheremod.summoning_crystal.disabled=Disabled!
 itemGroup.amphitheremod.amphithere_mod_items=Amphithere Mod
-entity.amphitheremod.amphithere.name=Amphithere
+
+group.amphitheremod.amphithere.blue=Blue
+group.amphitheremod.amphithere.green=Green
+group.amphitheremod.amphithere.olive=Olive
+group.amphitheremod.amphithere.red=Red
+group.amphitheremod.amphithere.yellow=Yellow
+group.amphitheremod.amphithere.purple=Purple
+group.amphitheremod.amphithere.black=Black
+group.amphitheremod.amphithere.white=White
+group.amphitheremod.amphithere.radish=Radish
+group.amphitheremod.amphithere.black_gem=Black Gem
+group.amphitheremod.amphithere.white_gem=White Gem
+group.amphitheremod.amphithere.blue_gem=Blue Gem
+group.amphitheremod.amphithere.cyan_gem=Cyan Gem
+group.amphitheremod.amphithere.green_gem=Green Gem
+group.amphitheremod.amphithere.lime_gem=Lime Gem
+group.amphitheremod.amphithere.olive_gem=Olive Gem
+group.amphitheremod.amphithere.red_gem=Red Gem
+group.amphitheremod.amphithere.yellow_gem=Yellow Gem
+group.amphitheremod.amphithere.pink_gem=Pink Gem
+group.amphitheremod.amphithere.purple_gem=Purple Gem
+group.amphitheremod.amphithere.skeleton=Skeleton
+group.amphitheremod.amphithere.wither_skeleton=Wither Skeleton
+group.amphitheremod.amphithere.rainbow=Rainbow
+group.amphitheremod.amphithere.shivaxi=Shivaxi
+group.amphitheremod.amphithere.iqury=Iqury
+group.amphitheremod.amphithere.blackeagle=Blackeagle
+group.amphitheremod.amphithere.crafty=Crafty
+
 amphitheremod.amphithere.health=§fHealth:
 amphitheremod.amphithere.gender=§fGender:
 amphitheremod.amphithere.gender.male=§fMale
@@ -45,17 +74,22 @@ message.amphitheremod.tryagain=Please try again.
 message.amphitheremod.amphithereTeleport=Amphithere has been teleported.
 message.amphitheremod.noAmphithereTeleport=§cCould not find a amphithere bound to this crystal.
 message.amphitheremod.wrongDimension=§cCouldn't find amphithere in this dimension.
+
 amphitheremod.amphithere.beak_attachment=Beak
 amphitheremod.amphithere.armor_head=Head
 amphitheremod.amphithere.armor_wings=Wings
 amphitheremod.amphithere.armor_body=Body
 amphitheremod.amphithere.armor_tail=Tail
+
 amphitheremod.tooltip.armor=Armor
 amphitheremod.tooltip.attack=Damage
 amphitheremod.tooltip.flightspeed=Flight Speed
+
 gui.amphitheremod.command.0=Wandering
 gui.amphitheremod.command.1=Sitting
 gui.amphitheremod.command.2=Following
 
+entity.amphitheremod.amphithere.name=Amphithere
+entity.amphithere_egg.name=Amphithere Egg
 
-
+stat.tamed_amphithere_death_count.name=Tamed Amphithere Death Count

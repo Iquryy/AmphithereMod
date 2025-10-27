@@ -11,7 +11,7 @@ public class PlayersCantUseBeakAsAWeapon {
     @SubscribeEvent
     public static void Fix(AttackEntityEvent event){
         EntityPlayer player = event.getEntityPlayer();
-        if(player.getHeldItemMainhand().getItem() instanceof BeakBase && player.getHeldItemMainhand() != null){
+        if(player.getHeldItemMainhand().getItem() instanceof BeakBase) {
             event.setCanceled(true);
         }
     }

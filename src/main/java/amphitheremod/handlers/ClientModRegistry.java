@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import static amphitheremod.handlers.ModRegistry.itemsToRegister;
+import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
 
 @Mod.EventBusSubscriber(modid = AmphithereMod.MODID, value = Side.CLIENT)
 public class ClientModRegistry {

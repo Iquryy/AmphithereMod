@@ -8,4 +8,5 @@ public final class Sounds {
     public static final SoundEvent AMPHITHERE_HURT_0 = null;
     public static final SoundEvent AMPHITHERE_HURT_1 = null;
     public static final SoundEvent AMPHITHERE_HURT_2 = null;
+    public static final SoundEvent AMPHITHERE_WING_FLAP = null;
 }

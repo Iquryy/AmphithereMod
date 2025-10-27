@@ -1,5 +1,6 @@
 package amphitheremod.mixin.common;
 
+import amphitheremod.util.enumm.IceAndFireUtil;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,15 +19,15 @@ public abstract class UpDownAnimationFix extends Entity {
 
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lcom/github/alexthe666/iceandfire/entity/EntityAmphithere;rotationPitch:F", shift = At.Shift.AFTER))
     private void UpDownFix(CallbackInfo ci) {
+        if (!(IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)) return;
         EntityAmphithere amphithere = (EntityAmphithere) (Object) this;
-        if (amphithere.getControllingPassenger() instanceof EntityPlayer) {
-            EntityPlayer passenger = (EntityPlayer) amphithere.getControllingPassenger();
-            double motionX = amphithere.motionX;
-            double motionZ = amphithere.motionZ;
-            float horizontalSpeed = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-            float dynamicDivisor = 2.0f + (horizontalSpeed * 4.0f);
-            float playerPitch = passenger.rotationPitch;
-            amphithere.rotationPitch = (playerPitch * -1.9f) / dynamicDivisor;
-        }
+        if (!(amphithere.getControllingPassenger() instanceof EntityPlayer)) return;
+        EntityPlayer passenger = (EntityPlayer) amphithere.getControllingPassenger();
+        double motionX = amphithere.motionX;
+        double motionZ = amphithere.motionZ;
+        float horizontalSpeed = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+        float dynamicDivisor = 2.0f + (horizontalSpeed * 4.0f);
+        float playerPitch = passenger.rotationPitch;
+        amphithere.rotationPitch = (playerPitch * -1.9f) / dynamicDivisor;
     }
 }

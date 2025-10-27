@@ -25,12 +25,8 @@ public class General {
     @Config.Name("Male + Female Breeding")
     public boolean maleAndFemale = true;
 
-    @Config.Comment("When tamed Amphithere is attacked and under 15hp (or custom set amount) it will teleport to the owner player.")
-    @Config.Name("Teleport Low HP Amphitheres To Owner")
-    public boolean tpAmphOnLowHp = true;
-
-    @Config.Comment("What health and below the Amphithere will teleport to the owner")
-    @Config.Name("Teleport Amphithere Health Threshold")
-    @Config.RangeDouble(min = 1f, max = 30f)
-    public double hpThresh = 15f;
+    @Config.Comment("Divides Amphithere Armor point by given value. 0.5 being 50% decrease in armor.")
+    @Config.Name("Amphithere Armor Divider")
+    @Config.RangeDouble(min = 0.01f, max = 1)
+    public double armorPointDivider = 0.5f;
 }

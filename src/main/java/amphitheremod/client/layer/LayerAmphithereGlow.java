@@ -1,9 +1,7 @@
 package amphitheremod.client.layer;
 
-import amphitheremod.util.EnumAmphiType;
-import amphitheremod.util.Refs;
+import amphitheremod.util.enumm.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
-import kotlin.reflect.jvm.internal.impl.load.kotlin.PackagePartProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -23,9 +21,7 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
 
     @Override protected ResourceLocation getTextureToBind(EntityAmphithere amphithere) {
         int amphiVariant = amphithere.getVariant();
-        EnumAmphiType.Glow glow = EnumAmphiType.Glow.NONE;
-        if(amphiVariant < EnumAmphiType.values().length)
-            glow = EnumAmphiType.values()[amphiVariant].getGlow();
+        EnumAmphiType.Glow glow = getGlow(amphithere, amphiVariant);
 
         ResourceLocation glowTexture = EMPTY;
         switch (glow){
@@ -35,6 +31,17 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
             case BLACKEAGLE_GLOW: glowTexture = BLACKEAGLE_GLOW; break;
         }
         return glowTexture;
+    }
+
+    private static EnumAmphiType.Glow getGlow(EntityAmphithere amphithere, int amphiVariant) {
+        EnumAmphiType.Glow glow = EnumAmphiType.Glow.NONE;
+        String amphiName = amphithere.getName().toLowerCase();
+        if (amphiName != null)
+            if (amphiName.equals("risky"))
+                glow = EnumAmphiType.RAINBOW.getGlow();
+            else if (amphiVariant < EnumAmphiType.values().length)
+                glow = EnumAmphiType.values()[amphiVariant].getGlow();
+        return glow;
     }
 
     @Override

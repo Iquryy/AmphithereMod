@@ -14,6 +14,10 @@ public class ConfigHandler {
     @Config.Name("General Settings")
     public static final General general = new General();
 
+    @Config.Comment("Amphithere egg config")
+    @Config.Name("Amphithere Egg")
+    public static final AmphithereEgg amphithereEgg = new AmphithereEgg();
+
     @Config.Comment("Settings related to XXL Chocolate Cookie buff.")
     @Config.Name("XXL Chocolate Cookie")
     public static final XxlCookieBuffs xxlCookieBuffs = new XxlCookieBuffs();
@@ -21,6 +25,10 @@ public class ConfigHandler {
     @Config.Comment("Settings for Shivaxi Amphithere.")
     @Config.Name("Shivaxi Amphithere")
     public static final ShivaxiAmphithereOptions shivaxi = new ShivaxiAmphithereOptions();
+
+    @Config.Comment("Settings for Black Eagle Amphithere.")
+    @Config.Name("Black Eagle Amphithere")
+    public static final BlackEagleAmphithereOptions blackEagle = new BlackEagleAmphithereOptions();
 
     @Config.Comment("Mixins Options & Toggles")
     @Config.Name("Mixin Options")
@@ -105,7 +113,7 @@ public class ConfigHandler {
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynbranchphasechange.json", defaultValue = true)
         @MixinConfig.CompatHandling( modid = "dynamictrees", desired = true, warnIngame = false, reason = "Requires mod to properly function")
-        public boolean canPassTroughDynamicBranch = true;
+        public boolean canPassTroughDynamicBranch = false;
     }
 
     @Mod.EventBusSubscriber(modid = AmphithereMod.MODID)
