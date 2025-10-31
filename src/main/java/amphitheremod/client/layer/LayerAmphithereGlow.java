@@ -1,6 +1,6 @@
 package amphitheremod.client.layer;
 
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +28,6 @@ public class LayerAmphithereGlow extends AbstractAmphithereLayer {
             case NONE: return null;
             case SHIVAXI_GLOW: glowTexture = SHIVAXI_GLOW; break;
             case IQURY_GLOW: glowTexture = IQURY_GLOW; break;
-            case BLACKEAGLE_GLOW: glowTexture = BLACKEAGLE_GLOW; break;
         }
         return glowTexture;
     }

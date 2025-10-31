@@ -2,7 +2,7 @@ package amphitheremod.mixin.common;
 
 import amphitheremod.config.ConfigHandler;
 import amphitheremod.entity.EntityAmphithereEgg;
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -18,7 +18,7 @@ import java.util.List;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static amphitheremod.util.AmphiBreedingRules.AmphiBreedRules.*;
+import static amphitheremod.util.AmphiBreedRules.*;
 
 @Mixin(value = EntityAmphithere.class)
 public abstract class Variants extends EntityAnimal implements IAmphithereData {

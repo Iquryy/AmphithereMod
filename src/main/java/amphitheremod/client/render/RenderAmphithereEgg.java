@@ -2,7 +2,7 @@ package amphitheremod.client.render;
 
 import amphitheremod.client.model.ModelAmphithereEgg;
 import amphitheremod.entity.EntityAmphithereEgg;
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

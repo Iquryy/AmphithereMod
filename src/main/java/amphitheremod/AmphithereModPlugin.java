@@ -1,6 +1,6 @@
 package amphitheremod;
 
-import amphitheremod.util.enumm.IceAndFireUtil;
+import amphitheremod.util.IceAndFireUtil;
 import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;

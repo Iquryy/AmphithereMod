@@ -1,6 +1,6 @@
 package amphitheremod.mixin.common;
 
-import amphitheremod.util.enumm.IceAndFireUtil;
+import amphitheremod.util.IceAndFireUtil;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

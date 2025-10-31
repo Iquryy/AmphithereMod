@@ -1,6 +1,6 @@
 package amphitheremod.mixin.common.soundEvents;
 
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.util.SoundCategory;
 import org.spongepowered.asm.mixin.Mixin;

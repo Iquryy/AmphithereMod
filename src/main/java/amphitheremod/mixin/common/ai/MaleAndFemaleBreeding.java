@@ -1,7 +1,7 @@
 package amphitheremod.mixin.common.ai;
 
 import amphitheremod.config.ConfigHandler;
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.passive.EntityAnimal;

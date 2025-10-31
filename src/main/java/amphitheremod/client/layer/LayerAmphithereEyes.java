@@ -1,6 +1,6 @@
 package amphitheremod.client.layer;
 
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

@@ -1,4 +1,4 @@
-package amphitheremod.util.enumm;
+package amphitheremod.util;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;

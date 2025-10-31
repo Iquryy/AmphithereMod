@@ -1,6 +1,7 @@
 package amphitheremod.mixin.common;
 
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.config.ConfigHandler;
+import amphitheremod.util.EnumAmphiType;
 import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.IEntityLivingData;
@@ -22,22 +23,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nullable;
 
 import static amphitheremod.config.ConfigHandler.*;
-import static amphitheremod.util.AmphiBreedingRules.AmphiBreedRules.rollVariant;
+import static amphitheremod.util.AmphiBreedRules.rollVariant;
 
 @Mixin(EntityAmphithere.class)
 public abstract class NBT extends EntityAnimal implements IAmphithereData {
+
     public NBT(World worldIn) {
         super(worldIn);
     }
 
     @Unique private static DataParameter<Boolean> DATA_GENDER;
     @Unique private static DataParameter<String> SPECIAL_VARIANT;
+    @Unique private static DataParameter<String> WING_PATTERN;
     @Unique private static DataParameter<Boolean> DATA_BOUNDED;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void amphimod_createGenderDataParam(CallbackInfo ci) {
         DATA_GENDER = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.BOOLEAN);
         SPECIAL_VARIANT = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.STRING);
+        WING_PATTERN = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.STRING);
         DATA_BOUNDED = EntityDataManager.createKey(EntityAmphithere.class, DataSerializers.BOOLEAN);
     }
 
@@ -62,6 +66,16 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     }
 
     @Override
+    public String amphiMod_master$getWingPattern() {
+        return this.getDataManager().get(WING_PATTERN);
+    }
+
+    @Override
+    public void amphiMod_master$setWingPattern(String wingPattern) {
+        this.getDataManager().set(WING_PATTERN, wingPattern);
+    }
+
+    @Override
     public boolean amphiMod_master$getBounded() {
         return this.getDataManager().get(DATA_BOUNDED);
     }
@@ -75,6 +89,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
     private void entityInit(CallbackInfo ci) {
         this.getDataManager().register(DATA_GENDER, false);
         this.getDataManager().register(SPECIAL_VARIANT, "");
+        this.getDataManager().register(WING_PATTERN, "");
         this.getDataManager().register(DATA_BOUNDED, false);
     }
 
@@ -91,12 +106,22 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
             if (this.getRNG().nextInt(blackEagle.blackEagleAmphithereChance) == 1 || this.amphiMod_master$getSpecialVariant().equals("Black Eagle"))
                 this.amphiMod_master$applyBlackEagleStats();
         }
+
+        if(!(general.enableWingPatterns)) return;
+        EntityAmphithere amphi = (EntityAmphithere) (Object) this;
+        EnumAmphiType.WingPattern[] wingPatterns = EnumAmphiType.values()[amphi.getVariant()].getWingPattern();
+        if (wingPatterns.length > 0) {
+            if(!(amphi.getRNG().nextInt(10) == 5)) return;
+            String initialPattern = String.valueOf(wingPatterns[this.getRNG().nextInt(wingPatterns.length)]);
+            this.amphiMod_master$setWingPattern(initialPattern);
+        }
     }
 
     @Inject(method = "writeEntityToNBT", at = @At("TAIL"))
     private void writeEntityToNBT(NBTTagCompound compound, CallbackInfo ci) {
         compound.setBoolean("Gender", this.amphiMod_master$getGender());
         compound.setString("SpecialVariant", this.amphiMod_master$getSpecialVariant());
+        compound.setString("WingPattern", this.amphiMod_master$getWingPattern());
         compound.setBoolean("Bounded", this.amphiMod_master$getBounded());
     }
 
@@ -105,38 +130,40 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
 
         // GENDER
-        if (compound.hasKey("Gender")) {
+        if (compound.hasKey("Gender"))
             this.getDataManager().set(DATA_GENDER, compound.getBoolean("Gender"));
-        } else {
+        else
             this.amphiMod_master$setGender(this.getRNG().nextBoolean());
-        }
 
         // SPECIAL VARIANT
         String specialVariant = compound.getString("SpecialVariant");
         this.amphiMod_master$setSpecialVariant(specialVariant);
 
-        if (specialVariant.equals("Shivaxi")) {
+        // WING PATTERN
+        String wingPattern = compound.getString("WingPattern");
+        this.amphiMod_master$setWingPattern(specialVariant);
+
+        if (compound.hasKey("WingPattern"))
+            this.amphiMod_master$setWingPattern(compound.getString("WingPattern"));
+
+        if (specialVariant.equals("Shivaxi"))
             amphiMod_master$applyShivaxiStats();
-        }
 
-        if (specialVariant.equals("Black Eagle")) {
+        if (specialVariant.equals("Black Eagle"))
             amphiMod_master$applyBlackEagleStats();
-        }
 
-        if (compound.hasKey("Variant")) {
+        if (compound.hasKey("Variant"))
             amphi.setVariant(compound.getInteger("Variant"));
-        }
 
-        else if (specialVariant.isEmpty()) {
+        else if (specialVariant.isEmpty())
             amphi.setVariant(rollVariant(amphi.getRNG(), false));
-        }
 
         // BOUNDED
-        if (compound.hasKey("Bounded")) {
+        if (compound.hasKey("Bounded"))
             this.getDataManager().set(DATA_BOUNDED, compound.getBoolean("Bounded"));
-        } else {
+        else
             this.amphiMod_master$setBounded(false);
-        }
+
     }
 
     @Unique

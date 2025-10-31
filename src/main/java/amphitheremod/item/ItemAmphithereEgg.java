@@ -3,7 +3,7 @@ package amphitheremod.item;
 import amphitheremod.AmphithereMod;
 import amphitheremod.entity.EntityAmphithereEgg;
 import amphitheremod.util.StatCollector;
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;

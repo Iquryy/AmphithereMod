@@ -9,6 +9,9 @@ public interface IAmphithereData {
     @Unique String amphiMod_master$getSpecialVariant();
     @Unique void amphiMod_master$setSpecialVariant(String specialVariant);
 
+    @Unique String amphiMod_master$getWingPattern();
+    @Unique void amphiMod_master$setWingPattern(String wingPattern);
+
     @Unique boolean amphiMod_master$getBounded();
     @Unique void amphiMod_master$setBounded(boolean bound);
 }

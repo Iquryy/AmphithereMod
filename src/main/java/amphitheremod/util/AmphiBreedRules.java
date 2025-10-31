@@ -1,17 +1,15 @@
-package amphitheremod.util.AmphiBreedingRules;
-import amphitheremod.util.enumm.EnumAmphiType;
+package amphitheremod.util;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class AmphiBreedRules {
 
     //Weights
-    private static final int[] WEIGHTS_SPAWN = {80, 5, 5};
-    private static final int[] WEIGHTS_CHILD = {60, 10, 10};
+    private static final int[] WEIGHTS_SPAWN = {60, 20, 20};
+    private static final int[] WEIGHTS_CHILD = {40, 30, 30};
     private static final int WEIGHTS_TOTAL_SPAWN = Arrays.stream(WEIGHTS_SPAWN).sum();
     private static final int WEIGHTS_TOTAL_CHILD = Arrays.stream(WEIGHTS_CHILD).sum();
     private static final int RAINBOW = EnumAmphiType.RAINBOW.ordinal();

@@ -25,6 +25,11 @@ public class General {
     @Config.Name("Male + Female Breeding")
     public boolean maleAndFemale = true;
 
+    @Config.Comment("Enable Wing Patterns for Amphitheres.")
+    @Config.Name("Enable Wing Patterns")
+    @Config.RequiresMcRestart
+    public boolean enableWingPatterns = true;
+
     @Config.Comment("Divides Amphithere Armor point by given value. 0.5 being 50% decrease in armor.")
     @Config.Name("Amphithere Armor Divider")
     @Config.RangeDouble(min = 0.01f, max = 1)

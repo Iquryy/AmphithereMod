@@ -1,6 +1,6 @@
 package amphitheremod.mixin.client;
 
-import amphitheremod.util.enumm.EnumAmphiType;
+import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.client.render.entity.RenderAmphithere;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;

@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static amphitheremod.util.enumm.EnumAmphiType.*;
 import static amphitheremod.util.Refs.*;
+import static amphitheremod.util.EnumAmphiType.*;
 
 @SideOnly(Side.CLIENT)
 public class LayerAmphithereGender extends AbstractAmphithereLayer {

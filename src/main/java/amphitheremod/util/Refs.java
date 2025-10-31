@@ -20,16 +20,25 @@ public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
 
     // -------------------------------------------------------------------- GLOW ------------------------------------------------------------------------
     public static final ResourceLocation SHIVAXI_GLOW = new ResourceLocation("amphitheremod:textures/entity/amphithere/glow/shivaxi_glow.png");
-    public static final ResourceLocation BLACKEAGLE_GLOW = new ResourceLocation("amphitheremod:textures/entity/amphithere/glow/black_eagle_glow.png");
     public static final ResourceLocation IQURY_GLOW = new ResourceLocation("amphitheremod:textures/entity/amphithere/glow/iqury_glow.png");
 
     // -------------------------------------------------------------------- GENDERS ------------------------------------------------------------------------
     public static final ResourceLocation MALE = new ResourceLocation("amphitheremod:textures/entity/amphithere/male.png");
     public static final ResourceLocation FEMALE = new ResourceLocation("amphitheremod:textures/entity/amphithere/female.png");
 
-    // -------------------------------------------------------------------- MOUTH ------------------------------------------------------------------------
-    public static final ResourceLocation MOUTH = new ResourceLocation("amphitheremod:textures/entity/amphithere/mouth.png");
-
     // -------------------------------------------------------------------- EMPTY ------------------------------------------------------------------------
     public static final ResourceLocation EMPTY = new ResourceLocation("amphitheremod:textures/entity/amphithere/empty.png");
+
+    // -------------------------------------------------------------------- WING PATTERNS ------------------------------------------------------------------------
+    public static final ResourceLocation AQUA = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/aqua.png");
+    public static final ResourceLocation BLUE = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/blue.png");
+    public static final ResourceLocation CYAN = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/cyan.png");
+    public static final ResourceLocation DARK_PURPLE = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/dark_purple.png");
+    public static final ResourceLocation GREEN = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/green.png");
+    public static final ResourceLocation ORANGE = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/orange.png");
+    public static final ResourceLocation PURPLE = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/purple.png");
+    public static final ResourceLocation RED = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/red.png");
+    public static final ResourceLocation TEAL = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/teal.png");
+    public static final ResourceLocation BLACK = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/black.png");
+    public static final ResourceLocation WHITE = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/white.png");
 }
