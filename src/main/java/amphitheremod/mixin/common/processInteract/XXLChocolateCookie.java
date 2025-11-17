@@ -17,7 +17,7 @@ import static amphitheremod.handlers.ModItemRegistry.XXL_CHOCOLATE_COOKIE;
 
 @Mixin(EntityAmphithere.class)
 public abstract class XXLChocolateCookie {
-    @Inject(method = "processInteract", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "processInteract", at = @At("HEAD"), cancellable = true, order = 20)
     private void preventHealingAtFullHealth(EntityPlayer player, EnumHand hand, CallbackInfoReturnable<Boolean> cir) {
         ItemStack itemstack = player.getHeldItem(hand);
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;

@@ -11,6 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import wiresegal.classyhats.item.ItemHat;
 
 public class AmphithereContainer extends Container {
@@ -34,7 +35,7 @@ public class AmphithereContainer extends Container {
         int yOffset = (3 - 4) * 18;
 
         // Beak (MAINHAND) - Slot 0
-        if(ConfigHandler.general.enableAmphithereArmor) {
+        if(ConfigHandler.amphithereArmor.enableAmphithereArmor) {
             this.addSlotToContainer(new Slot(amphithereInventory, 0, 8, 18) {
                 @Override
                 public boolean isItemValid(ItemStack stack) {
@@ -76,12 +77,14 @@ public class AmphithereContainer extends Container {
         }
 
         // Classy Hat (OFFHAND) - Slot 5
-        this.addSlotToContainer(new Slot(amphithereInventory, 5, 153, 18) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return stack.getItem() instanceof ItemHat;
-            }
-        });
+        if (Loader.isModLoaded("classyhats")) {
+            this.addSlotToContainer(new Slot(amphithereInventory, 5, 153, 18) {
+                @Override
+                public boolean isItemValid(ItemStack stack) {
+                    return stack.getItem() instanceof ItemHat;
+                }
+            });
+        }
 
         // Player inventory
         for (int row = 0; row < 3; ++row) {
@@ -123,7 +126,7 @@ public class AmphithereContainer extends Container {
                     if (!this.mergeItemStack(sourceStack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (item instanceof ArmorBase) {
+                } else if (item instanceof ArmorBase && ConfigHandler.amphithereArmor.enableAmphithereArmor) {
                     ArmorBase armor = (ArmorBase) item;
                     if (armor.armorType == EntityEquipmentSlot.HEAD) {
                         if (!this.mergeItemStack(sourceStack, 1, 2, false)) return ItemStack.EMPTY;
@@ -134,7 +137,7 @@ public class AmphithereContainer extends Container {
                     } else if (armor.armorType == EntityEquipmentSlot.FEET) {
                         if (!this.mergeItemStack(sourceStack, 4, 5, false)) return ItemStack.EMPTY;
                     }
-                } else if (item instanceof ItemHat) {
+                } else if (item instanceof ItemHat && Loader.isModLoaded("classyhats")) {
                     if (!this.mergeItemStack(sourceStack, 5, 6, false)) {
                         return ItemStack.EMPTY;
                     }

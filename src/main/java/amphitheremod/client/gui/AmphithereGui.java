@@ -1,4 +1,4 @@
-package amphitheremod.client;
+package amphitheremod.client.gui;
 
 import amphitheremod.config.ConfigHandler;
 import amphitheremod.network.PacketChangeAmphithereAI;
@@ -15,12 +15,14 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
 
+import static amphitheremod.AmphithereMod.*;
 import static amphitheremod.AmphithereMod.NETWORK_WRAPPER;
-import static amphitheremod.AmphithereMod.modIdWithDot;
 
 public class AmphithereGui extends GuiContainer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ConfigHandler.general.enableAmphithereArmor ? "amphitheremod:textures/gui/amphithere.png" : "amphitheremod:textures/gui/amphithere_no_armor.png");
+    private static ResourceLocation TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere_no_both.png");
     private final EntityAmphithere amphithere;
     private float mousePosX;
     private float mousePosY;
@@ -39,25 +41,40 @@ public class AmphithereGui extends GuiContainer {
     public void initGui() {
         super.initGui();
         this.buttonList.clear();
+        getGuiTexure();
         if (this.amphithere.isTamed() && this.amphithere.isOwner(this.mc.player)) {
             int buttonWidth = 80;
             int buttonHeight = 20;
             int buttonX = this.guiLeft + (this.xSize / 2) - (buttonWidth / 2);
             int buttonY = this.guiTop + 109;
-            String commandText = StatCollector.translateToLocal("gui.amphitheremod.command." + this.amphithere.getCommand());
-            commandButton = new GuiButton(COMMAND_BUTTON_ID, buttonX, buttonY, buttonWidth, buttonHeight, commandText);
+            commandButton = new GuiButton(COMMAND_BUTTON_ID, buttonX, buttonY, buttonWidth, buttonHeight, "");
             this.buttonList.add(commandButton);
         }
+    }
+
+    void getGuiTexure() {
+        if (ConfigHandler.amphithereArmor.enableAmphithereArmor && Loader.isModLoaded("classyhats"))
+            TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere.png");
+        else if (ConfigHandler.amphithereArmor.enableAmphithereArmor && !Loader.isModLoaded("classyhats"))
+            TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere_no_classyhats.png");
+        else if (!ConfigHandler.amphithereArmor.enableAmphithereArmor && Loader.isModLoaded("classyhats"))
+            TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere_no_armor.png");
+        else
+            TEXTURE = new ResourceLocation("amphitheremod:textures/gui/amphithere_no_both.png");
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
         if (button.id == COMMAND_BUTTON_ID && button.enabled) {
             NETWORK_WRAPPER.sendToServer(new PacketChangeAmphithereAI(this.amphithere.getEntityId()));
-            int currentCommand = this.amphithere.getCommand();
-            int nextCommand = (currentCommand < 2) ? currentCommand + 1 : 0;
-            this.amphithere.setCommand(nextCommand);
-            button.displayString = StatCollector.translateToLocal("gui.amphitheremod.command." + nextCommand);
+        }
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        if (this.commandButton != null) {
+            this.commandButton.displayString = StatCollector.translateToLocal("gui.amphitheremod.command." + this.amphithere.getCommand());
         }
     }
 
@@ -75,12 +92,17 @@ public class AmphithereGui extends GuiContainer {
         IAmphithereData amphiData = (IAmphithereData) this.amphithere;
         String name = this.amphithere.hasCustomName() ? this.amphithere.getCustomNameTag() : StatCollector.translateToLocal("entity." + modIdWithDot + "amphithere.name");
         this.fontRenderer.drawString(name, this.xSize / 2 - this.fontRenderer.getStringWidth(name) / 2, 6, 4210752);
-        String health = StatCollector.translateToLocal(modIdWithDot + "amphithere.health") + " " + (int) this.amphithere.getHealth() + "/" + (int) this.amphithere.getMaxHealth();
+
+        String health = StatCollector.translateToLocal(modIdWithDot + "amphithere.health") + " " + TextFormatting.RED + (int) this.amphithere.getHealth()+TextFormatting.RESET + "/" + TextFormatting.RED + (int) this.amphithere.getMaxHealth()+TextFormatting.RESET;
         this.fontRenderer.drawString(health, this.xSize / 2 - this.fontRenderer.getStringWidth(health) / 2, 75, 4210752);
-        if (ConfigHandler.general.enableCrystalFeather) {
-            String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.bounded") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
+
+        String stamina = StatCollector.translateToLocal(modIdWithDot + "amphithere.stamina")+" "+String.format(TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET+"/"+TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET, amphiData.amphiMod_master$getStamina(), amphiData.amphiMod_master$getMaxStamina());
+        this.fontRenderer.drawString(stamina, this.xSize / 2 - this.fontRenderer.getStringWidth(stamina) / 2, 84, 4210752);
+        /*if (ConfigHandler.general.enableCrystalFeather) {
+            String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.stamina") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
             this.fontRenderer.drawString(bounded, this.xSize / 2 - this.fontRenderer.getStringWidth(bounded) / 2, 84, 4210752);
-        }
+        }*/
+
         if (ConfigHandler.general.maleAndFemale) {
             String gender = StatCollector.translateToLocal(modIdWithDot + "amphithere.gender") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
             this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 93, 4210752);

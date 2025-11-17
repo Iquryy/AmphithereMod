@@ -31,6 +31,11 @@ item.amphitheremod.amphithere_crystal_feather.name=Crystal Feather
 item.amphitheremod.summoning_crystal.desc_0=Right click on a amphithere to bind it
 item.amphitheremod.summoning_crystal.desc_1=Right click on ground to teleport amphithere
 item.amphitheremod.summoning_crystal.disabled=Disabled!
+message.amphitheremod.tryagain=Please try again.
+message.amphitheremod.amphithereTeleport=Amphithere has been teleported.
+message.amphitheremod.amphithereRecall=Your Amphithere has been recalled to your side.
+message.amphitheremod.noAmphithereTeleport=§cCould not find a amphithere bound to this crystal.
+message.amphitheremod.wrongDimension=§cCouldn't find amphithere in this dimension.
 itemGroup.amphitheremod.amphithere_mod_items=Amphithere Mod
 
 group.amphitheremod.amphithere.blue=Blue
@@ -63,17 +68,14 @@ group.amphitheremod.amphithere.crafty=Crafty
 
 amphitheremod.amphithere.health=§fHealth:
 amphitheremod.amphithere.gender=§fGender:
-amphitheremod.amphithere.gender.male=§fMale
-amphitheremod.amphithere.gender.female=§fFemale
+amphitheremod.amphithere.gender.male=§9Male
+amphitheremod.amphithere.gender.female=§cFemale
 amphitheremod.amphithere.home=§fHome:
 amphitheremod.amphithere.nohome=§fHas no home
 amphitheremod.amphithere.bounded=§fBounded:
 amphitheremod.amphithere.bounded.true=§fTrue
 amphitheremod.amphithere.bounded.false=§fFalse
-message.amphitheremod.tryagain=Please try again.
-message.amphitheremod.amphithereTeleport=Amphithere has been teleported.
-message.amphitheremod.noAmphithereTeleport=§cCould not find a amphithere bound to this crystal.
-message.amphitheremod.wrongDimension=§cCouldn't find amphithere in this dimension.
+amphitheremod.amphithere.stamina=§fStamina:
 
 amphitheremod.amphithere.beak_attachment=Beak
 amphitheremod.amphithere.armor_head=Head

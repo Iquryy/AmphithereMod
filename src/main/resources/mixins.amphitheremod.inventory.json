@@ -7,8 +7,7 @@
   "minVersion": "0.8",
   "mixins": [
     "common.inventory.AmphithereGuiHandlerMixin",
-    "common.inventory.AmphithereInventory"
-  ],
+    "common.inventory.AmphithereInventory"  ],
   "client": [
   ],
   "injectors": {

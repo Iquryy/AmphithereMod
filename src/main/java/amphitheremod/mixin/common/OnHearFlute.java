@@ -12,7 +12,7 @@ public class OnHearFlute {
     @Inject(method = "onHearFlute", at = @At(value = "HEAD"))
     void flute(EntityPlayer player, CallbackInfo ci) {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        if (amphi.isTamed())
+        if (amphi.isTamed() && (!amphi.onGround) && !amphi.isBeingRidden())
             amphi.setCommand(2);
     }
 }

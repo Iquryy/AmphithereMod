@@ -1,6 +1,7 @@
 package amphitheremod.item.amphithere_beak_attachment;
 
 import amphitheremod.config.ConfigHandler;
+import amphitheremod.handlers.ModItemRegistry;
 import amphitheremod.util.StatCollector;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
@@ -17,6 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
@@ -26,16 +28,20 @@ import java.util.UUID;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
 public class BeakBase extends ItemSword {
-     private static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
+    private static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
+    ToolMaterial silverTool = ModItemRegistry.silverBeak;
+    ToolMaterial copperTool = ModItemRegistry.copperBeak;
+    ToolMaterial mat;
 
     public BeakBase(ToolMaterial mat) {
         super(mat);
+        this.mat = mat;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (ConfigHandler.general.cosmeticArmorBeak) {
+        if (ConfigHandler.amphithereArmor.cosmeticArmorBeak) {
             tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
         } else {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
@@ -54,11 +60,29 @@ public class BeakBase extends ItemSword {
         }
     }
 
+    @NotNull
     @Override
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(@NotNull EntityEquipmentSlot slot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
-        if (ConfigHandler.general.cosmeticArmorBeak && slot == EntityEquipmentSlot.MAINHAND) {
-            multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+        multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+        multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
+        float damage = 0;
+        if (!ConfigHandler.amphithereArmor.cosmeticArmorBeak && slot == EntityEquipmentSlot.MAINHAND) {
+            if(!ConfigHandler.amphithereArmor.beakDamage.enableCustomBeakDamage)
+                damage = this.mat.getAttackDamage();
+            else {
+                if (mat == copperTool)
+                    damage = ConfigHandler.amphithereArmor.beakDamage.copperBeakDamage;
+                if (mat == ToolMaterial.IRON)
+                    damage = ConfigHandler.amphithereArmor.beakDamage.ironBeakDamage;
+                if (mat == ToolMaterial.GOLD)
+                    damage = ConfigHandler.amphithereArmor.beakDamage.goldBeakDamage;
+                if (mat == ToolMaterial.DIAMOND)
+                    damage = ConfigHandler.amphithereArmor.beakDamage.diamondBeakDamage;
+                if (mat == silverTool)
+                    damage = ConfigHandler.amphithereArmor.beakDamage.silverBeakDamage;
+            }
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Armor modifier", damage, 0));
         }
 
         return multimap;

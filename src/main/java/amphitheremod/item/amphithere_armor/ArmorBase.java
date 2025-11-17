@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +47,7 @@ public class ArmorBase extends ItemArmor {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (ConfigHandler.general.cosmeticArmorBeak) {
+        if (ConfigHandler.amphithereArmor.cosmeticArmorBeak) {
             tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
         } else {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
@@ -84,14 +85,16 @@ public class ArmorBase extends ItemArmor {
         }
     }
 
+    @NotNull
     @Override
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(@NotNull EntityEquipmentSlot slot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
+        multimap.removeAll(SharedMonsterAttributes.ARMOR.getName());
+        multimap.removeAll(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName());
 
-        if (!ConfigHandler.general.cosmeticArmorBeak && slot == this.armorType) {
+        if (!ConfigHandler.amphithereArmor.cosmeticArmorBeak && slot == this.armorType) {
             double defaultArmorPoints = this.material.getDamageReductionAmount(slot);
-            double modifiedArmorPoints = defaultArmorPoints * ConfigHandler.general.armorPointDivider;
-            multimap.removeAll(SharedMonsterAttributes.ARMOR.getName());
+            double modifiedArmorPoints = defaultArmorPoints * ConfigHandler.amphithereArmor.armorPointDivider;
             multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", modifiedArmorPoints, 0));
         }
 

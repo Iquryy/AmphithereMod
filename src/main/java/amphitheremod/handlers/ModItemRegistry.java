@@ -95,7 +95,7 @@ public class ModItemRegistry {
 
     @SubscribeEvent
     public static void registerItemEvent(RegistryEvent.Register<Item> event) {
-        if(ConfigHandler.amphithereEgg.enableAmphithereEggs) {
+        if (ConfigHandler.amphithereEgg.enableAmphithereEggs) {
             for (EnumAmphiType eggVariant : EnumAmphiType.values()) {
                 Item eggItem = new ItemAmphithereEgg("amphithere_" + eggVariant.name().toLowerCase() + "_egg", eggVariant, AMPHITHERE_MOD_TAB);
                 itemsToRegister.add(eggItem);
@@ -105,14 +105,14 @@ public class ModItemRegistry {
 
         itemsToRegister.add(SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB));
 
-        if (ConfigHandler.xxlCookieBuffs.enableXxlCookieBuff)
+        if (ConfigHandler.xxlCookieBuffs.enableXxlCookie)
             itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
 
-        if (Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)
-            if (ConfigHandler.general.enableCrystalFeather)
-                itemsToRegister.add(AMPHITHERE_CRYSTAL_FEATHER = new ItemAmphithereCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB));
+        //if (Loader.isModLoaded("iceandfire") && IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)
+        if (ConfigHandler.general.enableCrystalFeather)
+            itemsToRegister.add(AMPHITHERE_CRYSTAL_FEATHER = new ItemAmphithereCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB));
 
-        if (ConfigHandler.general.enableAmphithereArmor) {
+        if (ConfigHandler.amphithereArmor.enableAmphithereArmor) {
             itemsToRegister.add(AMPHITHERE_COPPER_HEAD_ARMOR = new HeadCopperArmor(copperArmor, EntityEquipmentSlot.HEAD, "copper_head_armor", AMPHITHERE_MOD_TAB));
             itemsToRegister.add(AMPHITHERE_COPPER_WING_ARMOR = new WingCopperArmor(copperArmor, EntityEquipmentSlot.LEGS, "copper_wing_armor", AMPHITHERE_MOD_TAB));
             itemsToRegister.add(AMPHITHERE_COPPER_BODY_ARMOR = new BodyCopperArmor(copperArmor, EntityEquipmentSlot.CHEST, "copper_body_armor", AMPHITHERE_MOD_TAB));

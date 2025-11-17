@@ -6,7 +6,7 @@ public class XxlCookieBuffs {
     @Config.Comment("Enabling and Disabling XXL Cookie")
     @Config.Name("Enable Cookie")
     @SuppressWarnings("unused")
-    public boolean enableXxlCookieBuff = true;
+    public boolean enableXxlCookie = true;
 
     @Config.Comment("Duration of the XXL Chocolate Cookie's health boost effect in seconds.")
     @Config.Name("XXL Chocolate Cookie Buff Duration (Seconds)")

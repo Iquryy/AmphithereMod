@@ -8,6 +8,7 @@ public class IceAndFireUtil {
         BASE_OLD,
         BASE_1_9_1,
         RLCRAFT,
+        RLCRAFT218,
         ROTN,
         OTHER,
         NONE

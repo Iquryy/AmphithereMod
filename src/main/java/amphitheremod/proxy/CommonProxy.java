@@ -33,4 +33,6 @@ public class CommonProxy {
         final ResourceLocation soundID = new ResourceLocation("amphitheremod", soundName);
         return new SoundEvent(soundID).setRegistryName(soundID);
     }
+
+    public void init() {}
 }

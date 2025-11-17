@@ -28,6 +28,7 @@ public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
 
     // -------------------------------------------------------------------- EMPTY ------------------------------------------------------------------------
     public static final ResourceLocation EMPTY = new ResourceLocation("amphitheremod:textures/entity/amphithere/empty.png");
+    public static final ResourceLocation HEADLESS = new ResourceLocation("amphitheremod:textures/entity/amphithere/headless.png");
 
     // -------------------------------------------------------------------- WING PATTERNS ------------------------------------------------------------------------
     public static final ResourceLocation AQUA = new ResourceLocation("amphitheremod:textures/entity/amphithere/wing_patterns/dented/aqua.png");

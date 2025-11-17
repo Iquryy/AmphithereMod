@@ -7,22 +7,28 @@
   "minVersion": "0.8",
   "mixins": [
     "common.NBT",
-    "common.UpDownAnimationFix",
-    "common.processInteract.DontUseBeansOnFullHP",
-    "common.LootTable",
-    "common.processInteract.XXLChocolateCookie",
-    "common.soundEvents.SkeletonAmphiSounds",
     "common.Variants",
-    "common.ai.MaleAndFemaleBreeding",
-    "common.ai.AmphiHurtByTarget",
+    "common.LootTable",
+    "common.OnHearFlute",
+    "common.UpDownAnimationFix",
     "common.QualityToolsToolTip",
-    "common.soundEvents.FlyingSound",
-    "common.OnHearFlute"
+    "common.ai.AmphiHurtByTarget",
+    "common.ApplyMaxStaminaOnTame",
+    "common.ai.MaleAndFemaleBreeding",
+    "common.mountfixes.AmphiMountFix",
+    "common.mountfixes.HippoMountFix",
+    "common.mountfixes.DragonMountFix",
+    "common.processInteract.CrystalFeather",
+    "common.soundEvents.SkeletonAmphiSounds",
+    "common.processInteract.XXLChocolateCookie",
+    "common.processInteract.DontUseBeansOnFullHP"
   ],
   "client": [
+    "client.AmphithereModel",
+    "client.FirstAidToolTip",
     "client.RenderAmphiLayers",
     "client.RenderAmphiVariants",
-    "client.FirstAidToolTip"
+    "client.camera.OrientCamera"
   ],
   "injectors": {
     "maxShiftBy": 10

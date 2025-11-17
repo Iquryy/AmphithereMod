@@ -7,20 +7,18 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityAmphithere.class)
 public abstract class DontUseBeansOnFullHP {
-    @Unique EntityAmphithere amphiMod_master$amphithere = (EntityAmphithere) (Object) this;
-
-    @Inject(method = "processInteract", at = @At("HEAD"), cancellable = true)
-    private void preventHealingAtFullHealth(EntityPlayer player, EnumHand hand, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "processInteract", at = @At("HEAD"), cancellable = true, order = 30)
+    private void zzzzzz(EntityPlayer player, EnumHand hand, CallbackInfoReturnable<Boolean> cir) {
+        EntityAmphithere amphi = (EntityAmphithere) (Object) this;
         ItemStack itemstack = player.getHeldItem(hand);
         if (itemstack.getItem() == Items.DYE && itemstack.getItemDamage() == EnumDyeColor.BROWN.getDyeDamage()) {
-            if (amphiMod_master$amphithere.getHealth() >= amphiMod_master$amphithere.getMaxHealth()) {
+            if ((amphi.getHealth() >= amphi.getMaxHealth())) {
                 cir.setReturnValue(true);
             }
         }

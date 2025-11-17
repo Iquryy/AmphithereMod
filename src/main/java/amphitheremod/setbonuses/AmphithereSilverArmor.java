@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class AmphithereSilverArmor {
     @SubscribeEvent
     public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (ConfigHandler.general.enableSilverSetBonus) {
+        if (ConfigHandler.amphithereArmor.enableSilverSetBonus) {
             if (Loader.isModLoaded("potioncore")) {
                 if (!(event.getEntityLiving() instanceof EntityAmphithere)) return;
                 EntityAmphithere amphi = (EntityAmphithere) event.getEntityLiving();

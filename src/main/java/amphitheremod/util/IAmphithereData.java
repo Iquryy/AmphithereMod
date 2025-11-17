@@ -14,4 +14,14 @@ public interface IAmphithereData {
 
     @Unique boolean amphiMod_master$getBounded();
     @Unique void amphiMod_master$setBounded(boolean bound);
+
+    @Unique float amphiMod_master$getStamina();
+    @Unique void amphiMod_master$setStamina(float stamina);
+
+    @Unique float amphiMod_master$getMaxStamina();
+    @Unique void amphiMod_master$setMaxStamina(float maxStamina);
+
+    @Unique int amphiMod_master$getStaminaCD();
+
+    @Unique void amphiMod_master$setStaminaCD(int cd);
 }

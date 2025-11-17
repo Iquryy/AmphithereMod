@@ -1,12 +1,16 @@
 package amphitheremod;
 
 import amphitheremod.handlers.ModItemRegistry;
+import amphitheremod.network.PacketHandler;
 import amphitheremod.proxy.CommonProxy;
+import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
+import com.github.alexthe666.iceandfire.entity.EntityFireDragon;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatBasic;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -16,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = AmphithereMod.MODID, version = AmphithereMod.VERSION, name = AmphithereMod.NAME, dependencies = "required-after: fermiumbooter@ [1.3.0,)")
 public class AmphithereMod {
     public static final String MODID = "amphitheremod";
-    public static final String VERSION = "1.0.7";
+    public static final String VERSION = "1.0.8";
     public static final String NAME = "Amphithere Mod";
     public static String modIdWithDot = AmphithereMod.MODID + ".";
     public static final Logger LOGGER = LogManager.getLogger();
@@ -35,6 +39,12 @@ public class AmphithereMod {
     public void preInit(FMLPreInitializationEvent event) {
         TAMED_AMPHITHERE_DEATH_COUNT = new StatBasic("stat.tamed_amphithere_death_count.name", new TextComponentTranslation("stat.tamed_amphithere_death_count.name")).registerStat();
         ModItemRegistry.init();
+        PacketHandler.registerMessages();
         proxy.preInit(event);
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
+        proxy.init();
     }
 }

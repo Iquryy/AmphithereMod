@@ -1,4 +1,4 @@
-package amphitheremod.config;
+package amphitheremod.config.SpecialAmphitheres;
 
 import net.minecraftforge.common.config.Config;
 

@@ -19,8 +19,8 @@ public abstract class FlyingSound {
             if (amphi.getVariant() == EnumAmphiType.SKELETON.ordinal()) return;
             if (amphi.getVariant() == EnumAmphiType.WITHER_SKELETON.ordinal()) return;
             if (amphi.isFlying()) {
-                if (!(amphi.flapProgress > 0)) return;
-                if (amphi.ticksExisted % 30 == 0) {
+                if (!(amphi.flapProgress > 5)) return;
+                if (amphi.ticksExisted % 23 == 0) {
                     if (AMPHITHERE_WING_FLAP == null) return;
                     amphi.world.playSound(null, amphi.posX, amphi.posY, amphi.posZ, AMPHITHERE_WING_FLAP, SoundCategory.NEUTRAL, 2.5F, Math.min(0.8F, 0.8F + (amphi.world.rand.nextFloat() - 0.9F) * 0.25F));
                 }

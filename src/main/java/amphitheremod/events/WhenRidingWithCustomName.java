@@ -1,4 +1,4 @@
-package amphitheremod.entity.events;
+package amphitheremod.events;
 
 import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;

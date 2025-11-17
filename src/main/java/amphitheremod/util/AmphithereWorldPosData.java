@@ -14,18 +14,18 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AmphithereWorldPosData extends WorldSavedData {
-    protected final Map<UUID, BlockPos> lastAmphitherePositions = new HashMap<>();
-    private int tickCounter;
     private static final String IDENTIFIER = "amphithere_Positions";
+
+    public AmphithereWorldPosData() {
+        super(IDENTIFIER);
+    }
 
     public AmphithereWorldPosData(String name) {
         super(name);
     }
 
-    public AmphithereWorldPosData() {
-        super(IDENTIFIER);
-        this.markDirty();
-    }
+    protected final Map<UUID, BlockPos> lastAmphitherePositions = new HashMap<>();
+    private int tickCounter;
 
     public static AmphithereWorldPosData get(World world) {
         MapStorage storage = world.getPerWorldStorage();
@@ -34,8 +34,6 @@ public class AmphithereWorldPosData extends WorldSavedData {
             instance = new AmphithereWorldPosData();
             storage.setData(IDENTIFIER, instance);
         }
-
-        instance.markDirty();
         return instance;
     }
 
@@ -68,8 +66,8 @@ public class AmphithereWorldPosData extends WorldSavedData {
         }
     }
 
-    @Override
     @Nonnull
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setInteger("Tick", this.tickCounter);
         NBTTagList nbttaglist = new NBTTagList();
@@ -77,9 +75,9 @@ public class AmphithereWorldPosData extends WorldSavedData {
         for (Map.Entry<UUID, BlockPos> pair : this.lastAmphitherePositions.entrySet()) {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setUniqueId("AmphithereUUID", pair.getKey());
-            nbttagcompound.setInteger("AmphitherePosX", (pair.getValue()).getX());
-            nbttagcompound.setInteger("AmphitherePosY", (pair.getValue()).getY());
-            nbttagcompound.setInteger("AmphitherePosZ", (pair.getValue()).getZ());
+            nbttagcompound.setInteger("AmphitherePosX", pair.getValue().getX());
+            nbttagcompound.setInteger("AmphitherePosY", pair.getValue().getY());
+            nbttagcompound.setInteger("AmphitherePosZ", pair.getValue().getZ());
             nbttaglist.appendTag(nbttagcompound);
         }
 

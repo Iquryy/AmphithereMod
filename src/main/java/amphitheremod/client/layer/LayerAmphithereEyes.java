@@ -46,7 +46,7 @@ public class LayerAmphithereEyes extends AbstractAmphithereLayer {
         int amphiVariant = amphithere.getVariant();
         EnumAmphiType.Eyes eyes = EnumAmphiType.Eyes.NORMAL;
         String amphiName = amphithere.getName().toLowerCase();
-        if (amphiName != null)
+        if (!amphiName.isEmpty())
             if (amphiName.equals("risky"))
                 eyes = EnumAmphiType.RAINBOW.getEyes();
             else if (amphiVariant < EnumAmphiType.values().length)
