@@ -1,7 +1,7 @@
 package amphitheremod.item.amphithere_armor;
 
 import amphitheremod.config.ConfigHandler;
-import amphitheremod.util.StatCollector;
+import amphitheremod.util.UsefulStiff;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
@@ -48,7 +48,7 @@ public class ArmorBase extends ItemArmor {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (ConfigHandler.amphithereArmor.cosmeticArmorBeak) {
-            tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
+            tooltip.add(UsefulStiff.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
         } else {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
             Collection<AttributeModifier> armorModifiers = attributeModifiers.get(SharedMonsterAttributes.ARMOR.getName());
@@ -65,19 +65,19 @@ public class ArmorBase extends ItemArmor {
                 DecimalFormat df = new DecimalFormat("0.##");
                 switch (equipSlot) {
                     case HEAD:
-                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
                         //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case LEGS:
-                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
                         //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case CHEST:
-                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
                         //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case FEET:
-                        tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
+                        tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
                         //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                 }

@@ -66,7 +66,7 @@ public class ConfigHandler {
         @Config.Comment("With this mixin, the dragon 3rd person view in F5 can also be used with amphis")
         @Config.Name("Enable Amphithere View")
         @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
+        //@MixinConfig.MixinToggle(earlyMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
         public boolean amphiView = true;
 
         @Config.Comment("Sets the third-person camera view distance when riding an Amphithere.")

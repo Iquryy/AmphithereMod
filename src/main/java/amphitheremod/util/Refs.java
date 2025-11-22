@@ -4,7 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class Refs extends IForgeRegistryEntry.Impl<SoundEvent> {
+public class Refs {
     // -------------------------------------------------------------------- EYES ------------------------------------------------------------------------
     public static final ResourceLocation YELLOW_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/yellow_eyes.png");
     public static final ResourceLocation PINK_EYES = new ResourceLocation("amphitheremod:textures/entity/amphithere/eyes/pink_eyes.png");

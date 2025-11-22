@@ -25,10 +25,10 @@
   ],
   "client": [
     "client.AmphithereModel",
+    "client.ChainBuffer",
     "client.FirstAidToolTip",
     "client.RenderAmphiLayers",
-    "client.RenderAmphiVariants",
-    "client.camera.OrientCamera"
+    "client.RenderAmphiVariants"
   ],
   "injectors": {
     "maxShiftBy": 10

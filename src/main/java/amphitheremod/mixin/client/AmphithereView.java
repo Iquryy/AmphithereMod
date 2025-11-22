@@ -1,4 +1,4 @@
-package amphitheremod.mixin.client.camera;
+package amphitheremod.mixin.client;
 
 import amphitheremod.config.ConfigHandler;
 import com.github.alexthe666.iceandfire.IceAndFire;

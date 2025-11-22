@@ -24,7 +24,6 @@ import javax.annotation.Nullable;
 
 import static amphitheremod.config.ConfigHandler.*;
 import static amphitheremod.util.AmphiBreedRules.rollVariant;
-import static net.ilexiconn.llibrary.server.animation.IAnimatedEntity.NO_ANIMATION;
 
 @Mixin(EntityAmphithere.class)
 public abstract class NBT extends EntityAnimal implements IAmphithereData {

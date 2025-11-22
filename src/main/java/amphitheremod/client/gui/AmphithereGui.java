@@ -4,7 +4,7 @@ import amphitheremod.config.ConfigHandler;
 import amphitheremod.network.PacketChangeAmphithereAI;
 import amphitheremod.inventory.AmphithereContainer;
 import amphitheremod.util.IAmphithereData;
-import amphitheremod.util.StatCollector;
+import amphitheremod.util.UsefulStiff;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -74,7 +74,7 @@ public class AmphithereGui extends GuiContainer {
     public void updateScreen() {
         super.updateScreen();
         if (this.commandButton != null) {
-            this.commandButton.displayString = StatCollector.translateToLocal("gui.amphitheremod.command." + this.amphithere.getCommand());
+            this.commandButton.displayString = UsefulStiff.translateToLocal("gui.amphitheremod.command." + this.amphithere.getCommand());
         }
     }
 
@@ -90,13 +90,13 @@ public class AmphithereGui extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         IAmphithereData amphiData = (IAmphithereData) this.amphithere;
-        String name = this.amphithere.hasCustomName() ? this.amphithere.getCustomNameTag() : StatCollector.translateToLocal("entity." + modIdWithDot + "amphithere.name");
+        String name = this.amphithere.hasCustomName() ? this.amphithere.getCustomNameTag() : UsefulStiff.translateToLocal("entity." + modIdWithDot + "amphithere.name");
         this.fontRenderer.drawString(name, this.xSize / 2 - this.fontRenderer.getStringWidth(name) / 2, 6, 4210752);
 
-        String health = StatCollector.translateToLocal(modIdWithDot + "amphithere.health") + " " + TextFormatting.RED + (int) this.amphithere.getHealth()+TextFormatting.RESET + "/" + TextFormatting.RED + (int) this.amphithere.getMaxHealth()+TextFormatting.RESET;
+        String health = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.health") + " " + TextFormatting.RED + (int) this.amphithere.getHealth()+TextFormatting.RESET + "/" + TextFormatting.RED + (int) this.amphithere.getMaxHealth()+TextFormatting.RESET;
         this.fontRenderer.drawString(health, this.xSize / 2 - this.fontRenderer.getStringWidth(health) / 2, 75, 4210752);
 
-        String stamina = StatCollector.translateToLocal(modIdWithDot + "amphithere.stamina")+" "+String.format(TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET+"/"+TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET, amphiData.amphiMod_master$getStamina(), amphiData.amphiMod_master$getMaxStamina());
+        String stamina = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.stamina")+" "+String.format(TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET+"/"+TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET, amphiData.amphiMod_master$getStamina(), amphiData.amphiMod_master$getMaxStamina());
         this.fontRenderer.drawString(stamina, this.xSize / 2 - this.fontRenderer.getStringWidth(stamina) / 2, 84, 4210752);
         /*if (ConfigHandler.general.enableCrystalFeather) {
             String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.stamina") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
@@ -104,7 +104,7 @@ public class AmphithereGui extends GuiContainer {
         }*/
 
         if (ConfigHandler.general.maleAndFemale) {
-            String gender = StatCollector.translateToLocal(modIdWithDot + "amphithere.gender") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
+            String gender = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.gender") + " " + UsefulStiff.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
             this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 93, 4210752);
         }
     }

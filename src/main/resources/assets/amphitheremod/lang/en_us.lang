@@ -95,3 +95,6 @@ entity.amphitheremod.amphithere.name=Amphithere
 entity.amphithere_egg.name=Amphithere Egg
 
 stat.tamed_amphithere_death_count.name=Tamed Amphithere Death Count
+
+key.categories.amphitheremod=Amphithere Mod
+key.amphitheremod.elytra_dive= Elytra Dive Key

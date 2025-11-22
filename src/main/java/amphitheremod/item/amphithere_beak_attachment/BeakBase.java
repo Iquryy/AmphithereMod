@@ -2,7 +2,7 @@ package amphitheremod.item.amphithere_beak_attachment;
 
 import amphitheremod.config.ConfigHandler;
 import amphitheremod.handlers.ModItemRegistry;
-import amphitheremod.util.StatCollector;
+import amphitheremod.util.UsefulStiff;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,7 +42,7 @@ public class BeakBase extends ItemSword {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (ConfigHandler.amphithereArmor.cosmeticArmorBeak) {
-            tooltip.add(StatCollector.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
+            tooltip.add(UsefulStiff.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
         } else {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
             Collection<AttributeModifier> weaponModifier = attributeModifiers.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
@@ -55,7 +55,7 @@ public class BeakBase extends ItemSword {
                     }
                 }
                 DecimalFormat df = new DecimalFormat("0.##");
-                tooltip.add(StatCollector.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage - 1) + " " + StatCollector.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
+                tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.beak_attachment") + TextFormatting.BLUE + " +" + df.format(totalDamage - 1) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.attack") + TextFormatting.RESET);
             }
         }
     }

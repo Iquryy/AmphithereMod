@@ -1,8 +1,8 @@
 package amphitheremod.mixin.common.soundEvents;
 
 import amphitheremod.config.ConfigHandler;
+import amphitheremod.proxy.CommonProxy;
 import amphitheremod.util.EnumAmphiType;
-import amphitheremod.util.Sounds;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
@@ -34,13 +34,13 @@ public abstract class SkeletonAmphiSounds {
                 if (amphiMod$amphi.getRNG().nextInt(169) == 1)
                     switch (amphiMod$amphi.getRNG().nextInt(3)) {
                         case 0:
-                            cir.setReturnValue(Sounds.AMPHITHERE_HURT_0);
+                            cir.setReturnValue(CommonProxy.AMPHITHERE_HURT_0);
                             break;
                         case 1:
-                            cir.setReturnValue(Sounds.AMPHITHERE_HURT_1);
+                            cir.setReturnValue(CommonProxy.AMPHITHERE_HURT_1);
                             break;
                         case 2:
-                            cir.setReturnValue(Sounds.AMPHITHERE_HURT_2);
+                            cir.setReturnValue(CommonProxy.AMPHITHERE_HURT_2);
                             break;
                     }
         } else if (amphiMod$amphi.getVariant() == EnumAmphiType.getIntFromEnum(EnumAmphiType.SKELETON))

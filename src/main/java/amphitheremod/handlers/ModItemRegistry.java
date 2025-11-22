@@ -91,6 +91,7 @@ public class ModItemRegistry {
     public static Item AMPHITHERE_SILVER_TAIL_ARMOR;
     public static Item AMPHITHERE_SILVER_BODY_ARMOR;
     public static Item AMPHITHERE_SILVER_BEAK_ATTACHMENT;
+    public static Item AMPHITHERE_MUSIC_DISC;
     public static final Map<EnumAmphiType, Item> AMPHITHERE_EGGS = new HashMap<>();
 
     @SubscribeEvent
@@ -104,6 +105,7 @@ public class ModItemRegistry {
         }
 
         itemsToRegister.add(SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB));
+        //itemsToRegister.add(AMPHITHERE_MUSIC_DISC = new ItemAmphithereMusicDisc("amphithere_music_disc", AMPHITHERE_MOD_TAB));
 
         if (ConfigHandler.xxlCookieBuffs.enableXxlCookie)
             itemsToRegister.add(XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB));
@@ -140,8 +142,7 @@ public class ModItemRegistry {
             itemsToRegister.add(AMPHITHERE_SILVER_BEAK_ATTACHMENT = new SilverBeak(silverBeak, "silver_beak_attachment", AMPHITHERE_MOD_TAB));
         }
 
-        if (!itemsToRegister.isEmpty())
-            event.getRegistry().registerAll(itemsToRegister.toArray(new Item[0]));
+        event.getRegistry().registerAll(itemsToRegister.toArray(new Item[0]));
     }
 
     public static void init() {

@@ -2,7 +2,7 @@ package amphitheremod.item;
 
 import amphitheremod.AmphithereMod;
 import amphitheremod.entity.EntityAmphithereEgg;
-import amphitheremod.util.StatCollector;
+import amphitheremod.util.UsefulStiff;
 import amphitheremod.util.EnumAmphiType;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -43,7 +43,7 @@ public class ItemAmphithereEgg extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (this.variant != null) {
-            tooltip.add(StatCollector.translateToLocal("group."+modIdWithDot+"amphithere." + this.variant.toString().toLowerCase()));
+            tooltip.add(UsefulStiff.translateToLocal("group."+modIdWithDot+"amphithere." + this.variant.toString().toLowerCase()));
         }
     }
 

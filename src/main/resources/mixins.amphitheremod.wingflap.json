@@ -9,9 +9,6 @@
     "common.soundEvents.FlyingSound"
   ],
   "client": [
-    "client.RenderAmphiLayers",
-    "client.RenderAmphiVariants",
-    "client.FirstAidToolTip"
   ],
   "injectors": {
     "maxShiftBy": 10

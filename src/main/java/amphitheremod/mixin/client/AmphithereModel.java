@@ -68,13 +68,13 @@ public class AmphithereModel {
             if (data == null) return;
             if (amphi.isChild()) return;
             if (data.amphiMod_master$getGender()) {
-                this.TailR2.rotateAngleY -= 0.08f;
-                this.TailL2.rotateAngleY += 0.08f;
+                this.TailR2.rotateAngleY -= 0.12f;
+                this.TailL2.rotateAngleY += 0.12f;
             }
         }
     }
 
-    @ModifyConstant(method = "setRotationAngles", constant = @Constant(floatValue = 0.2F))
+    @ModifyConstant(method = "setRotationAngles", constant = @Constant(floatValue = 0.2f))
     private float hhh(float constant, float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
         return 0.26F;
     }
