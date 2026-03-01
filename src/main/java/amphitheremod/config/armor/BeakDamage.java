@@ -3,11 +3,17 @@ package amphitheremod.config.armor;
 import net.minecraftforge.common.config.Config;
 
 public class BeakDamage {
+    @Config.Comment("Divides Amphithere Beak damage by given value. 0.5 being 50% decrease in damage.")
+    @Config.Name("Amphithere Beak Damage Divider")
+    @Config.RequiresMcRestart
+    @Config.RangeDouble(min = 0.1f, max = 1)
+    public double beakDamageDivider = 0.5f;
+
     @Config.Comment("Enables custom beak damages")
     @Config.Name("Enable Cusotm Beak Damage")
     @Config.RequiresMcRestart
     @Config.RangeDouble(min = 0.0f, max = 100)
-    public boolean enableCustomBeakDamage = true;
+    public boolean enableCustomBeakDamage = false;
 
     @Config.Comment("Sets damage for copper beak")
     @Config.Name("Copper Beak Damage")
@@ -38,4 +44,22 @@ public class BeakDamage {
     @Config.RequiresMcRestart
     @Config.RangeDouble(min = 0.0f, max = 100)
     public float silverBeakDamage = 5;
+
+    @Config.Comment("Sets damage for shocked beak")
+    @Config.Name("Silver Beak Damage")
+    @Config.RequiresMcRestart
+    @Config.RangeDouble(min = 0.0f, max = 100)
+    public float shockedBeakDamage = 6;
+
+    @Config.Comment("Sets damage for iced beak")
+    @Config.Name("Silver Beak Damage")
+    @Config.RequiresMcRestart
+    @Config.RangeDouble(min = 0.0f, max = 100)
+    public float icedBeakDamage = 6;
+
+    @Config.Comment("Sets damage for flamed beak")
+    @Config.Name("Silver Beak Damage")
+    @Config.RequiresMcRestart
+    @Config.RangeDouble(min = 0.0f, max = 100)
+    public float flamedBeakDamage = 6;
 }

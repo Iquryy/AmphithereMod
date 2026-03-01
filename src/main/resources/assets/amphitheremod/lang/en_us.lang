@@ -1,5 +1,6 @@
 item.amphitheremod.shivaxi_feather.name=Shivaxi Amphithere Feather
 item.amphitheremod.xxl_chocolate_cookie.name=XXL Chocolate Cookie
+item.amphitheremod.anti_coth_cookie.name=Bloody Cookie
 item.amphitheremod.copper_head_armor.name=Amphithere Copper Head Armor
 item.amphitheremod.copper_wing_armor.name=Amphithere Copper Wing Armor
 item.amphitheremod.copper_body_armor.name=Amphithere Copper Body Armor
@@ -25,17 +26,12 @@ item.amphitheremod.iron_beak_attachment.name=Amphithere Iron Beak Attachment
 item.amphitheremod.gold_beak_attachment.name=Amphithere Gold Beak Attachment
 item.amphitheremod.diamond_beak_attachment.name=Amphithere Diamond Beak Attachment
 item.amphitheremod.silver_beak_attachment.name=Amphithere Silver Beak Attachment
+item.amphitheremod.ice_beak_attachment.name=Amphithere Iced Beak Attachment
+item.amphitheremod.lightning_beak_attachment.name=Amphithere Shocked Beak Attachment
+item.amphitheremod.fire_beak_attachment.name=Amphithere Flamed Beak Attachment
+item.amphitheremod.dragonbone_beak_attachment.name=Amphithere Dragonbone Beak Attachment
 item.amphitheremod.amphithere_egg.name=Amphithere Egg
 
-item.amphitheremod.amphithere_crystal_feather.name=Crystal Feather
-item.amphitheremod.summoning_crystal.desc_0=Right click on a amphithere to bind it
-item.amphitheremod.summoning_crystal.desc_1=Right click on ground to teleport amphithere
-item.amphitheremod.summoning_crystal.disabled=Disabled!
-message.amphitheremod.tryagain=Please try again.
-message.amphitheremod.amphithereTeleport=Amphithere has been teleported.
-message.amphitheremod.amphithereRecall=Your Amphithere has been recalled to your side.
-message.amphitheremod.noAmphithereTeleport=§cCould not find a amphithere bound to this crystal.
-message.amphitheremod.wrongDimension=§cCouldn't find amphithere in this dimension.
 itemGroup.amphitheremod.amphithere_mod_items=Amphithere Mod
 
 group.amphitheremod.amphithere.blue=Blue
@@ -76,7 +72,6 @@ amphitheremod.amphithere.bounded=§fBounded:
 amphitheremod.amphithere.bounded.true=§fTrue
 amphitheremod.amphithere.bounded.false=§fFalse
 amphitheremod.amphithere.stamina=§fStamina:
-
 amphitheremod.amphithere.beak_attachment=Beak
 amphitheremod.amphithere.armor_head=Head
 amphitheremod.amphithere.armor_wings=Wings
@@ -86,6 +81,8 @@ amphitheremod.amphithere.armor_tail=Tail
 amphitheremod.tooltip.armor=Armor
 amphitheremod.tooltip.attack=Damage
 amphitheremod.tooltip.flightspeed=Flight Speed
+amphitheremod.tooltip.coth.cookie=§7Gives Amphitheres permanent §4Call of The Hive §7immunity
+amphitheremod.tooltip.xxl.cookie=§7Healthy and tasty treat for Amphitheres
 
 gui.amphitheremod.command.0=Wandering
 gui.amphitheremod.command.1=Sitting
@@ -97,4 +94,3 @@ entity.amphithere_egg.name=Amphithere Egg
 stat.tamed_amphithere_death_count.name=Tamed Amphithere Death Count
 
 key.categories.amphitheremod=Amphithere Mod
-key.amphitheremod.elytra_dive= Elytra Dive Key

@@ -5,7 +5,6 @@ import amphitheremod.handlers.ModItemRegistry;
 import amphitheremod.util.IAmphithereData;
 import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
-import com.github.alexthe666.iceandfire.misc.IafSoundRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,7 +15,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -110,7 +108,6 @@ public class EntityAmphithereEgg extends EntityLiving {
         IAmphithereData data = (IAmphithereData) amphithere;
         data.amphiMod_master$setGender(this.world.rand.nextBoolean());
         if(this.hasCustomName()) amphithere.setCustomNameTag(this.getCustomNameTag());
-        this.world.playSound(null, this.posX, this.posY, this.posZ, IafSoundRegistry.DRAGON_HATCH, SoundCategory.NEUTRAL, 1f, 1.35f);
         this.world.spawnEntity(amphithere);
         this.setDead();
     }
@@ -129,7 +126,6 @@ public class EntityAmphithereEgg extends EntityLiving {
         }
         if (source == DamageSource.FALL) {
             if (ConfigHandler.amphithereEgg.eggCrackFallDamage) {
-                this.world.playSound(null, this.posX, this.posY, this.posZ, IafSoundRegistry.DRAGON_HATCH, SoundCategory.NEUTRAL, 1f, 1.35f);
             } else {
                 Item correctEggItem = ModItemRegistry.AMPHITHERE_EGGS.get(this.getType());
                 if (correctEggItem != null)

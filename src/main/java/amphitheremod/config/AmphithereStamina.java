@@ -52,11 +52,6 @@ public class AmphithereStamina {
         @Config.RangeDouble(min = 0f)
         public float flapDrain = 12f;
 
-        /*@Config.Comment("How much additional stamina as flap will cost from max Amphithere stamina. (150 (max stamina) * 0.01 = 1.5 stamina drain)")
-        @Config.Name("Flap Drain From Max Stamina")
-        @Config.RangeDouble(min = 0.0f, max = 1.0f)
-        public float flapDrainFromMaxStamina = 0.01f;*/
-
         @Config.Comment("The amount of stamina drained per second for sustained flight (when not gliding or diving).")
         @Config.Name("Passive Flying Drain")
         @Config.RangeDouble(min = 0.0f)

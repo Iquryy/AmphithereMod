@@ -30,6 +30,6 @@ public abstract class RenderAmphiLayers extends RenderLiving<EntityAmphithere> {
         this.addLayer(new LayerAmphithereTailArmor(amphi));
         this.addLayer(new LayerAmphithereWingArmor(amphi));
         this.addLayer(new LayerAmphithereBodyArmor(amphi));
-        this.addLayer(new LayerAmphithereHat(amphi));
+        this.addLayer(new LayerAmphithereClassyHat(amphi));
     }
 }

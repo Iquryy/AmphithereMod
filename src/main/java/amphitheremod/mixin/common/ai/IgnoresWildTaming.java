@@ -3,6 +3,7 @@ package amphitheremod.mixin.common.ai;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,11 +18,17 @@ public abstract class IgnoresWildTaming extends EntityTameable {
     @Unique
     @Override
     public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if(target instanceof EntityAmphithere && (!((EntityAmphithere) target).isTamed()) && (((EntityAmphithere) target).getRidingEntity() == owner)) {
-            ((EntityAmphithere) target).setAttackTarget(null);
-            ((EntityAmphithere) target).setCommand(1);
+        EntityAmphithere amphi = (EntityAmphithere) (Object) this;
+        // Do not target a Wild Amphi if the owner is riding it
+        if (target instanceof EntityAmphithere && target.isPassenger(owner)) {
             return false;
         }
+
+        if(target instanceof EntityPlayer) {
+            if(amphi.isOwner(target))
+                return false;
+        }
+
         return super.shouldAttackEntity(target, owner);
     }
 }

@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
+import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
 
 public class ItemAmphithereEgg extends Item {
     public EnumAmphiType variant;
@@ -34,6 +35,7 @@ public class ItemAmphithereEgg extends Item {
         this.setCreativeTab(tab);
         this.variant = variant;
         maxStackSize = 1;
+        itemsToRegister.add(this);
     }
 
     public void onCreated(ItemStack itemStack, World world, EntityPlayer player) {

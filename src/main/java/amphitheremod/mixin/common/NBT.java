@@ -60,6 +60,8 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         this.getDataManager().register(DATA_STAMINA_MAX, amphiStamina.maxStamina);
         this.getDataManager().register(DATA_STAMINA, amphiStamina.maxStamina);
         this.getDataManager().register(DATA_STAMINA_REG_CD, 0);
+        if(!this.getEntityData().getBoolean("CothImmunie"))
+            this.getEntityData().setBoolean("CothImmunie", false);
     }
 
 
@@ -97,6 +99,7 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         compound.setFloat("StaminaMax", this.amphiMod_master$getMaxStamina());
         compound.setFloat("Stamina", this.amphiMod_master$getStamina());
         compound.setInteger("StaminaRegenerationCooldown", this.amphiMod_master$getStaminaCD());
+        this.getEntityData().setBoolean("CothImmunie", this.getEntityData().getBoolean("CothImmunie"));
     }
 
     @Inject(method = "readEntityFromNBT", at = @At("TAIL"))
@@ -145,6 +148,11 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
             this.amphiMod_master$setStaminaCD(compound.getInteger("StaminaRegenerationCooldown"));
         else
             this.amphiMod_master$setStaminaCD(0);
+
+        if (this.getEntityData().getBoolean("CothImmunie"))
+            this.getEntityData().setBoolean("CothImmunie", this.getEntityData().getBoolean("CothImmunie"));
+        else
+            this.getEntityData().setBoolean("CothImmunie", false);
     }
 
     @Unique
@@ -155,7 +163,8 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.SHIVAXI));
         amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shivaxi.shivaxiAmphithereHealth);
         amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(shivaxi.shivaxiAmphithereDamage);
-        amphi.setHealth(shivaxi.shivaxiAmphithereHealth);
+        amphi.setHealth((float) amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
+        amphi.setHealth(amphi.getMaxHealth());
     }
 
     @Unique
@@ -166,7 +175,8 @@ public abstract class NBT extends EntityAnimal implements IAmphithereData {
         amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.BLACKEAGLE));
         amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(blackEagle.blackEagleAmphithereHealth);
         amphi.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(blackEagle.blackEagleAmphithereDamage);
-        amphi.setHealth(blackEagle.blackEagleAmphithereHealth);
+        amphi.setHealth((float) amphi.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
+        amphi.setHealth(amphi.getMaxHealth());
     }
 
     @Override

@@ -9,12 +9,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
+import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
 
 public class ItemShivaxiFeather extends Item{
     public ItemShivaxiFeather(String name, CreativeTabs tab){
         this.setRegistryName(AmphithereMod.MODID, name);
         this.setTranslationKey(modIdWithDot + name);
         this.setCreativeTab(tab);
+        itemsToRegister.add(this);
     }
 
     @SideOnly(Side.CLIENT)

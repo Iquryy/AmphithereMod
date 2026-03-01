@@ -39,7 +39,7 @@ public class AmphiSkeletons {
             EntityAmphithere amphi = (EntityAmphithere) entity;
             if (source == DamageSource.LAVA) {
                 if (amphi.getRNG().nextInt(50 + 1) == 50) {
-                    if (amphi.getVariant() != EnumAmphiType.getIntFromEnum(EnumAmphiType.WITHER_SKELETON) || amphi.getVariant() == EnumAmphiType.getIntFromEnum(EnumAmphiType.SKELETON)) {
+                    if (amphi.getVariant() != EnumAmphiType.getIntFromEnum(EnumAmphiType.WITHER_SKELETON) || amphi.getVariant() != EnumAmphiType.getIntFromEnum(EnumAmphiType.SKELETON)) {
                         amphi.playSound(SoundEvents.ENTITY_WITHER_SKELETON_HURT, 2.0F, 1.0F);
                         amphi.setVariant(EnumAmphiType.getIntFromEnum(EnumAmphiType.WITHER_SKELETON));
                     }

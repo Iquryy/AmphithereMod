@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
+import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
 
 public class ArmorBase extends ItemArmor {
     private static final UUID[] ARMOR_MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
@@ -42,43 +43,38 @@ public class ArmorBase extends ItemArmor {
         super(mat, i, slot);
         this.equipSlot = slot;
         this.material = mat;
+        itemsToRegister.add(this);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         if (ConfigHandler.amphithereArmor.cosmeticArmorBeak) {
             tooltip.add(UsefulStiff.translateToLocal(TextFormatting.BLUE + "Cosmetic"));
         } else {
             Multimap<String, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(this.armorType);
             Collection<AttributeModifier> armorModifiers = attributeModifiers.get(SharedMonsterAttributes.ARMOR.getName());
             double totalArmor = 0;
-            double flySpeed = 0;
 
             if (armorModifiers != null && !armorModifiers.isEmpty()) {
                 for (AttributeModifier modifier : armorModifiers) {
                     if (modifier.getOperation() == 0) {
                         totalArmor += modifier.getAmount();
-                        flySpeed -= totalArmor / 20;
                     }
                 }
                 DecimalFormat df = new DecimalFormat("0.##");
                 switch (equipSlot) {
                     case HEAD:
                         tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_head") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case LEGS:
                         tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_wings") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case CHEST:
                         tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_body") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                     case FEET:
                         tooltip.add(UsefulStiff.translateToLocal(modIdWithDot + "amphithere.armor_tail") + TextFormatting.BLUE + " +" + df.format(totalArmor) + " " + UsefulStiff.translateToLocal(modIdWithDot + "tooltip.armor") + TextFormatting.RESET);
-                        //tooltip.add(StatCollector.translateToLocal(modIdWithDot + "tooltip.flightspeed") + TextFormatting.BLUE + " " + df.format(flySpeed) + " " + TextFormatting.RESET);
                         break;
                 }
             }

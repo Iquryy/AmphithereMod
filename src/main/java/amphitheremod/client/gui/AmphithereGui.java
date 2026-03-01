@@ -2,7 +2,7 @@ package amphitheremod.client.gui;
 
 import amphitheremod.config.ConfigHandler;
 import amphitheremod.network.PacketChangeAmphithereAI;
-import amphitheremod.inventory.AmphithereContainer;
+import amphitheremod.armor_slot.AmphithereContainer;
 import amphitheremod.util.IAmphithereData;
 import amphitheremod.util.UsefulStiff;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
@@ -96,16 +96,14 @@ public class AmphithereGui extends GuiContainer {
         String health = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.health") + " " + TextFormatting.RED + (int) this.amphithere.getHealth()+TextFormatting.RESET + "/" + TextFormatting.RED + (int) this.amphithere.getMaxHealth()+TextFormatting.RESET;
         this.fontRenderer.drawString(health, this.xSize / 2 - this.fontRenderer.getStringWidth(health) / 2, 75, 4210752);
 
-        String stamina = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.stamina")+" "+String.format(TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET+"/"+TextFormatting.YELLOW+"%.0f"+TextFormatting.RESET, amphiData.amphiMod_master$getStamina(), amphiData.amphiMod_master$getMaxStamina());
-        this.fontRenderer.drawString(stamina, this.xSize / 2 - this.fontRenderer.getStringWidth(stamina) / 2, 84, 4210752);
-        /*if (ConfigHandler.general.enableCrystalFeather) {
-            String bounded = StatCollector.translateToLocal(modIdWithDot + "amphithere.stamina") + " " + StatCollector.translateToLocal(amphiData.amphiMod_master$getBounded() ? modIdWithDot + "amphithere.bounded.true" : modIdWithDot + "amphithere.bounded.false");
-            this.fontRenderer.drawString(bounded, this.xSize / 2 - this.fontRenderer.getStringWidth(bounded) / 2, 84, 4210752);
-        }*/
+        if (ConfigHandler.amphiStamina.enableStamina) {
+            String stamina = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.stamina") + " " + String.format(TextFormatting.YELLOW + "%.0f" + TextFormatting.RESET + "/" + TextFormatting.YELLOW + "%.0f" + TextFormatting.RESET, amphiData.amphiMod_master$getStamina(), amphiData.amphiMod_master$getMaxStamina());
+            this.fontRenderer.drawString(stamina, this.xSize / 2 - this.fontRenderer.getStringWidth(stamina) / 2, 84, 4210752);
+        }
 
         if (ConfigHandler.general.maleAndFemale) {
             String gender = UsefulStiff.translateToLocal(modIdWithDot + "amphithere.gender") + " " + UsefulStiff.translateToLocal(amphiData.amphiMod_master$getGender() ? modIdWithDot + "amphithere.gender.female" : modIdWithDot + "amphithere.gender.male");
-            this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, 93, 4210752);
+            this.fontRenderer.drawString(gender, this.xSize / 2 - this.fontRenderer.getStringWidth(gender) / 2, ConfigHandler.amphiStamina.enableStamina ? 93 : 84, 4210752);
         }
     }
 

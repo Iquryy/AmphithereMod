@@ -21,17 +21,20 @@ public abstract class AmphiHurtByTarget {
         EntityPlayer owner = (EntityPlayer) amphi.getOwner();
         if (owner == null) return;
         EntityLivingBase revengeTarget = amphi.getRevengeTarget();
-        boolean shouldStartDefending = amphi.getCommand() == 1 && !amphithereMod$wasDefending && amphi.getDistanceSq(owner) >= 121.0 && revengeTarget != null && revengeTarget.isEntityAlive();
-        if (shouldStartDefending) {
-            amphithereMod$wasDefending = true;
-            amphi.setCommand(0);
-            amphi.setAttackTarget(revengeTarget);
-        }
-        boolean shouldStopDefending = amphithereMod$wasDefending && (revengeTarget == null || !revengeTarget.isEntityAlive());
-        if (shouldStopDefending) {
-            amphithereMod$wasDefending = false;
-            amphi.setAttackTarget(null);
-            amphi.setCommand(1);
+        if (revengeTarget == null) return;
+        if (!(revengeTarget instanceof EntityAmphithere) && !(revengeTarget.isPassenger(owner))) {
+            boolean shouldStartDefending = amphi.getCommand() == 1 && !amphithereMod$wasDefending && amphi.getDistanceSq(owner) >= 121.0 && revengeTarget != null && revengeTarget.isEntityAlive();
+            if (shouldStartDefending) {
+                amphithereMod$wasDefending = true;
+                amphi.setCommand(0);
+                amphi.setAttackTarget(revengeTarget);
+            }
+            boolean shouldStopDefending = amphithereMod$wasDefending && (revengeTarget == null || !revengeTarget.isEntityAlive());
+            if (shouldStopDefending) {
+                amphithereMod$wasDefending = false;
+                amphi.setAttackTarget(null);
+                amphi.setCommand(1);
+            }
         }
     }
 }

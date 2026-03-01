@@ -87,6 +87,13 @@ public enum EnumAmphiType {
         this.loc_blink = hasBlinkVariant ? new ResourceLocation("amphitheremod:textures/entity/amphithere/"+loc+"_blink.png") : null;
     }
 
+    public static String getFullTexturePathFromInt(int variant) {
+        EnumAmphiType[] values = values();
+        if (variant < 0 || variant >= values.length)
+            variant = 0;
+        return values[variant].getTexture(false).toString();
+    }
+
     EnumAmphiType(Group group, Eyes eyes, Glow glow, String loc, boolean hasBlinkVariant) {
         this(group, eyes, glow, loc, hasBlinkVariant, new WingPattern[]{WingPattern.NONE});
     }

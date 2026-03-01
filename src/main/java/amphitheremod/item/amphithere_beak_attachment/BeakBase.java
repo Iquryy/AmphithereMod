@@ -27,15 +27,21 @@ import java.util.List;
 import java.util.UUID;
 
 import static amphitheremod.AmphithereMod.modIdWithDot;
+import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
+
 public class BeakBase extends ItemSword {
     private static final UUID ATTACK_DAMAGE_MODIFIER = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
     ToolMaterial silverTool = ModItemRegistry.silverBeak;
     ToolMaterial copperTool = ModItemRegistry.copperBeak;
+    ToolMaterial icedTool = ModItemRegistry.iceDragonBoneBeak;
+    ToolMaterial flamedTool = ModItemRegistry.fireDragonBoneBeak;
+    ToolMaterial shockedTool = ModItemRegistry.lightningDragonBoneBeak;
     ToolMaterial mat;
 
     public BeakBase(ToolMaterial mat) {
         super(mat);
         this.mat = mat;
+        itemsToRegister.add(this);
     }
 
     @SideOnly(Side.CLIENT)
@@ -60,29 +66,43 @@ public class BeakBase extends ItemSword {
         }
     }
 
+
+
     @NotNull
     @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(@NotNull EntityEquipmentSlot slot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
-        multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-        multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
-        float damage = 0;
+        double defaultDamage = 1;
+        double modifiedDamage = 0;
+        if (!ConfigHandler.amphithereArmor.beakDamage.enableCustomBeakDamage) {
+            Collection<AttributeModifier> damageModifiers = multimap.get("generic.attackDamage");
+            if (!damageModifiers.isEmpty())
+                for (AttributeModifier modifier : damageModifiers)
+                    defaultDamage += modifier.getAmount();
+            double divider = ConfigHandler.amphithereArmor.beakDamage.beakDamageDivider;
+            modifiedDamage = defaultDamage * divider;
+            multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+            multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
+        } else {
+            if (mat == copperTool)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.copperBeakDamage;
+            if (mat == ToolMaterial.IRON)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.ironBeakDamage;
+            if (mat == ToolMaterial.GOLD)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.goldBeakDamage;
+            if (mat == ToolMaterial.DIAMOND)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.diamondBeakDamage;
+            if (mat == silverTool)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.silverBeakDamage;
+            if (mat == icedTool)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.icedBeakDamage;
+            if (mat == flamedTool)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.flamedBeakDamage;
+            if (mat == shockedTool)
+                modifiedDamage = ConfigHandler.amphithereArmor.beakDamage.shockedBeakDamage;
+        }
         if (!ConfigHandler.amphithereArmor.cosmeticArmorBeak && slot == EntityEquipmentSlot.MAINHAND) {
-            if(!ConfigHandler.amphithereArmor.beakDamage.enableCustomBeakDamage)
-                damage = this.mat.getAttackDamage();
-            else {
-                if (mat == copperTool)
-                    damage = ConfigHandler.amphithereArmor.beakDamage.copperBeakDamage;
-                if (mat == ToolMaterial.IRON)
-                    damage = ConfigHandler.amphithereArmor.beakDamage.ironBeakDamage;
-                if (mat == ToolMaterial.GOLD)
-                    damage = ConfigHandler.amphithereArmor.beakDamage.goldBeakDamage;
-                if (mat == ToolMaterial.DIAMOND)
-                    damage = ConfigHandler.amphithereArmor.beakDamage.diamondBeakDamage;
-                if (mat == silverTool)
-                    damage = ConfigHandler.amphithereArmor.beakDamage.silverBeakDamage;
-            }
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Armor modifier", damage, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Damage modifier", modifiedDamage, 0));
         }
 
         return multimap;

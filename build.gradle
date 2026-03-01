@@ -54,15 +54,16 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     compileOnly "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
-
+    implementation fg.deobf("curse.maven:tschipplib-262886:3459390")
+    implementation fg.deobf("curse.maven:forgotten-items-262884:4167346")
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
 
     // bruh
     // bruh
     compileOnly fg.deobf("curse.maven:iceandfire-rlcraft-${iceandfirerl_version}")
     //compileOnly fg.deobf("curse.maven:iceandfire-rotn-${iceandfirerotn_version}")
-    //compileOnly fg.deobf("curse.maven:iceandfire-${iceandfire_version}")
-
+    compileOnly fg.deobf("curse.maven:iceandfire-${iceandfire_version}")
+    implementation fg.deobf("curse.maven:wearable-backpacks-rlcraft-edition-684624:4203074")
     implementation fg.deobf("curse.maven:dynamictrees-252818:3812473")
     compileOnly fg.deobf("curse.maven:llibrary-${llibrary_version}")
     implementation fg.deobf("curse.maven:ClassyHats-${classy_hats}")

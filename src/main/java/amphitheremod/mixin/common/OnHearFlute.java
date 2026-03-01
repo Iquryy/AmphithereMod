@@ -9,10 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EntityAmphithere.class, remap = false)
 public class OnHearFlute {
-    @Inject(method = "onHearFlute", at = @At(value = "HEAD"))
+    @Inject(method = "onHearFlute", at = @At(value = "HEAD"), cancellable = true)
     void flute(EntityPlayer player, CallbackInfo ci) {
         EntityAmphithere amphi = (EntityAmphithere) (Object) this;
-        if (amphi.isTamed() && (!amphi.onGround) && !amphi.isBeingRidden())
+        if (amphi.isTamed() && (!amphi.onGround) && !amphi.isBeingRidden() && player == amphi.getOwner()) {
+            amphi.isFallen = true;
             amphi.setCommand(2);
+        }
+        ci.cancel();
     }
 }

@@ -5,7 +5,6 @@ import amphitheremod.config.SpecialAmphitheres.BlackEagleAmphithereOptions;
 import amphitheremod.config.SpecialAmphitheres.ShivaxiAmphithereOptions;
 import amphitheremod.config.armor.AmphithereArmor;
 import fermiumbooter.annotations.MixinConfig;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -46,10 +45,6 @@ public class ConfigHandler {
     @Config.Name("Stamina Settings")
     public static final AmphithereStamina amphiStamina = new AmphithereStamina();
 
-    @Config.Comment("Testt")
-    @Config.Name("Test")
-    public static final test test = new test();
-
     @MixinConfig(name = AmphithereMod.MODID)
     @SuppressWarnings("unused")
     public static class Mixins {
@@ -64,9 +59,8 @@ public class ConfigHandler {
         public int amphithereHealDivisor = 10;
 
         @Config.Comment("With this mixin, the dragon 3rd person view in F5 can also be used with amphis")
-        @Config.Name("Enable Amphithere View")
+        @Config.Name("Amphithere View")
         @Config.RequiresMcRestart
-        //@MixinConfig.MixinToggle(earlyMixin = "mixins.amphitheremod.amphiview.json", defaultValue = true)
         public boolean amphiView = true;
 
         @Config.Comment("Sets the third-person camera view distance when riding an Amphithere.")
@@ -75,13 +69,13 @@ public class ConfigHandler {
         public int ridingViewDistance = 4;
 
         @Config.Comment("With this mixin, feeding coco beans to amphithere will heal them 10% of their max hp instead 5 fixed amount")
-        @Config.Name("Enable Cocoa Bean Heal Change")
+        @Config.Name("Cocoa Bean Heal Change")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynamicfeeding.json", defaultValue = true)
         public boolean changeCocoaBeanHeal = true;
 
-        @Config.Comment("Enables an inventory for tamed Amphitheres, accessible by shift-right-clicking.")
-        @Config.Name("Enable Amphithere Inventory")
+        @Config.Comment("Enables Armor Slots for tamed Amphitheres, accessible by shift-right-clicking.")
+        @Config.Name("Amphithere Armor Slots")
         @Config.RequiresMcRestart
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.inventory.json", defaultValue = true)
         public boolean enableAmphithereInventory = true;
@@ -122,12 +116,6 @@ public class ConfigHandler {
         @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.dynbranchphasechange.json", defaultValue = false)
         @MixinConfig.CompatHandling( modid = "dynamictrees", desired = true, warnIngame = false, reason = "Requires mod to properly function")
         public boolean canPassTroughDynamicBranch = false;
-
-        @Config.Comment("Enables Amphithere wing flap sound")
-        @Config.Name("Amphithere Wing Flap Sound")
-        @Config.RequiresMcRestart
-        @MixinConfig.MixinToggle(lateMixin = "mixins.amphitheremod.wingflap.json", defaultValue = true)
-        public boolean wingFlap = true;
     }
 
     @Mod.EventBusSubscriber(modid = AmphithereMod.MODID)

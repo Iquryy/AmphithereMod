@@ -10,22 +10,18 @@
     "common.Variants",
     "common.LootTable",
     "common.OnHearFlute",
-    "common.UpDownAnimationFix",
+    "common.AnimationFix",
     "common.QualityToolsToolTip",
     "common.ai.AmphiHurtByTarget",
-    "common.ApplyMaxStaminaOnTame",
     "common.ai.MaleAndFemaleBreeding",
-    "common.mountfixes.AmphiMountFix",
-    "common.mountfixes.HippoMountFix",
-    "common.mountfixes.DragonMountFix",
-    "common.processInteract.CrystalFeather",
-    "common.soundEvents.SkeletonAmphiSounds",
+    "common.AmphiSounds",
     "common.processInteract.XXLChocolateCookie",
-    "common.processInteract.DontUseBeansOnFullHP"
+    "common.processInteract.DontUseBeansOnFullHP",
+    "common.AmphiWindTalisman"
   ],
   "client": [
-    "client.AmphithereModel",
     "client.ChainBuffer",
+    "client.AmphithereModel",
     "client.FirstAidToolTip",
     "client.RenderAmphiLayers",
     "client.RenderAmphiVariants"

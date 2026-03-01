@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WWW",
+    "CFC",
+    "WWW"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:dye",
+      "data": 3
+    },
+    "W": {
+      "item": "minecraft:wheat",
+      "data": 0
+    },
+    "F": {
+      "item": "srparasites:assimilated_flesh",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "amphitheremod:anti_coth_cookie",
+    "data": 0
+  }
+}

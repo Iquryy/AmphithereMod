@@ -2,16 +2,13 @@ package amphitheremod.proxy;
 
 import amphitheremod.network.PacketChangeAmphithereAI;
 import amphitheremod.network.PacketChangeAmphithereAIHandler;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import org.lwjgl.input.Keyboard;
 
 import static amphitheremod.AmphithereMod.NETWORK_WRAPPER;
 
@@ -20,9 +17,13 @@ public class CommonProxy {
     public static SoundEvent AMPHITHERE_HURT_0 = null;
     public static SoundEvent AMPHITHERE_HURT_1 = null;
     public static SoundEvent AMPHITHERE_HURT_2 = null;
-    public static SoundEvent AMPHITHERE_WING_FLAP = null;
-    public static SoundEvent AMPHITHERE_MUISC_DISC = null;
-    //public static KeyBinding ELYTRA_DIVE_KEY;
+    public static SoundEvent AMPHITHERE_HURT_3 = null;
+    public static SoundEvent AMPHITHERE_HURT_4 = null;
+    public static SoundEvent AMPHITHERE_HURT_5 = null;
+    public static SoundEvent AMPHITHERE_HURT_6 = null;
+    public static SoundEvent AMPHITHERE_HURT_7 = null;
+    public static SoundEvent AMPHITHERE_HURT_8 = null;
+    public static SoundEvent AMPHITHERE_HURT_9 = null;
 
     public void preInit(FMLPreInitializationEvent event) {
         int packetId = 0;
@@ -35,8 +36,13 @@ public class CommonProxy {
                 AMPHITHERE_HURT_0 = createSoundEvent("amphithere_hurt_0"),
                 AMPHITHERE_HURT_1 = createSoundEvent("amphithere_hurt_1"),
                 AMPHITHERE_HURT_2 = createSoundEvent("amphithere_hurt_2"),
-                AMPHITHERE_WING_FLAP = createSoundEvent("amphithere_wing_flap"),
-                AMPHITHERE_MUISC_DISC = createSoundEvent("amphithere_music_disc")
+                AMPHITHERE_HURT_3 = createSoundEvent("amphithere_hurt_3"),
+                AMPHITHERE_HURT_4 = createSoundEvent("amphithere_hurt_4"),
+                AMPHITHERE_HURT_5 = createSoundEvent("amphithere_hurt_5"),
+                AMPHITHERE_HURT_6 = createSoundEvent("amphithere_hurt_6"),
+                AMPHITHERE_HURT_7 = createSoundEvent("amphithere_hurt_7"),
+                AMPHITHERE_HURT_8 = createSoundEvent("amphithere_hurt_8"),
+                AMPHITHERE_HURT_9 = createSoundEvent("amphithere_hurt_9")
         );
     }
 
@@ -46,7 +52,5 @@ public class CommonProxy {
     }
 
     public void init() {
-        /*ELYTRA_DIVE_KEY = new KeyBinding("key.amphitheremod.elytra_dive", Keyboard.KEY_LCONTROL, "key.categories.amphitheremod");
-        ClientRegistry.registerKeyBinding(ELYTRA_DIVE_KEY);*/
     }
 }

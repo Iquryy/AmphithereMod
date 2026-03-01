@@ -12,7 +12,7 @@ import static amphitheremod.AmphithereMod.TAMED_AMPHITHERE_DEATH_COUNT;
 @Mod.EventBusSubscriber
 public class AmphiOnDeath{
     @SubscribeEvent
-    public static void onAmphithereStruck(LivingDeathEvent event) {
+    public static void onDeath(LivingDeathEvent event) {
         World world = event.getEntity().getEntityWorld();
         if (world.isRemote) return;
         if(!(event.getEntity() instanceof EntityAmphithere)) return;

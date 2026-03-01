@@ -3,6 +3,7 @@ package amphitheremod.events;
 import amphitheremod.util.EnumAmphiType;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,6 +38,9 @@ public class WhenRidingWithCustomName {
         } else if (playerUUID.equals(NISCHHELM_UUID) && amphiName.equalsIgnoreCase("nischhelm") && amphi.getVariant() != EnumAmphiType.RADISH.ordinal()) {
             amphi.setVariant(EnumAmphiType.RADISH.ordinal());
             amphi.setCustomNameTag("");
+        }
+        if(amphiName.equals("deez__nuts")) {
+            amphi.setCustomNameTag(""+TextFormatting.LIGHT_PURPLE + TextFormatting.BOLD + "Ancient " + TextFormatting.GREEN + TextFormatting.BOLD + "Deez Nuts");
         }
     }
 }

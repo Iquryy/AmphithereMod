@@ -17,10 +17,46 @@
       "amphitheremod:amphithere_hurt_2"
     ]
   },
-  "amphithere_wing_flap": {
+  "amphithere_hurt_3": {
     "category": "hostile",
     "sounds": [
-      "amphitheremod:amphithere_wing_flap"
+      "amphitheremod:amphithere_hurt_3"
+    ]
+  },
+  "amphithere_hurt_4": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_4"
+    ]
+  },
+  "amphithere_hurt_5": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_5"
+    ]
+  },
+  "amphithere_hurt_6": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_6"
+    ]
+  },
+  "amphithere_hurt_7": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_7"
+    ]
+  },
+  "amphithere_hurt_8": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_8"
+    ]
+  },
+  "amphithere_hurt_9": {
+    "category": "hostile",
+    "sounds": [
+      "amphitheremod:amphithere_hurt_9"
     ]
   }
 }

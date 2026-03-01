@@ -1,7 +1,9 @@
 package amphitheremod;
 
 import amphitheremod.config.ConfigHandler;
+import amphitheremod.util.IceAndFireUtil;
 import fermiumbooter.FermiumRegistryAPI;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 
@@ -13,7 +15,11 @@ public class AmphithereModPlugin implements IFMLLoadingPlugin {
     public AmphithereModPlugin() {
         MixinBootstrap.init();
         FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.mixins.json");
-        FermiumRegistryAPI.enqueueMixin(false, "mixins.amphitheremod.amphiview.json", () -> ConfigHandler.mixins.amphiView);
+        FermiumRegistryAPI.enqueueMixin(false, "mixins.amphitheremod.coreMixin.json");
+        FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.beak_rlcraft.json", () -> IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT);
+        FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.beak_other.json", () -> (!(IceAndFireUtil.getIceAndFireVersion() == IceAndFireUtil.IceAndFireVersion.RLCRAFT)));
+        FermiumRegistryAPI.enqueueMixin(true, "mixins.amphitheremod.antiCothCookie.json", () -> Loader.isModLoaded("srparasites"));
+        FermiumRegistryAPI.enqueueMixin(false, "mixins.amphitheremod.amphi_view.json", () -> ConfigHandler.mixins.amphiView);
 
     }
 
