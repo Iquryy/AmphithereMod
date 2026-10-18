@@ -74,6 +74,7 @@ public class ModItemRegistry {
     // ITEMS
     public static List<Item> itemsToRegister = new ArrayList<>();
     public static Item SHIVAXI_FEATHER;
+    public static Item CRYSTAL_FEATHER;
     public static Item XXL_CHOCOLATE_COOKIE;
     public static Item ANTI_COTH_COOKIE;
     public static Item AMPHITHERE_COPPER_HEAD_ARMOR;
@@ -118,6 +119,9 @@ public class ModItemRegistry {
         }
 
         SHIVAXI_FEATHER = new ItemShivaxiFeather("shivaxi_feather", AMPHITHERE_MOD_TAB);
+
+        if (ConfigHandler.general.enableCrystalFeather)
+            CRYSTAL_FEATHER = new ItemCrystalFeather("amphithere_crystal_feather", AMPHITHERE_MOD_TAB);
 
         if (ConfigHandler.xxlCookieBuffs.enableXxlCookie)
             XXL_CHOCOLATE_COOKIE = new ItemXXLChocolateCookie("xxl_chocolate_cookie", AMPHITHERE_MOD_TAB);

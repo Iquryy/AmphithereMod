@@ -32,7 +32,7 @@ public class WhenRidingWithCustomName {
         if (playerUUID.equals(IQURY_UUID) && amphiName.equalsIgnoreCase("iqury") && amphi.getVariant() != EnumAmphiType.IQURY.ordinal()) {
             amphi.setVariant(EnumAmphiType.IQURY.ordinal());
             amphi.setCustomNameTag("");
-        } else if (playerUUID.equals(CRAFTY_UUID) && amphiName.equalsIgnoreCase("crafty") && amphi.getVariant() != EnumAmphiType.CRAFTY.ordinal()) {
+        } else if (playerUUID.equals(CRAFTY_UUID) && amphiName.equalsIgnoreCase("craftie") && amphi.getVariant() != EnumAmphiType.CRAFTY.ordinal()) {
             amphi.setVariant(EnumAmphiType.CRAFTY.ordinal());
             amphi.setCustomNameTag("");
         } else if (playerUUID.equals(NISCHHELM_UUID) && amphiName.equalsIgnoreCase("nischhelm") && amphi.getVariant() != EnumAmphiType.RADISH.ordinal()) {

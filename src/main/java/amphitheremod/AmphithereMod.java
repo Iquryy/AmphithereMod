@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = AmphithereMod.MODID, version = AmphithereMod.VERSION, name = AmphithereMod.NAME, dependencies = "required-after: fermiumbooter@ [1.3.0,)", acceptableRemoteVersions = "*")
 public class AmphithereMod {
     public static final String MODID = "amphitheremod";
-    public static final String VERSION = "1.10";
+    public static final String VERSION = "1.2";
     public static final String NAME = "Amphithere Mod";
     public static String modIdWithDot = AmphithereMod.MODID + ".";
     public static final Logger LOGGER = LogManager.getLogger();
@@ -66,5 +66,4 @@ public class AmphithereMod {
     @Mod.EventHandler
     public void serverInit(FMLServerStartingEvent event) {
     }
-
 }

@@ -16,4 +16,9 @@ public class General {
     @Config.Name("Enable Wing Patterns")
     @Config.RequiresMcRestart
     public boolean enableWingPatterns = true;
+
+    @Config.Comment("Enable the Crystal Feather. Using it on your own tamed Amphithere soul binds it to you: if either of you dies, both die.")
+    @Config.Name("Enable Crystal Feather")
+    @Config.RequiresMcRestart
+    public boolean enableCrystalFeather = true;
 }

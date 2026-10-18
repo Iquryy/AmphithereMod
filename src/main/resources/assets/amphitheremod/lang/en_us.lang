@@ -31,6 +31,7 @@ item.amphitheremod.lightning_beak_attachment.name=Amphithere Shocked Beak Attach
 item.amphitheremod.fire_beak_attachment.name=Amphithere Flamed Beak Attachment
 item.amphitheremod.dragonbone_beak_attachment.name=Amphithere Dragonbone Beak Attachment
 item.amphitheremod.amphithere_egg.name=Amphithere Egg
+item.amphitheremod.amphithere_crystal_feather.name=Crystal Feather
 
 itemGroup.amphitheremod.amphithere_mod_items=Amphithere Mod
 
@@ -94,3 +95,22 @@ entity.amphithere_egg.name=Amphithere Egg
 stat.tamed_amphithere_death_count.name=Tamed Amphithere Death Count
 
 key.categories.amphitheremod=Amphithere Mod
+
+amphitheremod.crystal_feather.bound_name=%s
+amphitheremod.crystal_feather.bound_desc=Soul linked to Amphithere
+amphitheremod.crystal_feather.empty_0=Use on your own tamed Amphithere to soul bind it
+amphitheremod.crystal_feather.empty_1=If one dies, both die
+amphitheremod.crystal_feather.msg.bound=%s is now soul bound to you
+amphitheremod.crystal_feather.msg.stored=%s rests inside the feather
+amphitheremod.crystal_feather.msg.released=%s was released
+amphitheremod.crystal_feather.msg.summoned=%s was summoned to you
+amphitheremod.crystal_feather.msg.not_tamed=Only tamed Amphitheres can be soul bound
+amphitheremod.crystal_feather.msg.not_owner=This is not your Amphithere
+amphitheremod.crystal_feather.msg.already_bound=This Amphithere is already soul bound
+amphitheremod.crystal_feather.msg.other_amphi=This feather is bound to another Amphithere
+amphitheremod.crystal_feather.msg.not_your_feather=This feather's bond belongs to someone else
+amphitheremod.crystal_feather.msg.not_found=Your bound Amphithere is too far away or in another dimension
+amphitheremod.crystal_feather.msg.release_failed=The Amphithere could not be released here
+amphitheremod.crystal_feather.msg.shattered=The Crystal Feather shattered, its soul bond is gone
+
+death.attack.amphitheremod.soul=%1$s soul died
