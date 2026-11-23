@@ -1,143 +1,98 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+        maven { name = 'sponge'; url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '[6.0,6.2)', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+', changing: true
+    }
+}
+
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'net.minecraftforge.gradle' version "${forge_gradle_version}"
-    id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
-    id 'wtf.gofancy.fancygradle' version "${fancy_gradle_version}"
 }
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-version = mod_version
-group = mod_id
-base.archivesName = mod_name
+version = "${mc_version}-${mod_version}"
+group = 'amphitheremod'
+base { archivesName = 'amphitheremod' }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: mappings_channel, version: mappings_version
+    mappings channel: 'parchment', version: "${parchment_version}-${mc_version}"
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    copyIdeResources = true
 
     runs {
-        client {
-            args "--username=InDev"
-
-            jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
-            jvmArg "-Dmixin.checks.interfaces=true"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+        configureEach {
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            // Mixins against Ice and Fire and vanilla need the SRG->MCP refmap remapped in the dev environment
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                amphitheremod { source sourceSets.main }
+            }
         }
-
-        server {
-
-            jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
-            jvmArg "-Dmixin.checks.interfaces=true"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
+        client { workingDirectory project.file('run/client') }
+        server { workingDirectory project.file('run/server') }
     }
 }
 
 repositories {
-    flatDir { dirs 'libs' }
-    maven { url = 'https://www.cursemaven.com' }
+    maven { name = 'MinecraftForge'; url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://cursemaven.com'; content { includeGroup 'curse.maven' } }
+    // Optional: drop an Ice and Fire jar at libs/iceandfire-1.jar to build and run against it instead of the
+    // CurseForge release (used to test against Ice and Fire forks)
+    flatDir { dir 'libs' }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly "org.spongepowered:mixin:${mixin_version}"
-    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
-    compileOnly "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
-    annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
-    implementation fg.deobf("curse.maven:tschipplib-262886:3459390")
-    implementation fg.deobf("curse.maven:forgotten-items-262884:4167346")
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    // bruh
-    // bruh
-    compileOnly fg.deobf("curse.maven:iceandfire-rlcraft-${iceandfirerl_version}")
-    //compileOnly fg.deobf("curse.maven:iceandfire-rotn-${iceandfirerotn_version}")
-    compileOnly fg.deobf("curse.maven:iceandfire-${iceandfire_version}")
-    implementation fg.deobf("curse.maven:wearable-backpacks-rlcraft-edition-684624:4203074")
-    implementation fg.deobf("curse.maven:dynamictrees-252818:3812473")
-    compileOnly fg.deobf("curse.maven:llibrary-${llibrary_version}")
-    implementation fg.deobf("curse.maven:ClassyHats-${classy_hats}")
-    implementation fg.deobf("curse.maven:librarianlib-252910:3041340")
-    implementation fg.deobf("curse.maven:shadowfacts-forgelin-248453:2785465")
-    implementation fg.deobf("curse.maven:first-aid-276837:4414252")
-    implementation fg.deobf("curse.maven:qualitytool-264756:2732994")
-    implementation fg.deobf("curse.maven:antique-atlas-227795:2823030")
+    // Ice and Fire is the mod this add-on extends; Citadel is its model/animation library
+    if (file('libs/iceandfire-1.jar').exists()) {
+        implementation fg.deobf('local:iceandfire:1')
+    } else {
+        implementation fg.deobf('curse.maven:ice-and-fire-dragons-264231:5633453')
+    }
+    implementation fg.deobf('curse.maven:citadel-331936:5075402')
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 mixin {
-    add sourceSets.main, "mixins.${mod_id}.refmap.json"
-}
-
-fancyGradle {
-    patches {
-        resources
-        coremods
-        asm
-        mergetool
-    }
-}
-
-processResources {
-    var replaceProperties = [
-            'mod_id': mod_id,
-            'mod_name': mod_name,
-            'version': mod_version,
-            'mcversion': minecraft_version,
-            'mod_description': mod_description,
-            'mod_author': mod_author
-    ]
-
-    inputs.properties replaceProperties
-
-    filesMatching('mcmod.info') {
-        expand replaceProperties
-    }
+    add sourceSets.main, 'amphitheremod.refmap.json'
+    config 'amphitheremod.mixins.json'
 }
 
 jar {
     manifest {
-        def attr = [:]
-        attr['Specification-Title']         = mod_name
-        attr['Specification-Vendor']        = mod_author
-        attr['Specification-Version']       = '1'
-        attr['Implementation-Title']        = mod_name
-        attr['Implementation-Vendor']       = mod_author
-        attr['Implementation-Version']      = mod_version
-        attr['Implementation-Timestamp']    = new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        attr['FMLCorePlugin']               = mixin_loader_class
-        attr['FMLCorePluginContainsFMLMod'] = 'true'
-        attr['TweakClass']                  = 'org.spongepowered.asm.launch.MixinTweaker'
-        attr['ForceLoadAsMod'] = "true"
-
-        def currentTasks = gradle.startParameter.taskNames
-        if (currentTasks[0] == 'build' || currentTasks[0] == 'assemble')
-            attr['ForceLoadAsMod'] = "true"
-        attributes(attr)
+        attributes([
+                'Specification-Title'     : 'amphitheremod',
+                'Specification-Vendor'    : 'Iqury',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.version,
+                'Implementation-Vendor'   : 'Iqury',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'MixinConfigs'            : 'amphitheremod.mixins.json'
+        ])
     }
 }
-
-tasks.register("copyReobfJar", Copy) {
-    dependsOn("reobfJar")
-
-    from(layout.buildDirectory.file("reobfJar/output.jar"))
-    into(layout.projectDirectory.dir("run/mods"))
-    rename("output.jar", "${mod_name}-${mod_version}.jar")
-}
-
-afterEvaluate {
-    tasks.matching { it.name.startsWith("reobfJar") }.configureEach {
-        finalizedBy("copyReobfJar")
-    }
-}
-
 jar.finalizedBy('reobfJar')
+
+processResources {
+    inputs.property 'version', mod_version
+    filesMatching('META-INF/mods.toml') { expand 'version': mod_version }
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }

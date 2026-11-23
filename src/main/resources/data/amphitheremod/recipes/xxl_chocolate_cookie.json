@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "xxl_cookie"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "CWC",
+    "WWW"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:cocoa_beans"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:xxl_chocolate_cookie"
+  }
+}

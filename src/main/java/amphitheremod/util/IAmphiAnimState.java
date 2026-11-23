@@ -1,38 +1,37 @@
 package amphitheremod.util;
 
 /**
- * Per-amphithere animation state, ticked on the client in AmphiAnimState and read by the model.
- * Every getter blends between the last two ticks with partialTicks, so the animation stays smooth at any frame rate.
+ * Client-side flight animation state kept on each amphithere (mixin.AmphiAnimStateMixin) and read by the model mixin.
+ * Every getter takes the partial tick and interpolates between the last two ticks so the animation is smooth.
  */
 public interface IAmphiAnimState {
-    /** 0..1, how far the wings are blended into the dive pose by pitch. */
-    float amphiAnim$diveBlend(float partialTicks);
+    /** 0..1, how far into the dive pose the pitch has pushed it. */
+    float amphiAnim$diveBlend(float partialTick);
 
-    /** 0..1, how much of the flapping is kept (fades out past the "flap stops" pitch). */
-    float amphiAnim$flapKeep(float partialTicks);
+    /** 0..1, how much of the wing flap to keep (flapping fades out in a steep dive). */
+    float amphiAnim$flapKeep(float partialTick);
 
-    /** Bank angle into the turn, in degrees. */
-    float amphiAnim$bankRoll(float partialTicks);
+    /** Degrees of bank roll while turning. */
+    float amphiAnim$bankRoll(float partialTick);
 
-    /** How far the neck should turn toward where the amphithere (or its rider) is facing, in degrees. */
-    float amphiAnim$neckLead(float partialTicks);
+    /** Degrees the neck leads the body into a turn. */
+    float amphiAnim$neckLead(float partialTick);
 
-    /** Sideways swing of tail segment i (0..4: Tail1..Tail4, Club) from turning, in degrees. */
-    float amphiAnim$turnTail(int i, float partialTicks);
+    /** Degrees of sideways tail swing for tail segment i (0..4) while turning. */
+    float amphiAnim$turnTail(int i, float partialTick);
 
-    /** Up/down swing of tail segment i from the body bob, in degrees. */
-    float amphiAnim$bobTail(int i, float partialTicks);
+    /** Degrees of up/down tail swing for tail segment i (0..4) following the body bob. */
+    float amphiAnim$bobTail(int i, float partialTick);
 
-    /*
-     * Ice and Fire changes flapProgress, diveProgress and groundProgress once per tick and the model reads them
-     * raw, so flap strength and the dive / landing poses moved in 20 steps per second. These blend between ticks.
-     */
-    float amphiAnim$flapProgress(float partialTicks);
+    float amphiAnim$flapProgress(float partialTick);
 
-    float amphiAnim$diveProgress(float partialTicks);
+    float amphiAnim$diveProgress(float partialTick);
 
-    float amphiAnim$groundProgress(float partialTicks);
+    float amphiAnim$groundProgress(float partialTick);
 
-    /** This tick's body bob in blocks (+ = lower), so the rider can bob with the body. */
+    /** Smoothed body pitch in degrees (replaces Ice and Fire's pitch buffer). */
+    float amphiAnim$bodyPitch(float partialTick);
+
+    /** How far the body bobs this tick, in blocks (the rider is moved by the same amount). */
     float amphiAnim$bobBlocks();
 }

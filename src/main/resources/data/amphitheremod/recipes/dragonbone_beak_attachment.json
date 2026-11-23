@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "II "
+  ],
+  "key": {
+    "I": {
+      "item": "iceandfire:dragonbone"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:dragonbone_beak_attachment"
+  }
+}

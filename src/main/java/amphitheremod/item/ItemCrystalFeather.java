@@ -1,278 +1,248 @@
 package amphitheremod.item;
 
-import amphitheremod.AmphithereMod;
 import amphitheremod.util.IAmphithereData;
 import amphitheremod.util.SoulBindData;
-import amphitheremod.util.UsefulStiff;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static amphitheremod.AmphithereMod.modIdWithDot;
-import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
-
 /**
- * Crystal Feather: soul binds one of your own tamed amphitheres.
- * <ul>
- *   <li>Use it on your own tamed amphithere: the bond is made and the amphithere rests inside the feather.</li>
- *   <li>Use it on a block: the amphithere comes out there. If it's already out (and loaded in your dimension), it's summoned to that spot.</li>
- *   <li>Use it on your bound amphithere while it's out: it goes back inside.</li>
- * </ul>
- * The bond is permanent: if either dies, both die (see {@link amphitheremod.events.SoulBindEvents}).
+ * Crystal Feather. Used on your own tamed amphithere it soul binds the two of you (if either dies, both die) and stores
+ * the amphithere inside the feather. Used on a block it releases the stored amphithere there, or, if it's already out,
+ * teleports it to you (same dimension). The feather shatters once its amphithere is gone.
+ *
+ * NBT: SoulBind {Amphi: uuid, Owner: uuid, Stored: entity tag while it's inside, Name: custom name for the tooltip}
  */
 public class ItemCrystalFeather extends Item {
     private static final String TAG = "SoulBind";
     private static final String MSG = "amphitheremod.crystal_feather.msg.";
 
-    public ItemCrystalFeather(String name, CreativeTabs tab) {
-        this.setRegistryName(AmphithereMod.MODID, name);
-        this.setTranslationKey(modIdWithDot + name);
-        this.setCreativeTab(tab);
-        this.setMaxStackSize(1);
-        itemsToRegister.add(this);
+    public ItemCrystalFeather() {
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC));
     }
 
-    // ------------------------------------------------------------------ stack data
-
     @Nullable
-    private static NBTTagCompound bindTag(ItemStack stack) {
-        NBTTagCompound tag = stack.getTagCompound();
-        return tag != null && tag.hasKey(TAG) ? tag.getCompoundTag(TAG) : null;
+    private static CompoundTag bindTag(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag != null && tag.contains(TAG) ? tag.getCompound(TAG) : null;
     }
 
     public static boolean isBound(ItemStack stack) {
-        NBTTagCompound t = bindTag(stack);
-        return t != null && t.hasUniqueId("Amphi");
+        CompoundTag t = bindTag(stack);
+        return t != null && t.hasUUID("Amphi");
     }
 
     @Nullable
     public static UUID getBoundAmphi(ItemStack stack) {
-        NBTTagCompound t = bindTag(stack);
-        return t != null && t.hasUniqueId("Amphi") ? t.getUniqueId("Amphi") : null;
+        CompoundTag t = bindTag(stack);
+        return t != null && t.hasUUID("Amphi") ? t.getUUID("Amphi") : null;
     }
 
     @Nullable
     public static UUID getBondOwner(ItemStack stack) {
-        NBTTagCompound t = bindTag(stack);
-        return t != null && t.hasUniqueId("Owner") ? t.getUniqueId("Owner") : null;
+        CompoundTag t = bindTag(stack);
+        return t != null && t.hasUUID("Owner") ? t.getUUID("Owner") : null;
     }
 
-    /** True while the amphithere is resting inside the feather. */
     public static boolean holdsAmphi(ItemStack stack) {
-        NBTTagCompound t = bindTag(stack);
-        return t != null && t.hasKey("Stored");
+        CompoundTag t = bindTag(stack);
+        return t != null && t.contains("Stored");
     }
 
-    private static String storedName(ItemStack stack) {
-        NBTTagCompound t = bindTag(stack);
-        return t == null ? "" : t.getString("Name");
+    private static void message(Player player, String key, Object... args) {
+        player.displayClientMessage(Component.translatable(MSG + key, args), true);
     }
 
-    private static ITextComponent nameComponent(String customName) {
-        return customName.isEmpty() ? new TextComponentTranslation("entity." + modIdWithDot + "amphithere.name") : new TextComponentString(customName);
-    }
-
-    // ------------------------------------------------------------------ using it on an amphithere (called from SoulBindEvents)
-
-    /** Server side. Returns true when the feather handled the click (so the amphithere's own interaction is skipped). */
-    public static boolean useOnAmphithere(ItemStack stack, EntityPlayer player, EntityAmphithere amphi) {
-        World world = player.world;
-        if (!amphi.isTamed()) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "not_tamed"), true);
-            return true;
+    /** Right click on an amphithere (called from event.SoulBindEvents, server side). */
+    public static void useOnAmphithere(ItemStack stack, Player player, EntityAmphithere amphi) {
+        Level level = player.level();
+        if (!amphi.isTame()) {
+            message(player, "not_tamed");
+            return;
         }
-        if (!amphi.isOwner(player)) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "not_owner"), true);
-            return true;
+        if (!amphi.isOwnedBy(player)) {
+            message(player, "not_owner");
+            return;
         }
-
-        SoulBindData data = SoulBindData.get(world);
-        UUID amphiId = amphi.getUniqueID();
-
+        SoulBindData data = SoulBindData.get(level.getServer());
+        UUID amphiId = amphi.getUUID();
         if (!isBound(stack)) {
-            if (data.isBound(amphiId) || ((IAmphithereData) amphi).amphiMod_master$getBounded()) {
-                player.sendStatusMessage(new TextComponentTranslation(MSG + "already_bound"), true);
-                return true;
+            if (data.isBound(amphiId) || ((IAmphithereData) amphi).amphiMod$isBound()) {
+                message(player, "already_bound");
+                return;
             }
-            // Make the bond, then put the amphithere inside.
-            NBTTagCompound t = new NBTTagCompound();
-            t.setUniqueId("Amphi", amphiId);
-            t.setUniqueId("Owner", player.getUniqueID());
-            if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-            stack.getTagCompound().setTag(TAG, t);
-            ((IAmphithereData) amphi).amphiMod_master$setBounded(true);
-            data.bind(amphiId, player.getUniqueID());
-            ITextComponent name = amphi.getDisplayName();
+            CompoundTag t = new CompoundTag();
+            t.putUUID("Amphi", amphiId);
+            t.putUUID("Owner", player.getUUID());
+            stack.getOrCreateTag().put(TAG, t);
+            ((IAmphithereData) amphi).amphiMod$setBound(true);
+            data.bind(amphiId, player.getUUID());
+            Component name = amphi.getDisplayName();
             storeAmphi(stack, amphi);
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "bound", name), true);
-            world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 1F, 1.4F);
-            return true;
+            message(player, "bound", name);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0F, 1.4F);
+            return;
         }
-
-        if (!player.getUniqueID().equals(getBondOwner(stack))) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "not_your_feather"), true);
-            return true;
+        if (!player.getUUID().equals(getBondOwner(stack))) {
+            message(player, "not_your_feather");
+            return;
         }
         if (!amphiId.equals(getBoundAmphi(stack))) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "other_amphi"), true);
-            return true;
+            message(player, "other_amphi");
+            return;
         }
-        if (holdsAmphi(stack)) return true; // can't happen (it's inside), but never store twice
-
-        ITextComponent name = amphi.getDisplayName();
-        storeAmphi(stack, amphi);
-        player.sendStatusMessage(new TextComponentTranslation(MSG + "stored", name), true);
-        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 0.8F, 1.3F);
-        return true;
-    }
-
-    private static void storeAmphi(ItemStack stack, EntityAmphithere amphi) {
-        amphi.removePassengers();
-        amphi.dismountRidingEntity();
-        if (amphi.getLeashed()) amphi.clearLeashed(true, true);
-        amphi.getNavigator().clearPath();
-        amphi.fallDistance = 0;
-
-        NBTTagCompound entityTag = new NBTTagCompound();
-        if (!amphi.writeToNBTOptional(entityTag)) return;
-        NBTTagCompound t = bindTag(stack);
-        if (t == null) return;
-        t.setTag("Stored", entityTag);
-        t.setString("Name", amphi.hasCustomName() ? amphi.getCustomNameTag() : "");
-        amphi.setDead(); // removed from the world, not killed: no death event fires
-    }
-
-    // ------------------------------------------------------------------ using it on a block: release or summon
-
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (!isBound(stack)) return EnumActionResult.PASS;
-        if (world.isRemote) return EnumActionResult.SUCCESS;
-
-        if (!player.getUniqueID().equals(getBondOwner(stack))) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "not_your_feather"), true);
-            return EnumActionResult.FAIL;
-        }
-        if (shatterIfLost(stack, player)) return EnumActionResult.SUCCESS;
-
-        BlockPos spot = pos.offset(facing);
-        double x = spot.getX() + 0.5, y = spot.getY(), z = spot.getZ() + 0.5;
-
         if (holdsAmphi(stack)) {
-            NBTTagCompound t = bindTag(stack);
-            Entity entity = EntityList.createEntityFromNBT(t.getCompoundTag("Stored"), world);
-            if (!(entity instanceof EntityAmphithere)) {
-                player.sendStatusMessage(new TextComponentTranslation(MSG + "release_failed"), true);
-                return EnumActionResult.FAIL;
-            }
-            entity.setLocationAndAngles(x, y, z, player.rotationYaw, 0F);
-            entity.motionX = entity.motionY = entity.motionZ = 0;
-            entity.fallDistance = 0;
-            ((IAmphithereData) entity).amphiMod_master$setBounded(true);
-            if (!world.spawnEntity(entity)) {
-                // Something with this UUID is already in the world; keep it inside rather than duplicate it.
-                player.sendStatusMessage(new TextComponentTranslation(MSG + "release_failed"), true);
-                return EnumActionResult.FAIL;
-            }
-            t.removeTag("Stored");
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "released", entity.getDisplayName()), true);
-            world.playSound(null, x, y, z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 0.8F, 1.1F);
-            player.swingArm(hand);
-            return EnumActionResult.SUCCESS;
+            return;
         }
-
-        // It's out: summon it here, like a dragon summoning crystal.
-        UUID amphiId = getBoundAmphi(stack);
-        Entity entity = world.getMinecraftServer() == null ? null : world.getMinecraftServer().getEntityFromUuid(amphiId);
-        if (!(entity instanceof EntityAmphithere) || entity.isDead || entity.world != world) {
-            player.sendStatusMessage(new TextComponentTranslation(MSG + "not_found"), true);
-            return EnumActionResult.FAIL;
-        }
-        entity.removePassengers();
-        entity.dismountRidingEntity();
-        ((EntityAmphithere) entity).getNavigator().clearPath();
-        entity.setLocationAndAngles(x, y, z, player.rotationYaw, 0F);
-        entity.motionX = entity.motionY = entity.motionZ = 0;
-        entity.fallDistance = 0;
-        player.sendStatusMessage(new TextComponentTranslation(MSG + "summoned", entity.getDisplayName()), true);
-        world.playSound(null, x, y, z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1F, 1F);
-        player.swingArm(hand);
-        return EnumActionResult.SUCCESS;
+        Component name = amphi.getDisplayName();
+        storeAmphi(stack, amphi);
+        message(player, "stored", name);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8F, 1.3F);
     }
 
-    /** If the bound amphithere died (or is fated to), the feather shatters. Returns true if it did. */
-    public static boolean shatterIfLost(ItemStack stack, EntityPlayer holder) {
+    /** Saves the amphithere into the feather and removes it from the world. */
+    private static void storeAmphi(ItemStack stack, EntityAmphithere amphi) {
+        amphi.ejectPassengers();
+        amphi.stopRiding();
+        if (amphi.isLeashed()) {
+            amphi.dropLeash(true, true);
+        }
+        amphi.getNavigation().stop();
+        amphi.fallDistance = 0.0F;
+        CompoundTag entityTag = new CompoundTag();
+        CompoundTag t = bindTag(stack);
+        if (t == null || !amphi.save(entityTag)) {
+            return;
+        }
+        t.put("Stored", entityTag);
+        t.putString("Name", amphi.hasCustomName() ? amphi.getCustomName().getString() : "");
+        amphi.discard();
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        ItemStack stack = context.getItemInHand();
+        Player player = context.getPlayer();
+        Level level = context.getLevel();
+        if (player == null || !isBound(stack)) {
+            return InteractionResult.PASS;
+        }
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+        if (!player.getUUID().equals(getBondOwner(stack))) {
+            message(player, "not_your_feather");
+            return InteractionResult.FAIL;
+        }
+        if (shatterIfLost(stack, player)) {
+            return InteractionResult.SUCCESS;
+        }
+        BlockPos spot = context.getClickedPos().relative(context.getClickedFace());
+        double x = spot.getX() + 0.5;
+        double y = spot.getY();
+        double z = spot.getZ() + 0.5;
+        if (holdsAmphi(stack)) {
+            // Release the stored amphithere
+            CompoundTag t = bindTag(stack);
+            Entity entity = EntityType.loadEntityRecursive(t.getCompound("Stored"), level, e -> e);
+            if (!(entity instanceof EntityAmphithere)) {
+                message(player, "release_failed");
+                return InteractionResult.FAIL;
+            }
+            entity.moveTo(x, y, z, player.getYRot(), 0.0F);
+            entity.setDeltaMovement(Vec3.ZERO);
+            entity.fallDistance = 0.0F;
+            ((IAmphithereData) entity).amphiMod$setBound(true);
+            if (!level.addFreshEntity(entity)) {
+                message(player, "release_failed");
+                return InteractionResult.FAIL;
+            }
+            t.remove("Stored");
+            message(player, "released", entity.getDisplayName());
+            level.playSound(null, x, y, z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.8F, 1.1F);
+            return InteractionResult.SUCCESS;
+        }
+        // Summon the bound amphithere if it's loaded in this dimension
+        Entity entity = ((ServerLevel) level).getEntity(getBoundAmphi(stack));
+        if (!(entity instanceof EntityAmphithere amphi) || !entity.isAlive()) {
+            message(player, "not_found");
+            return InteractionResult.FAIL;
+        }
+        amphi.ejectPassengers();
+        amphi.stopRiding();
+        amphi.getNavigation().stop();
+        amphi.moveTo(x, y, z, player.getYRot(), 0.0F);
+        amphi.setDeltaMovement(Vec3.ZERO);
+        amphi.fallDistance = 0.0F;
+        message(player, "summoned", amphi.getDisplayName());
+        level.playSound(null, x, y, z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
+        return InteractionResult.SUCCESS;
+    }
+
+    /** If the bound amphithere is gone, destroys the feather and tells the holder. Server side. */
+    public static boolean shatterIfLost(ItemStack stack, Player holder) {
         UUID amphiId = getBoundAmphi(stack);
-        if (amphiId == null || holder.world.isRemote) return false;
-        if (!SoulBindData.get(holder.world).isLost(amphiId)) return false;
+        if (amphiId == null || holder.level().isClientSide) {
+            return false;
+        }
+        if (!SoulBindData.get(holder.level().getServer()).isLost(amphiId)) {
+            return false;
+        }
         stack.shrink(1);
-        holder.sendStatusMessage(new TextComponentTranslation(MSG + "shattered"), false);
-        holder.world.playSound(null, holder.posX, holder.posY, holder.posZ, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+        holder.displayClientMessage(Component.translatable(MSG + "shattered"), false);
+        holder.level().playSound(null, holder.getX(), holder.getY(), holder.getZ(), SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 1.0F, 1.0F);
         return true;
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (!world.isRemote && entity instanceof EntityPlayer && entity.ticksExisted % 20 == 0 && isBound(stack))
-            shatterIfLost(stack, (EntityPlayer) entity);
-    }
-
-    /** A dropped feather with a bond doesn't despawn after 5 minutes. */
-    @Override
-    public int getEntityLifespan(ItemStack stack, World world) {
-        return isBound(stack) ? Integer.MAX_VALUE : super.getEntityLifespan(stack, world);
-    }
-
-    // ------------------------------------------------------------------ looks
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        if (isBound(stack)) {
-            String name = storedName(stack);
-            if (name.isEmpty()) name = UsefulStiff.translateToLocal("entity." + modIdWithDot + "amphithere.name");
-            tooltip.add(TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("amphitheremod.crystal_feather.bound_name", name));
-            tooltip.add(TextFormatting.GRAY + UsefulStiff.translateToLocal("amphitheremod.crystal_feather.bound_desc"));
-            tooltip.add(TextFormatting.RED + UsefulStiff.translateToLocal("amphitheremod.crystal_feather.empty_1"));
-        } else {
-            tooltip.add(TextFormatting.GRAY + UsefulStiff.translateToLocal("amphitheremod.crystal_feather.empty_0"));
-            tooltip.add(TextFormatting.RED + UsefulStiff.translateToLocal("amphitheremod.crystal_feather.empty_1"));
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+        if (!level.isClientSide && entity instanceof Player player && entity.tickCount % 20 == 0 && isBound(stack)) {
+            shatterIfLost(stack, player);
         }
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
-        return isBound(stack);
+    public int getEntityLifespan(ItemStack stack, Level level) {
+        // A dropped bound feather never despawns, so the amphithere inside isn't lost
+        return isBound(stack) ? Integer.MAX_VALUE : super.getEntityLifespan(stack, level);
     }
 
     @Override
-    public EnumRarity getRarity(ItemStack stack) {
-        return EnumRarity.EPIC;
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        if (isBound(stack)) {
+            CompoundTag t = bindTag(stack);
+            String name = t == null ? "" : t.getString("Name");
+            Component nameComponent = name.isEmpty() ? Component.translatable("entity.iceandfire.amphithere") : Component.literal(name);
+            tooltip.add(Component.translatable("amphitheremod.crystal_feather.bound_name", nameComponent).withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("amphitheremod.crystal_feather.bound_desc").withStyle(ChatFormatting.GRAY));
+        } else {
+            tooltip.add(Component.translatable("amphitheremod.crystal_feather.empty_0").withStyle(ChatFormatting.GRAY));
+        }
+        tooltip.add(Component.translatable("amphitheremod.crystal_feather.empty_1").withStyle(ChatFormatting.RED));
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return isBound(stack);
     }
 }

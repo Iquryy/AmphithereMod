@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "amphitheremod:items/diamond_head_armor"
+    "layer0": "amphitheremod:item/diamond_head_armor"
   }
 }

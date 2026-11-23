@@ -1,0 +1,32 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "crystal_feather"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WRW",
+    "RQR",
+    "WRW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:prismarine_crystals"
+    },
+    "R": {
+      "item": "minecraft:ender_pearl"
+    },
+    "Q": {
+      "item": "iceandfire:amphithere_feather"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:amphithere_crystal_feather"
+  }
+}
