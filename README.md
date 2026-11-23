@@ -2,7 +2,7 @@
 
 An add-on for [Ice and Fire](https://www.curseforge.com/minecraft/mc-mods/ice-and-fire-dragons) that expands its
 amphitheres. This is a port of the 1.12.2 **I&F Amphithere Mod** by Iqury and the I&F Amphithere Mod team, made with
-their permission. It needs Ice and Fire for 1.20.1 (and Citadel, which Ice and Fire needs anyway).
+their permission and under the original's MIT license. It needs Ice and Fire for 1.20.1 (and Citadel, which Ice and Fire needs anyway).
 
 ## Features
 - **27 variants**: Ice and Fire's 5 plus rare, gem, skeleton and special ones (Rainbow, Shivaxi, Black Eagle, Iqury,
@@ -46,3 +46,6 @@ against another Ice and Fire build (a fork, for example), put its jar at `libs/i
 ## Credits
 - **Iqury and the I&F Amphithere Mod team**: the original 1.12.2 mod, its art, sounds and design. Ported with permission.
 - **Alexthe666, Raptorfarian and the Ice and Fire contributors**: Ice and Fire and its amphithere.
+
+## License
+MIT, the same license as the original 1.12.2 mod (see `LICENSE`).
