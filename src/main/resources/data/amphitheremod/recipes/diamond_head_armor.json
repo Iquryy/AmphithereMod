@@ -1,0 +1,24 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:diamond_head_armor"
+  }
+}

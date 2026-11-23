@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B B",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/copper"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/copper"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:copper_wing_armor"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:iron_head_armor"
+  }
+}

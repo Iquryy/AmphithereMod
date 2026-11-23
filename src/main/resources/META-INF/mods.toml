@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/Iquryy/AmphithereMod/issues"
+
+[[mods]]
+modId = "amphitheremod"
+version = "${version}"
+displayName = "Amphithere Mod"
+authors = "Iqury (I&F Amphithere Mod team)"
+credits = "Original 1.12.2 mod by Iqury and the I&F Amphithere Mod team. Ported to 1.20.1 with permission. Ice and Fire by Alexthe666, Raptorfarian and contributors."
+description = '''
+Expands Ice and Fire's amphitheres: an inventory with armor and beak slots, male and female amphitheres,
+breeding rules and amphithere eggs, 20+ new variants and wing patterns, a stamina system for riding,
+new food, the Crystal Feather soul bond, and a smoother flight animation.
+'''
+
+[[dependencies.amphitheremod]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.amphitheremod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,1.20.2)"
+ordering = "NONE"
+side = "BOTH"
+
+# Ice and Fire must load first: this mod mixes into its amphithere and adds layers to its renderer
+[[dependencies.amphitheremod]]
+modId = "iceandfire"
+mandatory = true
+versionRange = "[2.1,)"
+ordering = "AFTER"
+side = "BOTH"

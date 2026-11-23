@@ -1,165 +1,173 @@
 package amphitheremod.entity;
 
-import amphitheremod.config.ConfigHandler;
-import amphitheremod.handlers.ModItemRegistry;
-import amphitheremod.util.IAmphithereData;
+import amphitheremod.config.AmphiConfig;
+import amphitheremod.registry.AmphiItems;
 import amphitheremod.util.EnumAmphiType;
+import amphitheremod.util.IAmphithereData;
 import com.github.alexthe666.iceandfire.entity.EntityAmphithere;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import com.github.alexthe666.iceandfire.entity.IafEntityRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class EntityAmphithereEgg extends EntityLiving {
-    private static final DataParameter<Integer> AMPHITHERE_TYPE;
-    private static final DataParameter<Integer> AMPHITHERE_AGE;
-    private static final DataParameter<Boolean> IS_WARM;
+import java.util.Collections;
 
-    public EntityAmphithereEgg(World worldIn) {
-        super(worldIn);
-        this.setSize(0.25F, 0.35F);
+/**
+ * A laid amphithere egg. While it's "warm" (on leaves in a warm biome, by default) it ages, wobbles, and hatches into a
+ * baby amphithere of its variant after the hatch time. Hitting it gives the egg item back; falling breaks it.
+ */
+public class EntityAmphithereEgg extends LivingEntity {
+    private static final EntityDataAccessor<Integer> AMPHITHERE_TYPE = SynchedEntityData.defineId(EntityAmphithereEgg.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> AMPHITHERE_AGE = SynchedEntityData.defineId(EntityAmphithereEgg.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_WARM = SynchedEntityData.defineId(EntityAmphithereEgg.class, EntityDataSerializers.BOOLEAN);
+
+    public EntityAmphithereEgg(EntityType<? extends EntityAmphithereEgg> type, Level level) {
+        super(type, level);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5.0D);
-    }
-
-    public void writeEntityToNBT(NBTTagCompound tag) {
-        super.writeEntityToNBT(tag);
-        tag.setInteger("Variant", this.getType().ordinal());
-        tag.setInteger("AmphithereAge", this.getAmphithereAge());
-    }
-
-    public void readEntityFromNBT(@NotNull NBTTagCompound tag) {
-        super.readEntityFromNBT(tag);
-        this.setType(EnumAmphiType.values()[tag.getInteger("Variant")]);
-        this.setAmphithereAge(tag.getInteger("AmphithereAge"));
+    public static AttributeSupplier.Builder bakeAttributes() {
+        return LivingEntity.createLivingAttributes().add(Attributes.MAX_HEALTH, 5.0).add(Attributes.MOVEMENT_SPEED, 0.0);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.getDataManager().register(AMPHITHERE_TYPE, 0);
-        this.getDataManager().register(AMPHITHERE_AGE, 0);
-        this.getDataManager().register(IS_WARM, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(AMPHITHERE_TYPE, 0);
+        this.entityData.define(AMPHITHERE_AGE, 0);
+        this.entityData.define(IS_WARM, false);
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Variant", getVariantType().ordinal());
+        tag.putInt("AmphithereAge", getAmphithereAge());
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setVariantType(EnumAmphiType.fromOrdinal(tag.getInt("Variant")));
+        setAmphithereAge(tag.getInt("AmphithereAge"));
     }
 
     public boolean isWarm() {
-        return this.getDataManager().get(IS_WARM);
+        return this.entityData.get(IS_WARM);
     }
 
-    public void setWarm(boolean warm) {
-        this.getDataManager().set(IS_WARM, warm);
+    public EnumAmphiType getVariantType() {
+        return EnumAmphiType.fromOrdinal(this.entityData.get(AMPHITHERE_TYPE));
     }
 
-    public EnumAmphiType getType() {
-        return EnumAmphiType.values()[this.getDataManager().get(AMPHITHERE_TYPE)];
-    }
-
-    public void setType(EnumAmphiType newtype) {
-        this.getDataManager().set(AMPHITHERE_TYPE, newtype.ordinal());
-    }
-
-    public boolean isEntityInvulnerable(DamageSource i) {
-        return i.getTrueSource() != null;
+    public void setVariantType(EnumAmphiType type) {
+        this.entityData.set(AMPHITHERE_TYPE, type.ordinal());
     }
 
     public int getAmphithereAge() {
-        return this.getDataManager().get(AMPHITHERE_AGE);
+        return this.entityData.get(AMPHITHERE_AGE);
     }
 
-    public void setAmphithereAge(int i) {
-        this.getDataManager().set(AMPHITHERE_AGE, i);
+    public void setAmphithereAge(int age) {
+        this.entityData.set(AMPHITHERE_AGE, age);
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        this.setAir(200);
-        if (this.world.isRemote) return;
-        boolean isCurrentlyWarm = this.meetsEggCondition(this, this.getPosition());
-        this.setWarm(isCurrentlyWarm);
-        if (isCurrentlyWarm)
-            this.setAmphithereAge(this.getAmphithereAge() + 1);
-        if (this.meetsEggCondition(this, this.getPosition()))
-            this.setAmphithereAge(this.getAmphithereAge() + 1);
-        if (this.getAmphithereAge() > ConfigHandler.amphithereEgg.amphithereEggHatchTime)
-            this.hatchEgg();
+    public void tick() {
+        super.tick();
+        this.setAirSupply(200); // eggs don't drown
+        if (level().isClientSide) {
+            return;
+        }
+        boolean warm = meetsEggCondition(blockPosition());
+        this.entityData.set(IS_WARM, warm);
+        if (warm) {
+            // One tick of age per warm tick (1.12.2 added two; see AmphiConfig.EGG_HATCH_TIME)
+            setAmphithereAge(getAmphithereAge() + 1);
+        }
+        if (getAmphithereAge() > AmphiConfig.EGG_HATCH_TIME.get()) {
+            hatchEgg();
+        }
     }
 
     private void hatchEgg() {
-        if (this.world.isRemote) return;
-        EntityAmphithere amphithere = new EntityAmphithere(this.world);
-        amphithere.setPosition(this.posX, this.posY, this.posZ);
-        amphithere.setVariant(this.getType().ordinal());
-        amphithere.setGrowingAge(-24000);
-        IAmphithereData data = (IAmphithereData) amphithere;
-        data.amphiMod_master$setGender(this.world.rand.nextBoolean());
-        if(this.hasCustomName()) amphithere.setCustomNameTag(this.getCustomNameTag());
-        this.world.spawnEntity(amphithere);
-        this.setDead();
+        EntityAmphithere amphithere = IafEntityRegistry.AMPHITHERE.get().create(level());
+        if (amphithere == null) {
+            return;
+        }
+        amphithere.setPos(getX(), getY(), getZ());
+        amphithere.setVariant(getVariantType().ordinal());
+        amphithere.setAge(-24000);
+        ((IAmphithereData) amphithere).amphiMod$setFemale(this.random.nextBoolean());
+        if (hasCustomName()) {
+            amphithere.setCustomName(getCustomName());
+        }
+        level().addFreshEntity(amphithere);
+        discard();
     }
 
-    public boolean isAIDisabled() {
+    /** Warm = on leaves and in a warm biome (each check can be turned off). */
+    public boolean meetsEggCondition(BlockPos pos) {
+        if (AmphiConfig.EGG_NEEDS_LEAVES.get() && !level().getBlockState(pos.below()).is(BlockTags.LEAVES)) {
+            return false;
+        }
+        if (AmphiConfig.EGG_NEEDS_WARM_BIOME.get()) {
+            return level().getBiome(pos).value().getBaseTemperature() >= 0.8F;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean hurt(@NotNull DamageSource source, float amount) {
+        if (level().isClientSide || isRemoved()) {
+            return false;
+        }
+        // Any hit pops the egg back into an item, except explosions and (unless disabled) falling, which break it
+        boolean fall = source.is(DamageTypeTags.IS_FALL);
+        boolean dropItem = fall ? !AmphiConfig.EGG_CRACK_FALL.get() : !source.is(DamageTypeTags.IS_EXPLOSION);
+        Item eggItem = AmphiItems.eggFor(getVariantType());
+        if (dropItem && eggItem != null) {
+            spawnAtLocation(new ItemStack(eggItem), 0.0F);
+        }
+        discard();
+        return true;
+    }
+
+    @Override
+    public boolean isPushable() {
         return false;
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.world.isRemote || this.isDead) return false;
-        if (!(source.isCreativePlayer()) && !(source == DamageSource.FALL)) {
-            Item correctEggItem = ModItemRegistry.AMPHITHERE_EGGS.get(this.getType());
-            if (correctEggItem != null)
-                this.entityDropItem(new ItemStack(correctEggItem), 0.0F);
-        }
-        if (source == DamageSource.FALL) {
-            if (ConfigHandler.amphithereEgg.eggCrackFallDamage) {
-            } else {
-                Item correctEggItem = ModItemRegistry.AMPHITHERE_EGGS.get(this.getType());
-                if (correctEggItem != null)
-                    this.entityDropItem(new ItemStack(correctEggItem), 0.0F);
-            }
-        }
-
-        this.setDead();
-        return true;
+    public @NotNull Iterable<ItemStack> getArmorSlots() {
+        return Collections.emptyList();
     }
 
-    public boolean meetsEggCondition(EntityAmphithereEgg egg, BlockPos pos) {
-        if (ConfigHandler.amphithereEgg.needOnLeaf) {
-            boolean isTouchingLeaves = egg.world.getBlockState(pos.down()).getMaterial() == Material.LEAVES;
-            if (!isTouchingLeaves) return false;
-        }
-
-        if (ConfigHandler.amphithereEgg.warmBiome) {
-            Biome currentBiome = egg.world.getBiome(pos);
-            float temperature = currentBiome.getTemperature(pos);
-            return !(temperature < 0.8F);
-        }
-        return true;
+    @Override
+    public @NotNull ItemStack getItemBySlot(@NotNull EquipmentSlot slot) {
+        return ItemStack.EMPTY;
     }
 
-    protected boolean canDespawn() {
-        return false;
+    @Override
+    public void setItemSlot(@NotNull EquipmentSlot slot, @NotNull ItemStack stack) {
     }
 
-    static {
-        AMPHITHERE_TYPE = EntityDataManager.createKey(EntityAmphithereEgg.class, DataSerializers.VARINT);
-        AMPHITHERE_AGE = EntityDataManager.createKey(EntityAmphithereEgg.class, DataSerializers.VARINT);
-        IS_WARM = EntityDataManager.createKey(EntityAmphithereEgg.class, DataSerializers.BOOLEAN);
+    @Override
+    public @NotNull HumanoidArm getMainArm() {
+        return HumanoidArm.RIGHT;
     }
-
 }
-

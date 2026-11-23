@@ -1,27 +1,49 @@
 package amphitheremod.util;
 
-import org.spongepowered.asm.mixin.Unique;
-
+/**
+ * Extra data this mod adds to Ice and Fire's EntityAmphithere (through mixin.AmphithereDataMixin). Every value is synced
+ * to clients so renderers, the inventory screen and the stamina bar can read it. Cast an EntityAmphithere to use it.
+ */
 public interface IAmphithereData {
-    @Unique boolean amphiMod_master$getGender();
-    @Unique void amphiMod_master$setGender(boolean gender);
+    /** true = female, false = male. */
+    boolean amphiMod$isFemale();
 
-    @Unique String amphiMod_master$getSpecialVariant();
-    @Unique void amphiMod_master$setSpecialVariant(String specialVariant);
+    void amphiMod$setFemale(boolean female);
 
-    @Unique String amphiMod_master$getWingPattern();
-    @Unique void amphiMod_master$setWingPattern(String wingPattern);
+    /** "" for none, otherwise "Shivaxi" or "Black Eagle". These keep their special stats on reload. */
+    String amphiMod$getSpecialVariant();
 
-    @Unique boolean amphiMod_master$getBounded();
-    @Unique void amphiMod_master$setBounded(boolean bound);
+    void amphiMod$setSpecialVariant(String specialVariant);
 
-    @Unique float amphiMod_master$getStamina();
-    @Unique void amphiMod_master$setStamina(float stamina);
+    /** EnumAmphiType.WingPattern name, or "" for none. */
+    String amphiMod$getWingPattern();
 
-    @Unique float amphiMod_master$getMaxStamina();
-    @Unique void amphiMod_master$setMaxStamina(float maxStamina);
+    void amphiMod$setWingPattern(String wingPattern);
 
-    @Unique int amphiMod_master$getStaminaCD();
+    /** Soul bound to its owner with a Crystal Feather. */
+    boolean amphiMod$isBound();
 
-    @Unique void amphiMod_master$setStaminaCD(int cd);
+    void amphiMod$setBound(boolean bound);
+
+    float amphiMod$getStamina();
+
+    /** Clamped to 0..max stamina. */
+    void amphiMod$setStamina(float stamina);
+
+    float amphiMod$getMaxStamina();
+
+    void amphiMod$setMaxStamina(float maxStamina);
+
+    /** Ticks left before stamina can regenerate. */
+    int amphiMod$getStaminaCooldown();
+
+    void amphiMod$setStaminaCooldown(int cooldown);
+
+    /** Fed a Bloody Cookie: COTH is removed every tick. */
+    boolean amphiMod$isCothImmune();
+
+    void amphiMod$setCothImmune(boolean immune);
+
+    /** Bloody Cookie: immune to COTH from now on, at the cost of about 10% max health. */
+    void amphiMod$makeCothImmune();
 }

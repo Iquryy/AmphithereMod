@@ -1,0 +1,32 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "anti_coth_cookie"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "epca"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "CFC",
+    "WWW"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:cocoa_beans"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "F": {
+      "item": "epca:infested_flesh"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:anti_coth_cookie"
+  }
+}

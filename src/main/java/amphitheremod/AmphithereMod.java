@@ -1,69 +1,67 @@
 package amphitheremod;
 
-import amphitheremod.handlers.ModItemRegistry;
-import amphitheremod.network.PacketHandler;
-import amphitheremod.proxy.CommonProxy;
-import net.minecraft.stats.StatBase;
-import net.minecraft.stats.StatBasic;
-import net.minecraft.util.text.TextComponentTranslation;
+import amphitheremod.config.AmphiClientConfig;
+import amphitheremod.config.AmphiConfig;
+import amphitheremod.event.CommonEvents;
+import amphitheremod.event.SoulBindEvents;
+import amphitheremod.network.AmphiNetwork;
+import amphitheremod.registry.AmphiCreativeTab;
+import amphitheremod.registry.AmphiEntities;
+import amphitheremod.registry.AmphiItems;
+import amphitheremod.registry.AmphiMenus;
+import amphitheremod.registry.AmphiSounds;
+import amphitheremod.registry.AmphiStats;
+import amphitheremod.registry.ConfigCondition;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = AmphithereMod.MODID, version = AmphithereMod.VERSION, name = AmphithereMod.NAME, dependencies = "required-after: fermiumbooter@ [1.3.0,)", acceptableRemoteVersions = "*")
+/**
+ * Amphithere Mod: expands Ice and Fire's amphitheres. Most of the behavior is mixed into Ice and Fire's
+ * EntityAmphithere (see amphitheremod.mixins.json); this class wires up registries, configs and events.
+ */
+@Mod(AmphithereMod.MODID)
 public class AmphithereMod {
     public static final String MODID = "amphitheremod";
-    public static final String VERSION = "1.2";
-    public static final String NAME = "Amphithere Mod";
-    public static String modIdWithDot = AmphithereMod.MODID + ".";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-    @Mod.Instance(MODID)
-    public static AmphithereMod instance;
+    public AmphithereMod() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        AmphiItems.ITEMS.register(modBus);
+        AmphiEntities.ENTITIES.register(modBus);
+        AmphiSounds.SOUNDS.register(modBus);
+        AmphiStats.STATS.register(modBus);
+        AmphiMenus.MENUS.register(modBus);
+        AmphiCreativeTab.TABS.register(modBus);
+        modBus.addListener(AmphiEntities::onAttributes);
+        modBus.addListener(this::commonSetup);
+        modBus.addListener(this::registerConditions);
 
-    @SidedProxy(clientSide = "amphitheremod.proxy.ClientProxy", serverSide = "amphitheremod.proxy.CommonProxy")
-    public static CommonProxy proxy;
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AmphiConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, AmphiClientConfig.SPEC);
 
-    public static final SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-
-    public static StatBase TAMED_AMPHITHERE_DEATH_COUNT;
-
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        TAMED_AMPHITHERE_DEATH_COUNT = new StatBasic("stat.tamed_amphithere_death_count.name", new TextComponentTranslation("stat.tamed_amphithere_death_count.name")).registerStat();
-        ModItemRegistry.init();
-        PacketHandler.registerMessages();
-        proxy.preInit(event);
-
-        org.apache.logging.log4j.core.Logger coreLogger = (org.apache.logging.log4j.core.Logger) org.apache.logging.log4j.LogManager.getRootLogger();
-        coreLogger.addFilter(new org.apache.logging.log4j.core.filter.AbstractFilter() {
-            @Override
-            public org.apache.logging.log4j.core.Filter.Result filter(org.apache.logging.log4j.core.LogEvent event) {
-                if (event.getLevel() == org.apache.logging.log4j.Level.ERROR) {
-                    String message = event.getMessage().getFormattedMessage();
-                    if (message.contains("Parsing error loading recipe") && message.contains("amphitheremod")) {
-                        Throwable t = event.getThrown();
-                        if (t != null && t.getMessage() != null && t.getMessage().contains("Unknown item"))
-                            return Result.DENY;
-                    }
-                }
-                return Result.NEUTRAL;
-            }
-        });
+        MinecraftForge.EVENT_BUS.register(CommonEvents.class);
+        MinecraftForge.EVENT_BUS.register(SoulBindEvents.class);
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init();
+    private void registerConditions(RegisterEvent event) {
+        // Recipe conditions are registered alongside the recipe serializers
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.RECIPE_SERIALIZERS)) {
+            CraftingHelper.register(ConfigCondition.Serializer.INSTANCE);
+        }
     }
 
-    @Mod.EventHandler
-    public void serverInit(FMLServerStartingEvent event) {
+    private void commonSetup(FMLCommonSetupEvent event) {
+        AmphiNetwork.register();
+        event.enqueueWork(AmphiStats::init);
     }
 }

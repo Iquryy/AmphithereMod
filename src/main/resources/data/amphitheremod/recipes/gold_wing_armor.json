@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B B",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:gold_wing_armor"
+  }
+}

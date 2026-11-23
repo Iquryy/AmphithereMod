@@ -1,125 +1,131 @@
 package amphitheremod.util;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.MapStorage;
-import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
- * Save-file record of every Crystal Feather soul bond, shared by all dimensions.
- * It remembers which amphitheres must die when they're next loaded, and which bonds have ended so their feathers shatter.
+ * Crystal Feather soul bonds, saved with the world (stored on the overworld so every dimension shares it).
+ * bonds: amphithere -> owner. doomed: the owner died while the amphithere was unloaded, so it dies when next loaded.
+ * dead: the amphithere is gone, so its feather shatters.
  */
-public class SoulBindData extends WorldSavedData {
+public class SoulBindData extends SavedData {
     private static final String NAME = "amphitheremod_soul_binds";
-
-    /** amphithere UUID -> owner UUID, for every bond that is still alive. */
     private final Map<UUID, UUID> bonds = new HashMap<>();
-    /** Amphitheres whose owner died while they weren't loaded (or were resting in a feather the owner wasn't carrying). They die as soon as they're found. */
     private final Set<UUID> doomedAmphis = new HashSet<>();
-    /** Amphitheres that died. Feathers bound to them shatter. */
     private final Set<UUID> deadAmphis = new HashSet<>();
 
-    public SoulBindData(String name) {
-        super(name);
-    }
-
-    public static SoulBindData get(World world) {
-        MapStorage storage = world.getMapStorage();
-        SoulBindData data = (SoulBindData) storage.getOrLoadData(SoulBindData.class, NAME);
-        if (data == null) {
-            data = new SoulBindData(NAME);
-            storage.setData(NAME, data);
-        }
-        return data;
+    public static SoulBindData get(MinecraftServer server) {
+        return server.overworld().getDataStorage().computeIfAbsent(SoulBindData::load, SoulBindData::new, NAME);
     }
 
     public void bind(UUID amphi, UUID owner) {
-        bonds.put(amphi, owner);
-        doomedAmphis.remove(amphi);
-        deadAmphis.remove(amphi);
-        markDirty();
+        this.bonds.put(amphi, owner);
+        this.doomedAmphis.remove(amphi);
+        this.deadAmphis.remove(amphi);
+        setDirty();
     }
 
-    public boolean isBound(UUID amphi) { return bonds.containsKey(amphi); }
+    public boolean isBound(UUID amphi) {
+        return this.bonds.containsKey(amphi);
+    }
 
-    @Nullable
-    public UUID getOwner(UUID amphi) { return bonds.get(amphi); }
-
-    /** Removes the bond and returns the owner it had, or null. */
+    /** Removes the bond; returns the owner it had, or null. */
     @Nullable
     public UUID breakBond(UUID amphi) {
-        UUID owner = bonds.remove(amphi);
-        if (owner != null) markDirty();
+        UUID owner = this.bonds.remove(amphi);
+        if (owner != null) {
+            setDirty();
+        }
         return owner;
     }
 
     public List<UUID> amphisBoundTo(UUID owner) {
         List<UUID> list = new ArrayList<>();
-        for (Map.Entry<UUID, UUID> e : bonds.entrySet())
-            if (e.getValue().equals(owner)) list.add(e.getKey());
+        this.bonds.forEach((amphi, o) -> {
+            if (o.equals(owner)) {
+                list.add(amphi);
+            }
+        });
         return list;
     }
 
-    public void doom(UUID amphi) { if (doomedAmphis.add(amphi)) markDirty(); }
-    public boolean isDoomed(UUID amphi) { return doomedAmphis.contains(amphi); }
+    public void doom(UUID amphi) {
+        if (this.doomedAmphis.add(amphi)) {
+            setDirty();
+        }
+    }
+
+    public boolean isDoomed(UUID amphi) {
+        return this.doomedAmphis.contains(amphi);
+    }
 
     public void markDead(UUID amphi) {
-        doomedAmphis.remove(amphi);
-        deadAmphis.add(amphi);
-        markDirty();
+        this.doomedAmphis.remove(amphi);
+        this.deadAmphis.add(amphi);
+        setDirty();
     }
 
-    /** True when a feather bound to this amphithere should shatter: the amphithere died, or is fated to. */
-    public boolean isLost(UUID amphi) { return deadAmphis.contains(amphi) || doomedAmphis.contains(amphi); }
+    /** The amphithere died or is doomed, so its feather should shatter. */
+    public boolean isLost(UUID amphi) {
+        return this.deadAmphis.contains(amphi) || this.doomedAmphis.contains(amphi);
+    }
 
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        bonds.clear();
-        NBTTagList bondList = nbt.getTagList("Bonds", Constants.NBT.TAG_COMPOUND);
-        for (int i = 0; i < bondList.tagCount(); i++) {
-            NBTTagCompound t = bondList.getCompoundTagAt(i);
-            if (t.hasUniqueId("Amphi") && t.hasUniqueId("Owner"))
-                bonds.put(t.getUniqueId("Amphi"), t.getUniqueId("Owner"));
+    private static SoulBindData load(CompoundTag nbt) {
+        SoulBindData data = new SoulBindData();
+        ListTag bondList = nbt.getList("Bonds", Tag.TAG_COMPOUND);
+        for (int i = 0; i < bondList.size(); i++) {
+            CompoundTag t = bondList.getCompound(i);
+            if (t.hasUUID("Amphi") && t.hasUUID("Owner")) {
+                data.bonds.put(t.getUUID("Amphi"), t.getUUID("Owner"));
+            }
         }
-        readSet(nbt, "Doomed", doomedAmphis);
-        readSet(nbt, "Dead", deadAmphis);
+        readSet(nbt, "Doomed", data.doomedAmphis);
+        readSet(nbt, "Dead", data.deadAmphis);
+        return data;
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        NBTTagList bondList = new NBTTagList();
-        for (Map.Entry<UUID, UUID> e : bonds.entrySet()) {
-            NBTTagCompound t = new NBTTagCompound();
-            t.setUniqueId("Amphi", e.getKey());
-            t.setUniqueId("Owner", e.getValue());
-            bondList.appendTag(t);
-        }
-        nbt.setTag("Bonds", bondList);
-        writeSet(nbt, "Doomed", doomedAmphis);
-        writeSet(nbt, "Dead", deadAmphis);
+    public CompoundTag save(CompoundTag nbt) {
+        ListTag bondList = new ListTag();
+        this.bonds.forEach((amphi, owner) -> {
+            CompoundTag t = new CompoundTag();
+            t.putUUID("Amphi", amphi);
+            t.putUUID("Owner", owner);
+            bondList.add(t);
+        });
+        nbt.put("Bonds", bondList);
+        writeSet(nbt, "Doomed", this.doomedAmphis);
+        writeSet(nbt, "Dead", this.deadAmphis);
         return nbt;
     }
 
-    private static void readSet(NBTTagCompound nbt, String key, Set<UUID> set) {
-        set.clear();
-        NBTTagList list = nbt.getTagList(key, Constants.NBT.TAG_STRING);
-        for (int i = 0; i < list.tagCount(); i++) {
+    private static void readSet(CompoundTag nbt, String key, Set<UUID> set) {
+        ListTag list = nbt.getList(key, Tag.TAG_STRING);
+        for (int i = 0; i < list.size(); i++) {
             try {
-                set.add(UUID.fromString(list.getStringTagAt(i)));
+                set.add(UUID.fromString(list.getString(i)));
             } catch (IllegalArgumentException ignored) {
+                // A hand-edited or corrupt entry; skip it
             }
         }
     }
 
-    private static void writeSet(NBTTagCompound nbt, String key, Set<UUID> set) {
-        NBTTagList list = new NBTTagList();
-        for (UUID id : set) list.appendTag(new NBTTagString(id.toString()));
-        nbt.setTag(key, list);
+    private static void writeSet(CompoundTag nbt, String key, Set<UUID> set) {
+        ListTag list = new ListTag();
+        set.forEach(id -> list.add(StringTag.valueOf(id.toString())));
+        nbt.put(key, list);
     }
 }

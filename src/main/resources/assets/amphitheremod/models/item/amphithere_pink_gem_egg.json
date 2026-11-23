@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "amphitheremod:items/egg/amphithere_pink_gem_egg"
+    "layer0": "amphitheremod:item/egg/amphithere_pink_gem_egg"
   }
 }

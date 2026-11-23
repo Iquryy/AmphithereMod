@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "II "
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:copper_beak_attachment"
+  }
+}

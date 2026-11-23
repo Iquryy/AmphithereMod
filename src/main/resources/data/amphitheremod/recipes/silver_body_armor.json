@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "amphitheremod:config",
+      "option": "armor"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "IBI",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/silver"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/silver"
+    }
+  },
+  "result": {
+    "item": "amphitheremod:silver_body_armor"
+  }
+}

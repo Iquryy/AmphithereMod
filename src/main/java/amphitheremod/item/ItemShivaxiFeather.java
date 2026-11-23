@@ -1,32 +1,17 @@
 package amphitheremod.item;
 
-import amphitheremod.AmphithereMod;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 
-import static amphitheremod.AmphithereMod.modIdWithDot;
-import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
-
-public class ItemShivaxiFeather extends Item{
-    public ItemShivaxiFeather(String name, CreativeTabs tab){
-        this.setRegistryName(AmphithereMod.MODID, name);
-        this.setTranslationKey(modIdWithDot + name);
-        this.setCreativeTab(tab);
-        itemsToRegister.add(this);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
-        return true;
+/** Dropped by the Shivaxi amphithere. Glints and is epic rarity, like 1.12.2. */
+public class ItemShivaxiFeather extends Item {
+    public ItemShivaxiFeather() {
+        super(new Item.Properties().rarity(Rarity.EPIC));
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public EnumRarity getRarity(ItemStack stack) {
-        return EnumRarity.EPIC;
+    public boolean isFoil(ItemStack stack) {
+        return true;
     }
 }

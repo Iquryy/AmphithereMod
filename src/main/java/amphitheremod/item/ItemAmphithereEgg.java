@@ -1,77 +1,69 @@
 package amphitheremod.item;
 
-import amphitheremod.AmphithereMod;
 import amphitheremod.entity.EntityAmphithereEgg;
-import amphitheremod.util.UsefulStiff;
+import amphitheremod.registry.AmphiEntities;
 import amphitheremod.util.EnumAmphiType;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-import static amphitheremod.AmphithereMod.modIdWithDot;
-import static amphitheremod.handlers.ModItemRegistry.itemsToRegister;
-
+/** One egg item per variant. Placed on top of a block it becomes an EntityAmphithereEgg of that variant. */
 public class ItemAmphithereEgg extends Item {
-    public EnumAmphiType variant;
+    public final EnumAmphiType variant;
 
-    public ItemAmphithereEgg(String name, EnumAmphiType variant, CreativeTabs tab) {
-        this.setHasSubtypes(false);
-        this.setRegistryName(AmphithereMod.MODID, name);
-        this.setTranslationKey(modIdWithDot + "amphithere_egg");
-        this.setCreativeTab(tab);
+    public ItemAmphithereEgg(EnumAmphiType variant) {
+        super(new Item.Properties().stacksTo(1));
         this.variant = variant;
-        maxStackSize = 1;
-        itemsToRegister.add(this);
     }
 
-    public void onCreated(ItemStack itemStack, World world, EntityPlayer player) {
-        itemStack.setTagCompound(new NBTTagCompound());
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (this.variant != null) {
-            tooltip.add(UsefulStiff.translateToLocal("group."+modIdWithDot+"amphithere." + this.variant.toString().toLowerCase()));
-        }
+    // Every egg is called "Amphithere Egg"; the tooltip names the variant
+    @Override
+    public String getDescriptionId() {
+        return "item.amphitheremod.amphithere_egg";
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public EnumRarity getRarity(ItemStack stack) {
-        EnumAmphiType type = EnumAmphiType.getEnumNameFromInt(variant.ordinal());
-        return type.getGroup().getRarity();
+    public Rarity getRarity(ItemStack stack) {
+        return this.variant.getGroup().getRarity();
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (facing != EnumFacing.UP)
-            return EnumActionResult.FAIL;
-        ItemStack itemstack = player.getHeldItem(hand);
-        BlockPos placePos = pos.up();
-        if (!player.canPlayerEdit(placePos, facing, itemstack))
-            return EnumActionResult.FAIL;
-        if (!worldIn.isRemote) {
-            EntityAmphithereEgg eggEntity = new EntityAmphithereEgg(worldIn);
-            eggEntity.setType(this.variant);
-            eggEntity.setPosition(placePos.getX() + 0.5D, placePos.getY(), placePos.getZ() + 0.5D);
-            worldIn.spawnEntity(eggEntity);
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(Component.translatable("group.amphitheremod.amphithere." + this.variant.name().toLowerCase()));
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        if (context.getClickedFace() != Direction.UP) {
+            return InteractionResult.FAIL;
         }
-        if (!player.capabilities.isCreativeMode)
-            itemstack.shrink(1);
-        return EnumActionResult.SUCCESS;
+        Player player = context.getPlayer();
+        ItemStack stack = context.getItemInHand();
+        BlockPos placePos = context.getClickedPos().above();
+        if (player != null && !player.mayUseItemAt(placePos, Direction.UP, stack)) {
+            return InteractionResult.FAIL;
+        }
+        Level level = context.getLevel();
+        if (!level.isClientSide) {
+            EntityAmphithereEgg egg = new EntityAmphithereEgg(AmphiEntities.AMPHITHERE_EGG.get(), level);
+            egg.setVariantType(this.variant);
+            egg.setPos(placePos.getX() + 0.5, placePos.getY(), placePos.getZ() + 0.5);
+            level.addFreshEntity(egg);
+        }
+        if (player == null || !player.getAbilities().instabuild) {
+            stack.shrink(1);
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 }
