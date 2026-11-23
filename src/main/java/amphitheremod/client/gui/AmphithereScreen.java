@@ -1,5 +1,6 @@
 package amphitheremod.client.gui;
 
+import amphitheremod.compat.SimpleHatsCompat;
 import amphitheremod.config.AmphiConfig;
 import amphitheremod.menu.AmphithereMenu;
 import amphitheremod.network.AmphiNetwork;
@@ -19,8 +20,11 @@ import net.minecraft.world.entity.player.Inventory;
  * that cycles its command (wander / sit / follow).
  */
 public class AmphithereScreen extends AbstractContainerScreen<AmphithereMenu> {
+    // One background per combination of armor slots and hat slot, as in 1.12.2 (the "classyhats" textures draw the hat slot)
+    private static final ResourceLocation TEXTURE_BOTH = new ResourceLocation("amphitheremod", "textures/gui/amphithere.png");
     private static final ResourceLocation TEXTURE_ARMOR = new ResourceLocation("amphitheremod", "textures/gui/amphithere_no_classyhats.png");
-    private static final ResourceLocation TEXTURE_NO_ARMOR = new ResourceLocation("amphitheremod", "textures/gui/amphithere_no_both.png");
+    private static final ResourceLocation TEXTURE_HAT = new ResourceLocation("amphitheremod", "textures/gui/amphithere_no_armor.png");
+    private static final ResourceLocation TEXTURE_NEITHER = new ResourceLocation("amphitheremod", "textures/gui/amphithere_no_both.png");
     private Button commandButton;
 
     public AmphithereScreen(AmphithereMenu menu, Inventory inv, Component title) {
@@ -56,7 +60,10 @@ public class AmphithereScreen extends AbstractContainerScreen<AmphithereMenu> {
 
     @Override
     protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
-        g.blit(AmphiConfig.ENABLE_ARMOR.get() ? TEXTURE_ARMOR : TEXTURE_NO_ARMOR, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+        boolean armor = AmphiConfig.ENABLE_ARMOR.get();
+        boolean hat = SimpleHatsCompat.isLoaded();
+        ResourceLocation texture = armor ? (hat ? TEXTURE_BOTH : TEXTURE_ARMOR) : (hat ? TEXTURE_HAT : TEXTURE_NEITHER);
+        g.blit(texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
         if (this.menu.amphithere != null) {
             // Same spot and size as 1.12.2 (25 scaled by 0.6); the last two values are where the "eyes" look from
             InventoryScreen.renderEntityInInventoryFollowsMouse(g, this.leftPos + 75, this.topPos + 61, 15,

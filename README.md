@@ -36,8 +36,15 @@ Almost everything can be turned off or tuned in `config/amphitheremod-common.tom
 ## Compatibility
 - **Dynamic Trees**: amphitheres pass through its leaves (and optionally side branches) like normal leaves.
 - **End-Parasitize and Convert All**: the Bloody Cookie and its COTH immunity.
-- The 1.12.2 add-on's ClassyHats, PotionCore, SetBonuses, QualityTools and wind talisman support isn't ported, since
-  those mods have no 1.20.1 versions. The full silver set still gives `potioncore:cure` if some mod adds that effect.
+- **SimpleHats** (in place of 1.12.2's ClassyHats): the amphithere inventory gets a hat slot, and the hat is drawn on
+  the amphithere's head and follows its neck and head.
+- **Simple Difficulty Reforged** (in place of 1.12.2's PotionCore): a full silver set (beak and all four armor pieces)
+  gives its Cure effect, which clears bad effects. The effect list is in the config (`silverSetBonusEffects`), so any
+  mod's cure effect can be used.
+- **First Aid** and **Quality Equipment**: nothing needed. In 1.12.2 they treated the amphithere armor as player armor
+  (First Aid tooltips, Quality reforging and stats), so the add-on had to switch them off for it. Here the armor and
+  beaks aren't player armor items, so neither mod touches them.
+- The wind talisman support isn't ported, since the mod that adds it has no 1.20.1 version.
 
 ## Building
 `./gradlew build`. The jar is in `build/libs`. It compiles against Ice and Fire 2.1.13 from CurseForge. To build and run

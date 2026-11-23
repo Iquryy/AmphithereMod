@@ -1,5 +1,6 @@
 package amphitheremod.menu;
 
+import amphitheremod.compat.SimpleHatsCompat;
 import amphitheremod.config.AmphiConfig;
 import amphitheremod.item.AmphithereArmorItem;
 import amphitheremod.item.AmphithereBeakItem;
@@ -16,13 +17,14 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The amphithere inventory: beak, head, wing, body and tail slots plus the player's inventory. Slot layout matches the
- * 1.12.2 GUI texture. The ClassyHats hat slot isn't ported (ClassyHats has no 1.20.1 version).
+ * The amphithere inventory: beak, head, wing, body and tail slots, a hat slot when SimpleHats is installed (1.12.2's
+ * ClassyHats slot), plus the player's inventory. Slot layout matches the 1.12.2 GUI textures.
  */
 public class AmphithereMenu extends AbstractContainerMenu {
-    // Equipment slot order in the menu: beak, head, body, wings, tail
-    private static final EquipmentSlot[] GEAR = {EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-    private static final int[] GEAR_Y = {18, 36, 72, 54, 90};
+    // Equipment slot order in the menu: beak, head, body, wings, tail, hat (the hat sits in the off hand, like 1.12.2)
+    private static final EquipmentSlot[] GEAR = {EquipmentSlot.MAINHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.OFFHAND};
+    private static final int[] GEAR_X = {8, 8, 8, 8, 8, 153};
+    private static final int[] GEAR_Y = {18, 36, 72, 54, 90, 18};
     private static final int GEAR_SLOTS = GEAR.length;
 
     @Nullable
@@ -35,7 +37,7 @@ public class AmphithereMenu extends AbstractContainerMenu {
         this.gear = amphithere != null ? new EquipmentContainer(amphithere, GEAR) : new net.minecraft.world.SimpleContainer(GEAR_SLOTS);
         for (int i = 0; i < GEAR_SLOTS; i++) {
             EquipmentSlot equipSlot = GEAR[i];
-            this.addSlot(new Slot(this.gear, i, 8, GEAR_Y[i]) {
+            this.addSlot(new Slot(this.gear, i, GEAR_X[i], GEAR_Y[i]) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return accepts(equipSlot, stack);
@@ -43,7 +45,8 @@ public class AmphithereMenu extends AbstractContainerMenu {
 
                 @Override
                 public boolean isActive() {
-                    return AmphiConfig.ENABLE_ARMOR.get();
+                    // The hat slot only exists with SimpleHats; the armor slots only while armor is enabled
+                    return equipSlot == EquipmentSlot.OFFHAND ? SimpleHatsCompat.isLoaded() : AmphiConfig.ENABLE_ARMOR.get();
                 }
 
                 @Override
@@ -69,8 +72,11 @@ public class AmphithereMenu extends AbstractContainerMenu {
         return new AmphithereMenu(id, playerInv, entity instanceof EntityAmphithere amphi ? amphi : null);
     }
 
-    /** Beaks go in the beak slot, each armor piece in its own slot, only while armor is enabled. */
+    /** Hats go in the hat slot; beaks in the beak slot and each armor piece in its own slot, only while armor is enabled. */
     private static boolean accepts(EquipmentSlot slot, ItemStack stack) {
+        if (slot == EquipmentSlot.OFFHAND) {
+            return SimpleHatsCompat.isHat(stack);
+        }
         if (stack.isEmpty() || !AmphiConfig.ENABLE_ARMOR.get()) {
             return false;
         }

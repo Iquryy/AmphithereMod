@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
 
 /** Forge events that don't need a mixin. Soul bond events are in SoulBindEvents. */
 public final class CommonEvents {
@@ -34,7 +35,6 @@ public final class CommonEvents {
     private static final UUID IQURY_UUID = UUID.fromString("87dd25be-5eb9-451f-a839-c74ce939b76b");
     private static final UUID CRAFTY_UUID = UUID.fromString("c6cbbc0f-3b57-4cd7-961c-42edfe6e71f3");
     private static final UUID NISCHHELM_UUID = UUID.fromString("eb8c824d-6f85-4047-8ca1-f50c8e50bfe0");
-    private static final ResourceLocation CURE_EFFECT = new ResourceLocation("potioncore", "cure");
 
     private CommonEvents() {
     }
@@ -116,7 +116,7 @@ public final class CommonEvents {
         }
     }
 
-    /** Full silver set (beak + 4 armor pieces): the Cure effect, if a mod adds potioncore:cure. */
+    /** Full silver set (beak + 4 armor pieces): a Cure effect from the silverSetBonusEffects config list, if a mod adds one. */
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof EntityAmphithere amphi) || amphi.level().isClientSide || amphi.tickCount % 20 != 0
@@ -131,10 +131,22 @@ public final class CommonEvents {
                 return;
             }
         }
-        MobEffect cure = ForgeRegistries.MOB_EFFECTS.getValue(CURE_EFFECT);
+        MobEffect cure = cureEffect();
         if (cure != null) {
             amphi.addEffect(new MobEffectInstance(cure, 40, 0, true, false));
         }
+    }
+
+    /** The first effect in the silverSetBonusEffects list that some installed mod registers, or null if none. */
+    @Nullable
+    private static MobEffect cureEffect() {
+        for (String id : AmphiConfig.SILVER_SET_EFFECTS.get()) {
+            ResourceLocation key = ResourceLocation.tryParse(id);
+            if (key != null && ForgeRegistries.MOB_EFFECTS.containsKey(key)) {
+                return ForgeRegistries.MOB_EFFECTS.getValue(key);
+            }
+        }
+        return null;
     }
 
     private static boolean isSilver(ItemStack stack, EquipmentSlot slot) {

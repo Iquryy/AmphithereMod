@@ -5,6 +5,8 @@ import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
+import java.util.List;
+
 /**
  * amphitheremod-common.toml. Mirrors the 1.12.2 config categories and defaults. Values are read live (Forge configs
  * update in place), so the options that used to need a restart because they were mixin toggles now apply right away.
@@ -44,6 +46,7 @@ public final class AmphiConfig {
     public static final BooleanValue ENABLE_ARMOR;
     public static final BooleanValue COSMETIC_ARMOR;
     public static final BooleanValue SILVER_SET_BONUS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SILVER_SET_EFFECTS;
     public static final DoubleValue ARMOR_DIVIDER;
     public static final DoubleValue BEAK_DAMAGE_DIVIDER;
     public static final BooleanValue CUSTOM_BEAK_DAMAGE;
@@ -130,8 +133,12 @@ public final class AmphiConfig {
         b.comment("Settings for Amphithere armor and beak attachments.").push("amphithereArmor");
         ENABLE_ARMOR = b.comment("Enables crafting and equipping Amphithere armor and beaks.").define("enableAmphithereArmor", true);
         COSMETIC_ARMOR = b.comment("Armor and beaks are cosmetic only and give no armor or damage.").define("cosmeticArmorBeak", false);
-        SILVER_SET_BONUS = b.comment("A full silver set (beak, head, body, wings, tail) gives the 'Cure' effect if a mod adds one (potioncore:cure).")
+        SILVER_SET_BONUS = b.comment("A full silver set (beak, head, body, wings, tail) gives a 'Cure' effect (clears bad effects), if a mod adds one.")
                 .define("enableSilverSetBonus", true);
+        // 1.12.2 used PotionCore's cure; Simple Difficulty Reforged's cure does the same thing on 1.20.1
+        SILVER_SET_EFFECTS = b.comment("Effects the silver set can give, in order: the first one that exists is used.")
+                .defineList("silverSetBonusEffects", List.of("simple_difficulty:cure", "potioncore:cure"),
+                        o -> o instanceof String str && net.minecraft.resources.ResourceLocation.isValidResourceLocation(str));
         ARMOR_DIVIDER = b.comment("Multiplies the armor points of Amphithere armor. 0.5 halves them.").defineInRange("armorPointDivider", 0.5, 0.1, 1.0);
         b.push("beakDamage");
         BEAK_DAMAGE_DIVIDER = b.comment("Multiplies beak damage (when custom beak damage is off). 0.5 halves it.").defineInRange("beakDamageDivider", 0.5, 0.1, 1.0);

@@ -38,6 +38,7 @@ public final class AmphiLayers {
         renderer.addLayer(new AmphiTextureLayer(renderer, a -> armor(a, EquipmentSlot.FEET, "tail")));
         renderer.addLayer(new AmphiTextureLayer(renderer, a -> armor(a, EquipmentSlot.LEGS, "wing")));
         renderer.addLayer(new AmphiTextureLayer(renderer, a -> armor(a, EquipmentSlot.CHEST, "body")));
+        renderer.addLayer(new AmphiHatLayer(renderer));
     }
 
     private static String name(EntityAmphithere amphi) {
